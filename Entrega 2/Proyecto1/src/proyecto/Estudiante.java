@@ -1,5 +1,5 @@
 package proyecto;
 
-public class Estudiante {
-
+class Estudiante extends Usuario {
+ private List<Progreso> progresos;
 }
