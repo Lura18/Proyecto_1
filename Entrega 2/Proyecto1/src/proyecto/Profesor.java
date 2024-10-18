@@ -1,5 +1,5 @@
 package proyecto;
 
-public class Profesor {
-
+class Profesor extends Usuario {
+    private List<LearningPath> learningPaths;
 }
