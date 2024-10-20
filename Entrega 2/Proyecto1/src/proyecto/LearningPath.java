@@ -1,15 +1,112 @@
 package proyecto;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LearningPath {
-    private String titulo;
+	
+	//Atributos
+	private String titulo;
     private String descripcion;
     private String objetivos;
     private String nivelDificultad;
     private int duracionEstimada;
-    private float rating;
+    private double rating;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private String version;
     private List<Actividad> actividades;
+    private Profesor creador; // El profesor que creó el Learning Path
+    
+	//Constructor
+    public LearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad, Profesor creador, int duracionEstimada) {
+		super();
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.objetivos = objetivos;
+		this.nivelDificultad = nivelDificultad;
+		this.creador = creador;
+        this.actividades = new ArrayList<>();
+        this.fechaCreacion = new Date();
+        this.fechaModificacion = new Date();
+        this.duracionEstimada = duracionEstimada;
+        this.rating = 0.0;
+        //TO-DO RATING
+	}
+    
+    //Get and set
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+        this.titulo = titulo;
+        this.fechaModificacion = new Date(); // Actualiza la fecha de modificación
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+        this.fechaModificacion = new Date(); // Actualiza la fecha de modificación
+	}
+	public String getObjetivos() {
+		return objetivos;
+	}
+	public void setObjetivos(String objetivos) {
+        this.objetivos = objetivos;
+        this.fechaModificacion = new Date(); // Actualiza la fecha de modificación
+	}
+	public String getNivelDificultad() {
+		return nivelDificultad;
+	}
+	public void setNivelDificultad(String nivelDificultad) {
+		this.nivelDificultad = nivelDificultad;
+	}
+	public int getDuracionEstimada() {
+		return duracionEstimada;
+	}
+	public double getRating() {
+		return rating;
+	}
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+	public Date getFechaModificacion() {
+		return fechaModificacion;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public List<Actividad> getActividades() {
+		return actividades;
+	}
+	public Profesor getCreador() {
+		return creador;
+	}
+
+	//Metodos
+    public void añadirActividad(Actividad actividad) {
+        actividades.add(actividad);
+        this.duracionEstimada += actividad.getDuracionEsperada();
+    }
+    
+    public void eliminarActividad(Actividad actividad) {
+        if (actividades.remove(actividad)) {
+            this.duracionEstimada -= actividad.getDuracionEsperada();
+        } else {
+            System.out.println("La actividad no está en este Learning Path.");
+        }
+    }
+    
+    public void mostrarEstructura() {
+        System.out.println("Estructura del Learning Path: " + this.titulo);
+        for (Actividad actividad : actividades) {
+            System.out.println("Actividad: " + actividad.getDescripcion());
+            System.out.println(" - Nivel de dificultad: " + actividad.getNivelDificultad());
+            System.out.println(" - Duración: " + actividad.getDuracionEsperada() + " minutos");
+            System.out.println(" - Objetivo: " + actividad.getObjetivo());
+        }
+    }
 }
+
