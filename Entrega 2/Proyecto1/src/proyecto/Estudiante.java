@@ -3,8 +3,9 @@ package proyecto;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-class Estudiante extends Usuario {
+public class Estudiante extends Usuario {
 	
 
 	//Atributos
@@ -36,6 +37,31 @@ class Estudiante extends Usuario {
 	}
 
 	//Metodos
+	
+	@Override
+	public String getTipoUsuario() {
+		return "Estudiante";
+	}
+	
+	@Override
+    public void verLearningPaths() {
+        System.out.println("Learning Paths en los que estás inscrito:");
+        for (LearningPath lp : learningPathsInscritos) {
+            System.out.println("- " + lp.getTitulo());
+        }
+    }
+	
+	public void darReseñaActividad(Actividad actividad, String texto, float rating) {
+		if (rating < 0 || rating > 10) {
+	        System.out.println("El rating debe estar entre 0 y 10.");
+	    }
+	    Reseña reseña = new Reseña(texto, rating);
+	    actividad.agregarReseña(reseña);
+	    System.out.println("Reseña agregada con éxito. Gracias por ayudarnos a mejorar!");
+		
+	}
+
+	
     public void inscribirseEnLearningPath(LearningPath learningPath) {
         if (!learningPathsInscritos.contains(learningPath)) {
             learningPathsInscritos.add(learningPath);
@@ -190,13 +216,7 @@ class Estudiante extends Usuario {
     		System.out.println("No te encuentras inscrito en este learning path.");
     	}
     }
+
     
-	@Override
-    public void verLearningPaths() {
-        System.out.println("Learning Paths en los que estás inscrito:");
-        for (LearningPath lp : learningPathsInscritos) {
-            System.out.println("- " + lp.getTitulo());
-        }
-    }
 
 }

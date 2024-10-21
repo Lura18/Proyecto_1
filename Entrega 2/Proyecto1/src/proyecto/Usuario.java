@@ -36,7 +36,9 @@ public abstract class Usuario {
 
 	//Metodos
 	public abstract void verLearningPaths();
+	public abstract String getTipoUsuario();
 	
+	//Reseña
 	public void darReseñaActividad(Actividad actividad, String texto, float rating){
 		if (rating < 0 || rating > 10) {
 	        System.out.println("El rating debe estar entre 0 y 10.");
@@ -45,6 +47,9 @@ public abstract class Usuario {
 	    actividad.agregarReseña(reseña);
 	    System.out.println("Reseña agregada con éxito. Gracias por ayudarnos a mejorar!");
 	}
+	
+	//Regsitrarse
+	
 	
 	
 }

@@ -3,7 +3,7 @@ package proyecto;
 import java.util.ArrayList;
 import java.util.List;
 
-class Profesor extends Usuario {
+public class Profesor extends Usuario {
 	
 
 
@@ -24,6 +24,21 @@ class Profesor extends Usuario {
 
 	
 	//Metodos
+	
+	@Override
+	public void verLearningPaths() {
+        System.out.println("Learning Paths creados:");
+        for (LearningPath lp : learningPathsCreados) {
+            System.out.println("- " + lp.getTitulo());
+        }
+	}
+	
+	@Override
+	public String getTipoUsuario() {
+		return "Profesor";
+	}
+	
+	
     public LearningPath crearLearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad) {
         LearningPath nuevoLP = new LearningPath(titulo, descripcion, objetivos, nivelDificultad, this, 6);
         learningPathsCreados.add(nuevoLP);
@@ -53,14 +68,6 @@ class Profesor extends Usuario {
             System.out.println("Este Learning Path no fue creado por este profesor.");
         }
     	}
-	@Override
-	public void verLearningPaths() {
-        System.out.println("Learning Paths creados:");
-        for (LearningPath lp : learningPathsCreados) {
-            System.out.println("- " + lp.getTitulo());
-        }
-	}
-	
 	
 	//El profesor edita el learning path editando sus actividades.
 	public void editarActividad(Actividad actividad) {
@@ -100,5 +107,6 @@ class Profesor extends Usuario {
 			return null;
 		}
 	}
+
 
 }
