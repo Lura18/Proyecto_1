@@ -1,6 +1,7 @@
 package proyecto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -15,8 +16,8 @@ public class Quiz extends Actividad{
 
 	//Constructor
 	public Quiz(LearningPath lp, String descripcion, String objetivo, String nivelDificultad, int duracionEsperada,
-			boolean obligatorio, double notaAprobacion) {
-		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio);
+			boolean obligatorio, double notaAprobacion, Profesor creador) {
+		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, creador);
 		// TODO Auto-generated constructor stub
 		this.notaAprobacion = notaAprobacion;
 		this.notaObtenida = 0.0;
@@ -33,14 +34,27 @@ public class Quiz extends Actividad{
 
 	
 	//Metodos
-    public void agregarPregunta(PreguntaMultiple pregunta) {
-        preguntas.add(pregunta);
+    public void agregarPregunta(Scanner scanner) {
+	    List<String> opciones = new ArrayList<String>();
+	    List<String> explicaciones = new ArrayList<String>();
+	    
+	    System.out.print("Ingrese la pregunta: ");
+	    String texto = scanner.nextLine();
+	    for (int i = 0; i < 4; i++ ) {
+		    System.out.print("Ingrese la opcion "+ (i+1)+" : ");
+		    opciones.add(scanner.nextLine());
+		    System.out.print("Ingrese la explicación de la opción "+ (i+1)+" : ");
+		    explicaciones.add(scanner.nextLine());
+	    }
+	    System.out.print("Ingrese el número de la opción correcta: ");
+	    int resp = Integer.parseInt(scanner.nextLine());
+	    PreguntaMultiple p = new PreguntaMultiple(texto, opciones, resp, explicaciones);
+        preguntas.add(p);
     }
   
 	
-	public String realizarQuiz() {
+	public String realizarQuiz(Scanner scanner) {
 		double nota = 0;
-        Scanner scanner = new Scanner(System.in);
         String resultado = "";
         
 		for (PreguntaMultiple p: preguntas) {
@@ -62,13 +76,26 @@ public class Quiz extends Actividad{
 		}
 		return resultado;
 	}
+
 	
 	@Override
 	public void realizar(ProgresoActividad progreso) {
 		// TODO Auto-generated method stub
-		String rta = realizarQuiz();
+        Scanner sc = new Scanner(System.in);
+		String rta = realizarQuiz(sc);
 		progreso.marcarRealizada("Enviada", new Date());
 		progreso.completarActividad(rta);
+	}
+
+	@Override
+	public void editar(Profesor editor) {
+		if (this.creador == editor) {
+			Scanner scanner = new Scanner(System.in);
+			agregarPregunta(scanner);
+		} else {
+			System.out.println("No tiene los permisos para editar la actividad");
+		}
+		
 	}
 
 }

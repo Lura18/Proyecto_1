@@ -8,31 +8,20 @@ class Profesor extends Usuario {
 
 
 	//Atributos
-    private List<LearningPath> learningPaths;
     private List<LearningPath> learningPathsCreados;
     
     //Constructor
 	public Profesor(String nombre, String correo, String contrasena) {
 		super(nombre, correo, contrasena);
-        this.setLearningPathsCreados(new ArrayList<>());
+        this.learningPathsCreados = new ArrayList<>();
 		// TODO Auto-generated constructor stub
 	}
 	
 	//Get and set
-	public List<LearningPath> getLearningPaths() {
-		return learningPaths;
-	}
-
-	public void setLearningPaths(List<LearningPath> learningPaths) {
-		this.learningPaths = learningPaths;
-	}
 	public List<LearningPath> getLearningPathsCreados() {
 		return learningPathsCreados;
 	}
 
-	public void setLearningPathsCreados(List<LearningPath> learningPathsCreados) {
-		this.learningPathsCreados = learningPathsCreados;
-	}
 	
 	//Metodos
     public LearningPath crearLearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad) {
@@ -41,19 +30,11 @@ class Profesor extends Usuario {
         System.out.println("Learning Path creado exitosamente.");
         return nuevoLP;
     }
-    public void editarLearningPath(LearningPath learningPath, String nuevoTitulo, String nuevaDescripcion) {
-        if (learningPathsCreados.contains(learningPath)) {
-            learningPath.setTitulo(nuevoTitulo);
-            learningPath.setDescripcion(nuevaDescripcion);
-            System.out.println("Has editado el Learning Path: " + nuevoTitulo);
-        } else {
-            System.out.println("No tienes permiso para editar este Learning Path.");
-        }
-    }
     
     public void añadirActividadALearningPath(LearningPath lp, Actividad actividad) {
         if (learningPathsCreados.contains(lp)) {
-            lp.añadirActividad(actividad);
+        	lp.getActividades().add(actividad);
+        	lp.añadirTiempoLp(actividad);
             System.out.println("Actividad añadida exitosamente al Learning Path.");
         } else {
             System.out.println("Este Learning Path no fue creado por este profesor.");
@@ -62,8 +43,12 @@ class Profesor extends Usuario {
         
     public void eliminarActividadDeLearningPath(LearningPath lp, Actividad actividad) {
         if (learningPathsCreados.contains(lp)) {
-            lp.eliminarActividad(actividad);
-            System.out.println("Actividad eliminada exitosamente del Learning Path.");
+        	if (lp.getActividades().remove(actividad)) {
+            	lp.reducirTiempoLp(actividad);
+                System.out.println("Actividad eliminada exitosamente del Learning Path.");
+        	} else {
+        		System.out.println("La actividad no pertenece a este learningPath");
+        	}
         } else {
             System.out.println("Este Learning Path no fue creado por este profesor.");
         }
@@ -75,6 +60,45 @@ class Profesor extends Usuario {
             System.out.println("- " + lp.getTitulo());
         }
 	}
-
+	
+	
+	//El profesor edita el learning path editando sus actividades.
+	public void editarActividad(Actividad actividad) {
+		actividad.editar(this);
+	}
+	
+	public void agregarPrerrequisitoActividad(Actividad actividad, Actividad prerrequisito) {
+		if (this.equals(actividad.getCreador())) {
+			actividad.agregarPrerrequisito(prerrequisito);
+		} else {
+			System.out.println("No tiene los permisos para agregar el prerrequisito");
+		}
+	}
+	
+	public void agregarActividadSeguimiento(Actividad actividad, Actividad seguimiento) {
+		if (this.equals(actividad.getCreador())) {
+			actividad.agregarActividadSeguimiento(seguimiento);
+		} else {
+			System.out.println("No tiene los permisos para agregar la actividad de seguimiento");
+		}
+	}
+	
+	//Clonar actividad
+	public Actividad clonarActividad(Actividad original) {
+		if (!original.getCreador().equals(this)) {
+			Actividad clon = original.clonarActividad(this);
+			if (clon != null) {
+				System.out.println("Actividad clonada exitosamente. Ahora puedes editarla.");
+				return clon;
+				
+			} else {
+				System.out.println("Error al clonar la actividad.");
+				return null;
+			}
+		} else {
+			System.out.println("No puedes clonar una actividad que tú mismo has creado.");
+			return null;
+		}
+	}
 
 }

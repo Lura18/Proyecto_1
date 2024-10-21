@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public abstract class Actividad {
+public abstract class Actividad implements Cloneable{
 	
 	//Atributos
 	protected LearningPath learningPath;
@@ -17,11 +18,12 @@ public abstract class Actividad {
 	protected boolean obligatorio;
     protected List<Actividad> actividadesSeguimiento;
     protected List<Actividad> prerrequisitos;
+    protected Profesor creador;
+    protected List<Reseña> reseñas;
 	
 	//Constructor
 	public Actividad(LearningPath lp, String descripcion, String objetivo, String nivelDificultad,
-			int duracionEsperada, boolean obligatorio) {
-		super();
+			int duracionEsperada, boolean obligatorio, Profesor creador) {
 		this.learningPath = lp;
 		this.descripcion = descripcion;
 		this.objetivo = objetivo;
@@ -31,6 +33,7 @@ public abstract class Actividad {
 		this.obligatorio = obligatorio;
 		this.actividadesSeguimiento = new ArrayList<Actividad>();
 		this.prerrequisitos = new ArrayList<Actividad>();
+		this.creador = creador;
 	}
 	
 	//Get and set
@@ -56,63 +59,110 @@ public abstract class Actividad {
 	public boolean isObligatorio() {
 		return obligatorio;
 	}
+	public List<Actividad> getPrerrequisitos() {
+		return prerrequisitos;
+	}
+	public Profesor getCreador() {
+		return creador;
+	}
+	
+	public void setCreador(Profesor nuevo) {
+		this.creador = nuevo;
+	}
+	public List<Reseña> getReseñas() {
+		return reseñas;
+	}
 
 	//Metodos
-    public abstract void realizar(ProgresoActividad progresoEstudiante);
+    public abstract void realizar(ProgresoActividad progreso);
+    public abstract void editar(Profesor editor);
     
-    public void establecerFechaLimite(Date fecha) {
-    	if (fecha!= null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fecha);
+    public void establecerFechaLimite(Date fechaAnterior) {
+        Calendar calendar = Calendar.getInstance();
+    	if (fechaAnterior!= null) {
+            calendar.setTime(fechaAnterior);
             calendar.add(Calendar.HOUR_OF_DAY, 3);
-            this.fechaLimite = calendar.getTime();
     	} else {
-            Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             calendar.add(Calendar.HOUR_OF_DAY, 3);
-            this.fechaLimite = calendar.getTime();
+            
     	}
+    	this.fechaLimite = calendar.getTime();
         
     }
     
     public void RecordatorioActividad(ProgresoActividad progreso) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fechaLimite);
-        calendar.add(Calendar.HOUR_OF_DAY, -1); // Restar 1 hora a la fecha limite
-
-        Date fechaRecordatorio = calendar.getTime();
-        
-        if (new Date().after(fechaRecordatorio) && !progreso.isCompletada()) {
-            System.out.println("Recordatorio: La actividad '" + descripcion + "' tiene un límite recomendado de 1 hora!");
+        if (fechaLimite != null && !progreso.isCompletada()) {
+            long tiempoRestante = fechaLimite.getTime() - new Date().getTime();
+            if (tiempoRestante <= TimeUnit.HOURS.toMillis(1)) {
+                System.out.println("Recordatorio: La actividad '" + descripcion + "' tiene una hora para su fecha límite recomendada.");
+            }
         }
     }
     
     public void agregarActividadSeguimiento(Actividad actividad) {
-        actividadesSeguimiento.add(actividad);
+    	if (actividad.getLearningPath().equals(this.learningPath)){
+            actividadesSeguimiento.add(actividad);
+    	} else {
+    		System.out.println("La actividad de seguimiento no pertenece al mismo learning path");
+    	}
     }
 
     public void agregarPrerrequisito(Actividad actividad) {
-        prerrequisitos.add(actividad);
+    	if (actividad.getLearningPath().equals(this.learningPath)){
+            prerrequisitos.add(actividad);
+    	} else {
+    		System.out.println("La actividad prerrequisito no pertenece al mismo learning path");
+    	}
     }
     
-    public void recomendarActividad(ProgresoActividad p_ultima, Actividad anterior) {
-        if (p_ultima.isCompletada()) {
-            if ("Aprobada".equals(p_ultima.getResultado())) {
+    public void recomendarActividad(ProgresoActividad pUltima, Actividad anterior) {
+        if (pUltima.isCompletada()) {
+            if ("Aprobada".equals(pUltima.getResultado())) {
                 if (!actividadesSeguimiento.isEmpty()) {
-                    System.out.println("Recomendación: Realiza la siguiente actividad: " + actividadesSeguimiento.get(0).getDescripcion());
+                    System.out.println("Recomendación: Realiza la siguiente actividad -> " + actividadesSeguimiento.get(0).getDescripcion());
+                } else {
+                	System.out.println("No hay actvidades de seguimiento para recomendar");
                 }
+            } else if ("Reprobada".equals(pUltima.getResultado())) {
+                	String act = anterior.getDescripcion(); //La ultima actividad que completó.
+                    System.out.println("Recomendación: Vuelve a realizar la actividad: " + act);
             } else {
-            	String act = anterior.getDescripcion(); //La ultima actividad que completó.
-                System.out.println("Recomendación: Vuelve a realizar la actividad: " + act);
+            	System.out.println("Aún no te podemos recomendar una actividad porque estás a la espera de la calificación de "+ pUltima.getActividad().descripcion + ".\nInténtalo de nuevo cuando te den el resultado.");
             }
         } else {
-        	if ("Enviada".equals(p_ultima.getResultado())){
-        		System.out.println("No te podemos recomendar una actividad en este momento. Por favor espera a que te den tu resultado e inténtalo nuevamente.");
-        	} else {
-        	System.out.println("Aún no has realizado ninguna actividad.");
-        	}
+        	System.out.println("Aún no has completado la última actividad.");
         }
+	} 
+    
+    public Actividad clonarActividad(Profesor nuevo) {
+		try {
+			Actividad clon = (Actividad) this.clone(); // Clonar la actividad
+			clon.setCreador(nuevo); 
+			return clon;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
     
+    //Reseñas
+    public void agregarReseña(Reseña reseña) {
+        if (reseñas == null) {
+            reseñas = new ArrayList<>();
+        }
+        reseñas.add(reseña);
+    }
     
+
+	public float calcularPromedioRating() {
+	    if (reseñas == null || reseñas.isEmpty()) {
+	        return 0; // Si no hay reseñas, el promedio es 0
+	    }
+	    float total = 0;
+	    for (Reseña reseña : reseñas) {
+	        total += reseña.getRating();
+	    }
+	    return total / reseñas.size();
+	}
 }

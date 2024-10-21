@@ -14,6 +14,8 @@ public class PreguntaMultiple {
     //Cosntructor
 	public PreguntaMultiple(String textoPregunta, List<String> opciones, int opcionCorrecta, List<String> explicaciones) {
         if (opciones.size() != 4 || explicaciones.size() != 4) {
+        	System.out.println(opciones.size());
+        	System.out.println(explicaciones.size());
             throw new IllegalArgumentException("Debe haber exactamente 4 opciones y 4 explicaciones.");
         }
 		this.textoPregunta = textoPregunta;
@@ -43,7 +45,7 @@ public class PreguntaMultiple {
 		}
 		
         System.out.print("Elige una opción (1-4): ");
-        int respuestaElegida = Integer.parseInt(scanner.nextLine()) - 1;  // Ajustar a índice 0
+        int respuestaElegida = Integer.parseInt(scanner.nextLine());  // Ajustar a índice 0
 
         boolean esCorrecta = (respuestaElegida == opcionCorrecta);
         

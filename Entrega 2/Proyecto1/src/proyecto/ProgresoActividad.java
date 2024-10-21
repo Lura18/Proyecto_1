@@ -67,13 +67,13 @@ import java.util.concurrent.TimeUnit;
 	}
 	
     public void completarActividad(String rta) {
-        this.completada = true;
         this.resultado = rta;
     }
     
     public void marcarRealizada(String resultado, Date fecha) {
         this.completada = true;
         this.resultado = resultado;
+        this.fechaFin = fecha;
         this.tiempoDedicado = calcularTiempoDedicado(fechaInicio, fechaFin);
     }
 

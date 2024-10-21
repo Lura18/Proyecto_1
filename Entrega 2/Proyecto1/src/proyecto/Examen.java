@@ -13,8 +13,8 @@ public class Examen extends Actividad {
 	
 	//Constructor
 	public Examen(LearningPath lp, String descripcion, String objetivo, String nivelDificultad, int duracionEsperada,
-			boolean obligatorio) {
-		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio);
+			boolean obligatorio, Profesor creador) {
+		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, creador);
 		this.preguntasAbiertas = new ArrayList<String>();
 		// TODO Auto-generated constructor stub
 	}
@@ -27,8 +27,10 @@ public class Examen extends Actividad {
 	
 	//Metodos
 	
-    public void agregarPregunta(String pregunta) {
-        preguntasAbiertas.add(pregunta);
+    public void agregarPregunta(Scanner scanner) {
+	    System.out.print("Ingrese la nueva pregunta del examen: ");
+	    String texto = scanner.nextLine();
+        preguntasAbiertas.add(texto);
     }
     
 	public void realizarExamen() {
@@ -42,14 +44,20 @@ public class Examen extends Actividad {
 		}
 	}
 
-    public void calificarExamen(boolean aprobada, ProgresoActividad progresoEstudiante) {
-    	String rta = "";
-        if (aprobada) {
-            rta = "Aprobada";
-        } else {
-        	rta = "Reprobada";
-        }
-        progresoEstudiante.completarActividad(rta);
+    public void calificarExamen(boolean aprobada, ProgresoActividad progreso, Profesor califica) {
+    	if (this.creador == califica) {
+        	String rta = "";
+        	if (aprobada) {
+                rta = "Aprobada";
+            } else {
+            	rta = "Reprobada";
+            }
+            progreso.completarActividad(rta);
+    		System.out.println("La calificación del examen " + descripcion + " ha sido completada. Su resultado es: " + rta +"\n");
+    		
+    	} else {
+    		System.out.println("No tiene los permisos para calfiifcar esta actividad");
+    	}
     }
 
 	@Override
@@ -57,6 +65,17 @@ public class Examen extends Actividad {
 		// TODO Auto-generated method stub
 		realizarExamen();
 		progresoEstudiante.marcarRealizada("Enviada", new Date());
+		
+	}
+	
+	@Override
+	public void editar(Profesor editor) {
+		if (this.creador == editor) {
+			Scanner scanner = new Scanner(System.in);
+			agregarPregunta(scanner);
+		} else {
+			System.out.println("No tiene los permisos para editar la actividad");
+		}
 		
 	}
 

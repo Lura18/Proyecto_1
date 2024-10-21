@@ -31,7 +31,7 @@ public class LearningPath {
         this.fechaCreacion = new Date();
         this.fechaModificacion = new Date();
         this.duracionEstimada = duracionEstimada;
-        this.rating = 0.0;
+        this.rating = calcularPromedioRating();
         //TO-DO RATING
 	}
     
@@ -86,17 +86,12 @@ public class LearningPath {
 	}
 
 	//Metodos
-    public void añadirActividad(Actividad actividad) {
-        actividades.add(actividad);
+    public void añadirTiempoLp(Actividad actividad) {
         this.duracionEstimada += actividad.getDuracionEsperada();
     }
     
-    public void eliminarActividad(Actividad actividad) {
-        if (actividades.remove(actividad)) {
-            this.duracionEstimada -= actividad.getDuracionEsperada();
-        } else {
-            System.out.println("La actividad no está en este Learning Path.");
-        }
+    public void reducirTiempoLp(Actividad actividad) {
+        this.duracionEstimada -= actividad.getDuracionEsperada();
     }
     
     public void mostrarEstructura() {
@@ -106,6 +101,29 @@ public class LearningPath {
             System.out.println(" - Nivel de dificultad: " + actividad.getNivelDificultad());
             System.out.println(" - Duración: " + actividad.getDuracionEsperada() + " minutos");
             System.out.println(" - Objetivo: " + actividad.getObjetivo());
+        }
+    }
+    
+    //Rating
+    public double calcularPromedioRating() {
+        if (actividades.isEmpty()) {
+            return 0; // Si no hay actividades, el promedio es 0
+        }
+        float total = 0;
+        int count = 0;
+        for (Actividad actividad : actividades) {
+            float rating = actividad.calcularPromedioRating();
+            if (rating > 0) {
+                total += rating;
+                count++;
+            }
+        }
+        if (count > 0) {
+        	this.rating = total/count;
+        	return this.rating;
+        } else {
+        	this.rating = 0;
+        	return this.rating;
         }
     }
 }

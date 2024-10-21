@@ -14,22 +14,20 @@ import java.util.List;
     private List<Actividad> actividadesRealizadas;
   
     //Constructor
-    public ProgresoPath(Date fechaInicioPath, Date fechaFinPath, float porcentajePath, float tasaExito, float tasaFracaso) {
+    public ProgresoPath(LearningPath lp, Date fechaInicioPath) {
 		super();
+		this.lp = lp;
 		this.fechaInicioPath = fechaInicioPath;
-		this.fechaFinPath = fechaFinPath;
-		this.porcentajePath = porcentajePath;
-		this.tasaExito = tasaExito;
-		this.tasaFracaso = tasaFracaso;
+		this.fechaFinPath = null;
+		this.porcentajePath = 0;
+		this.tasaExito = 0;
+		this.tasaFracaso = 0;
 		this.actividadesRealizadas = new ArrayList<Actividad>();
 	}
     
     //Getter and setter
 	public Date getFechaInicioPath() {
 		return fechaInicioPath;
-	}
-	public void setFechaInicioPath(Date fechaInicioPath) {
-		this.fechaInicioPath = fechaInicioPath;
 	}
 	public Date getFechaFinPath() {
 		return fechaFinPath;
@@ -40,20 +38,11 @@ import java.util.List;
 	public float getPorcentajePath() {
 		return porcentajePath;
 	}
-	public void setPorcentajePath(float porcentajePath) {
-		this.porcentajePath = porcentajePath;
-	}
 	public float getTasaExito() {
 		return tasaExito;
 	}
-	public void setTasaExito(float tasaExito) {
-		this.tasaExito = tasaExito;
-	}
 	public float getTasaFracaso() {
 		return tasaFracaso;
-	}
-	public void setTasaFracaso(float tasaFracaso) {
-		this.tasaFracaso = tasaFracaso;
 	}
 
 	public List<Actividad> getActividadesRealizadas() {
@@ -66,5 +55,7 @@ import java.util.List;
 
 	
 	//Métodos
-	
+	public void agregarActividadRealizada(Actividad actividad) {
+		actividadesRealizadas.add(actividad);
+	}
 }
