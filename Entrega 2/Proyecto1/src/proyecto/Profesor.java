@@ -51,6 +51,7 @@ public class Profesor extends Usuario {
     
     public void añadirActividadALearningPath(LearningPath lp, Actividad actividad) {
         if (learningPathsCreados.contains(lp)) {
+        	actividad.setLearningPath(lp);
         	lp.getActividades().add(actividad);
         	lp.añadirTiempoLp(actividad);
             System.out.println("Actividad añadida exitosamente al Learning Path.");

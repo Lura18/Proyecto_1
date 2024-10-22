@@ -41,6 +41,10 @@ public abstract class Actividad implements Cloneable{
 		return learningPath;
 	}
 	
+	public void setLearningPath(LearningPath lp) {
+		this.learningPath = lp;
+	}
+	
 	public String getDescripcion() {
 		return descripcion;
 	}

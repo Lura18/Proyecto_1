@@ -77,9 +77,9 @@ public class Main {
     	
     	System.out.println("Prueba de Registro/Inicio sesión\n");
     	Registro sistema = new Registro();
-    	Main main = new Main();
+    	//Main main = new Main();
     	Scanner scanner = new Scanner(System.in);
-    	main.correrAplicacion(scanner, sistema);
+    	//main.correrAplicacion(scanner, sistema);
     	
     	System.out.println("\nFuncionalidades profesores\n");
     	
@@ -137,6 +137,14 @@ public class Main {
         p.añadirActividadALearningPath(lp, quiz);
         p.añadirActividadALearningPath(lp, e1);
         p.añadirActividadALearningPath(lp2, r2);
+        
+        //Casos de error
+        
+        //Añadir actividad cuando no eres el creador del path
+        p2.añadirActividadALearningPath(lp, r2);
+        //Añadir actividad que no es del learning path
+        p.añadirActividadALearningPath(lp, r2);
+        //
     	
     	//LearningPath lp3 = p3.crearLearningPath("Python Programming", "Aprende los fundamentos de Python","Dominar los conceptos de python\n Aprender un nuevo lenguaje" ,"Principiante", sis);
     	
@@ -151,7 +159,43 @@ public class Main {
         //System.out.print(tareaClonada.objetivo);
        
         //Funcionalidades estudiante
-
+    	System.out.println("Funcionaidades Estudiantes\n");
+    	Estudiante a = new Estudiante("Laura", "correo@example.com", "sebas");
+    	
+    	//Inscribirse a un learning path
+        LearningPath path = a.inscribirseEnLearningPath(scanner, sistema); //Muestra la estructura del elarning path
+        
+        if (path != null) {
+        	//Pedir recomendación
+            a.pedirRecomendacionActividad(path);
+            
+            //Puede iniciar cualquier actividad
+            Actividad act1 = a.seleccionarActividad(scanner, path);
+            //Realizar la actividad y completarla segun el caso
+            a.realizarActividad(act1);
+            
+            //Pedir nueva recomendación
+            a.pedirRecomendacionActividad(path);
+            
+            //Iniciar otra actividad
+            Actividad act2 = a.seleccionarActividad(scanner, path);
+            
+            //No se puede iniciar 2 actividades a la vez
+            a.seleccionarActividad(scanner, path);
+            
+            //Terminar actividad para poder empezar otra
+            a.realizarActividad(act2);
+            
+            //Iniciar actividad
+            Actividad act3 = a.seleccionarActividad(scanner, path);
+            a.realizarActividad(act3);
+            
+            //dar reseñas
+            a.darReseñaActividad(act3, "Muy buena tarea, me gustó mucho", (float) 9.5);
+            
+            System.out.println("Promedio de rating de la tarea: " + act3.calcularPromedioRating());
+            System.out.println("Promedio de rating del Learning Path: " + path.calcularPromedioRating());
+        }
         
     }
     
