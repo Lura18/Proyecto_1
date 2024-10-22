@@ -12,6 +12,7 @@ public class Estudiante extends Usuario {
     private List<LearningPath> learningPathsInscritos;
 	private List<ProgresoActividad> progresosAct;
 	private List<ProgresoPath> progresoPaths;
+	private List<Actividad> realizadas;
 	private boolean actividadEnProgreso;
 	//Constructor
 	public Estudiante(String nombre, String correo, String contrasena) {
@@ -20,6 +21,7 @@ public class Estudiante extends Usuario {
 		this.progresosAct = new ArrayList<>();
 		this.progresoPaths = new ArrayList<>();
 		this.actividadEnProgreso = false;
+		this.realizadas = new ArrayList<>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -62,11 +64,45 @@ public class Estudiante extends Usuario {
 	}
 
 	
-    public void inscribirseEnLearningPath(LearningPath learningPath) {
+    public LearningPath inscribirseEnLearningPath(Scanner scanner, Registro sistema) {
+    	
+    	LearningPath rta = null;
+    	List<LearningPath> catalogo = sistema.getPaths();
+    	
+    	if (catalogo.isEmpty()) {
+            System.out.println("No hay Learning Paths disponibles en este momento.");
+            return null;
+        }
+    	
+    	//Mostrar catalogo
+        System.out.println("Learning Paths disponibles:");
+        for (int i = 0; i < catalogo.size(); i++) {
+            LearningPath lp = catalogo.get(i);
+            System.out.println((i + 1) + ". " + lp.getTitulo() + " - " + lp.getDescripcion());
+        }
+        
+        //Seleccion de opcion
+        System.out.print("Ingrese el número del Learning Path al que desea inscribirse: ");
+        int seleccion = scanner.nextInt();
+        scanner.nextLine();
+        
+        //validacion
+        if (seleccion < 1 || seleccion > catalogo.size()) {
+            System.out.println("Selección no válida. Por favor, intente nuevamente.");
+            return null;
+        }
+        
+        rta = catalogo.get(seleccion - 1);
+        
+        inscripcion(rta);
+        
+        return rta;
+    }
+    		 
+    public void inscripcion(LearningPath learningPath) {
         if (!learningPathsInscritos.contains(learningPath)) {
             learningPathsInscritos.add(learningPath);
             System.out.println("Te has inscrito exitosamente en el Learning Path: " + learningPath.getTitulo());
-            System.out.println("Esta es la estructura del Learning Path");
 			learningPath.mostrarEstructura();
 			ProgresoPath avance = new ProgresoPath(learningPath, new Date());
 			progresoPaths.add(avance);
@@ -79,62 +115,94 @@ public class Estudiante extends Usuario {
             System.out.println("Ya estás inscrito en este Learning Path.");
         }
     }
+    public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
+    	
+    	Actividad rta = null;
+		if (!actividadEnProgreso) { 
+			if (!learningPathsInscritos.contains(learningPath)) {
+	            System.out.println("No puedes realizar esta actividad porque no estás inscrito en su learning path.");
+	            return null;
+	        }
+
+	        // Mostrar las actividades disponibles dentro del Learning Path
+	        List<Actividad> actividades = learningPath.getActividades();
+	        if (actividades.isEmpty()) {
+	            System.out.println("No hay actividades disponibles en este Learning Path.");
+	            return null;
+	        }
+	        
+	        System.out.println("Actividades por realizar en el Learning Path: " + learningPath.getTitulo());
+	        for (int i = 0; i < actividades.size(); i++) {
+	            Actividad actividad = actividades.get(i);
+	            if (!realizadas.contains(actividad)) {
+	            	System.out.println((i + 1) + ". " + actividad.getDescripcion());
+	            }
+	        }
+
+	        
+	        System.out.print("Ingrese el número de la actividad que desea realizar: ");
+	        int seleccion = scanner.nextInt();
+	        scanner.nextLine();
+
+	        if (seleccion < 1 || seleccion > actividades.size()) {
+	            System.out.println("Selección no válida. Por favor, intente nuevamente.");
+	            return null;
+	        }
+
+	        rta = actividades.get(seleccion - 1);
+
+	        iniciarActividad(rta, learningPath);
+	        return rta;
+		} else {
+			System.out.println("No puedes iniciar 2 actividades a la vez.");
+		}
+		
+		return rta;
+    }
     
-    public void iniciarActividad(Actividad actividad) {
-    	LearningPath lp = actividad.getLearningPath();
-    	if (learningPathsInscritos.contains(lp)) {
-    		if (!actividadEnProgreso) {
-    			boolean faltan = faltanPrerrequisitos(actividad);
-            	
-            	boolean esta = false;
-            	Actividad previa = null;
-            	Date fecha = null;
-            	
-            	
-            	//Para obtener la anterior actividad realizada
-            	for(ProgresoPath path: progresoPaths) {
-            		if (path.getLp().equals(lp)) {
-            			List<Actividad> lst = path.getActividadesRealizadas();
-            			if (lst.size()>0) {
-                			previa = path.getActividadesRealizadas().get(lst.size() - 1);
-            			}
+    public void iniciarActividad(Actividad actividad, LearningPath lp) {
+		boolean faltan = faltanPrerrequisitos(actividad);
+    	
+    	boolean esta = false;
+    	Actividad previa = null;
+    	Date fecha = null;
+    	
+    	
+    	//Para obtener la anterior actividad realizada
+    	for(ProgresoPath path: progresoPaths) {
+    		if (path.getLp().equals(lp)) {
+    			List<Actividad> lst = path.getActividadesRealizadas();
+    			if (lst.size()>0) {
+        			previa = path.getActividadesRealizadas().get(lst.size() - 1);
+    			}
+    		}
+    	}
+    	
+        for (ProgresoActividad progreso : progresosAct) {
+        	//Obtener la facha en la que se completó la ultima actividad
+        	if (previa != null) {
+        		if (progreso.getActividad().equals(previa) && !progreso.isCompletada()) {
+                	fecha = progreso.getFechaFin();
+        		}
+            }
+            if (progreso.getActividad().equals(actividad) && !progreso.isCompletada()) {
+            	if (faltan) {
+            		List<Actividad> pre = actividad.getPrerrequisitos();
+            		System.out.println("Advertencia: Te recomendamos completar los prerrequisitos para esta actividad: " );
+            		for (Actividad act : pre) {
+            			System.out.println(act.descripcion);
             		}
             	}
-            	
-                for (ProgresoActividad progreso : progresosAct) {
-                	//Obtener la facha en la que se completó la ultima actividad
-                	if (previa != null) {
-                		if (progreso.getActividad().equals(previa) && !progreso.isCompletada()) {
-                        	fecha = progreso.getFechaFin();
-                		}
-                    }
-                    if (progreso.getActividad().equals(actividad) && !progreso.isCompletada()) {
-                    	if (faltan) {
-                    		List<Actividad> pre = actividad.getPrerrequisitos();
-                    		System.out.println("Advertencia: Te recomendamos completar los prerrequisitos para esta actividad: " );
-                    		for (Actividad act : pre) {
-                    			System.out.println(act.descripcion);
-                    		}
-                    	}
-                        System.out.println("\nIniciando actividad: " + actividad.getDescripcion());
-                        progreso.setFechaInicio(new Date());
-                        esta =  true;
-                        actividad.establecerFechaLimite(fecha);
-                    }
-                }
-                if (!esta) {
-                    System.out.println("Ya has completado esta actividad o no está disponible.");
-                }
-                this.actividadEnProgreso = true;
-    		} else {
-    			System.out.println("No puedes iniciar otra actividad sin terminar la anterior.");
-    		}
-    		
-    		
-            
-    	} else {
-    		System.out.println("No puedes realizar esta actividad porque no estás inscrito en su learning path.");
-    	}
+                System.out.println("\nIniciando actividad: " + actividad.getDescripcion());
+                progreso.setFechaInicio(new Date());
+                esta =  true;
+                actividad.establecerFechaLimite(fecha);
+            }
+        }
+        if (!esta) {
+            System.out.println("Ya has completado esta actividad o no está disponible.");
+        }
+        this.actividadEnProgreso = true;
     	
     }
     
@@ -152,26 +220,28 @@ public class Estudiante extends Usuario {
     }
     
     public void realizarActividad(Actividad actividad) {
-        for (ProgresoActividad progreso : progresosAct) {
-        	if (progreso.getActividad().equals(actividad) && !progreso.isCompletada()) {
-                if (progreso.getFechaInicio() !=  null) {
-                	actividad.realizar(progreso);
-                	
-                	for(ProgresoPath path: progresoPaths) {
-                		if (path.getLp().equals(actividad.getLearningPath())) {
-                			path.agregarActividadRealizada(actividad);
-                		}
-                	}
-                	
-                	this.actividadEnProgreso = false;
-                	return ;
-                } else {
-                	System.out.println("No puedes realizar una actividad sin antes comenzarla.");
-                	return ;
-                }
-        	} 
-        } 
-        System.out.println("No se encontró la actividad o ya ha sido completada.");
+    	if (!actividad.equals(null)) {
+            for (ProgresoActividad progreso : progresosAct) {
+            	if (progreso.getActividad().equals(actividad) && !progreso.isCompletada()) {
+                    if (progreso.getFechaInicio() !=  null) {
+                    	actividad.realizar(progreso);
+                    	
+                    	for(ProgresoPath path: progresoPaths) {
+                    		if (path.getLp().equals(actividad.getLearningPath())) {
+                    			path.agregarActividadRealizada(actividad);
+                    		}
+                    	}
+                    	
+                    	this.actividadEnProgreso = false;
+                    	return ;
+                    } else {
+                    	System.out.println("No puedes realizar una actividad sin antes comenzarla.");
+                    	return ;
+                    }
+            	} 
+            } 
+            System.out.println("No se encontró la actividad o ya ha sido completada.");	
+    	}
     } 
     
     public void pedirRecomendacionActividad(LearningPath lp) {

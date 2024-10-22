@@ -62,6 +62,10 @@ public abstract class Actividad implements Cloneable{
 	public List<Actividad> getPrerrequisitos() {
 		return prerrequisitos;
 	}
+	
+	public List<Actividad> getActividadSeguimiento() {
+		return actividadesSeguimiento;
+	}
 	public Profesor getCreador() {
 		return creador;
 	}

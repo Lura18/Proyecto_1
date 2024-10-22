@@ -1,5 +1,6 @@
 package proyecto;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Registro {
 	private List<Profesor> profesores;
 	private List<Estudiante> estudiantes;
 	private List<Usuario> usuarios;
+	private List<LearningPath> paths;
     private PersistenciaUsuarios persistencia;
 
     
@@ -19,14 +21,22 @@ public class Registro {
     	profesores = new ArrayList<>();
 		estudiantes = new ArrayList<>();
         persistencia = new PersistenciaUsuarios();
+        paths = new ArrayList<>();
+        
 	}
 
-    
-    //Mteodos
-	public void registrarProfesor(Profesor profesor) throws Exception {
-        for (Profesor p : profesores) {
-            if (p.getCorreo().equals(profesor.getCorreo())) {
-                throw new Exception("El profesor ya está registrado.");
+    public List<LearningPath> getPaths() {
+		return paths;
+	}
+
+	//Mteodos
+	public void registrarProfesor(Profesor profesor) {
+        for (Usuario u : usuarios) {
+            if (u instanceof Profesor) {
+                Profesor p = (Profesor) u;
+                if (p.getCorreo().equals(profesor.getCorreo())) {
+                    System.out.println("El profesor ya está registrado.");
+                }
             }
         }
         profesores.add(profesor);
@@ -34,9 +44,11 @@ public class Registro {
     }
 	
 	public void registrarEstudiante(Estudiante estudiante) throws Exception {
-        for (Estudiante e : estudiantes) {
-            if (e.getCorreo().equals(estudiante.getCorreo())) {
-                throw new Exception("El profesor ya está registrado.");
+        for (Usuario u : usuarios) {
+            if (u instanceof Estudiante) {
+	            if (u.getCorreo().equals(estudiante.getCorreo())) {
+	                System.out.println("El estudiante ya está registrado.");
+	            }
             }
         }
         estudiantes.add(estudiante);
@@ -44,9 +56,12 @@ public class Registro {
     }
 	
     public Profesor loginProfesor(String correo, String contrasena) throws Exception {
-        for (Profesor u : profesores) {
-            if (u.getCorreo().equals(correo) && u.getContrasena().equals(contrasena)) {
-                return  u;
+        for (Usuario u : usuarios) {
+            if (u instanceof Profesor) {
+                Profesor p = (Profesor) u;
+                if (p.getCorreo().equals(correo) && p.getContrasena().equals(contrasena)) {
+                    return p;
+                }
             }
         }
         throw new Exception("Login fallido. Usuario o contraseña incorrectos.");
@@ -54,9 +69,12 @@ public class Registro {
 
 
     public Estudiante loginEstudiante(String correo, String contrasena) throws Exception {
-        for (Estudiante u : estudiantes) {
-            if (u.getCorreo().equals(correo) && u.getContrasena().equals(contrasena)) {
-                return  u;
+        for (Usuario u : usuarios) {
+            if (u instanceof Estudiante) {
+            	Estudiante e = (Estudiante) u;
+	            if (e.getCorreo().equals(correo) && e.getContrasena().equals(contrasena)) {
+	                return  e;
+	            }
             }
         }
         throw new Exception("Login fallido. Usuario o contraseña incorrectos.");
@@ -69,4 +87,11 @@ public class Registro {
     public void salvarUsuarios(String archivo) throws Exception {
         persistencia.salvarUsuarios(archivo, usuarios);
     }
+    
+    public void agregarPaths(LearningPath lp) {
+    	this.paths.add(lp);
+    }
+
+
+
 }

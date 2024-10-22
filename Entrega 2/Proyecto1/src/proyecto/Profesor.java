@@ -1,6 +1,7 @@
 package proyecto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Profesor extends Usuario {
@@ -39,10 +40,12 @@ public class Profesor extends Usuario {
 	}
 	
 	
-    public LearningPath crearLearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad) {
-        LearningPath nuevoLP = new LearningPath(titulo, descripcion, objetivos, nivelDificultad, this, 6);
+    public LearningPath crearLearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad, int duracionEstimada, Registro sistema) {
+    	
+    	LearningPath nuevoLP = new LearningPath(titulo, descripcion, objetivos, nivelDificultad, this, duracionEstimada);
         learningPathsCreados.add(nuevoLP);
         System.out.println("Learning Path creado exitosamente.");
+        sistema.agregarPaths(nuevoLP);
         return nuevoLP;
     }
     
@@ -51,27 +54,30 @@ public class Profesor extends Usuario {
         	lp.getActividades().add(actividad);
         	lp.añadirTiempoLp(actividad);
             System.out.println("Actividad añadida exitosamente al Learning Path.");
+            } else {
+            System.out.println("Este Learning Path no fue creado por este profesor.");
+        }
+	}
+
+        
+    public void eliminarActividadDeLearningPath(LearningPath lp, Actividad actividad) {
+        if (learningPathsCreados.contains(lp)) {
+            if (lp.getActividades().remove(actividad)) {
+                lp.reducirTiempoLp(actividad);
+                System.out.println("Actividad eliminada exitosamente del Learning Path.");
+            } else {
+                System.out.println("La actividad no pertenece a este Learning Path.");
+            }
         } else {
             System.out.println("Este Learning Path no fue creado por este profesor.");
         }
     }
-        
-    public void eliminarActividadDeLearningPath(LearningPath lp, Actividad actividad) {
-        if (learningPathsCreados.contains(lp)) {
-        	if (lp.getActividades().remove(actividad)) {
-            	lp.reducirTiempoLp(actividad);
-                System.out.println("Actividad eliminada exitosamente del Learning Path.");
-        	} else {
-        		System.out.println("La actividad no pertenece a este learningPath");
-        	}
-        } else {
-            System.out.println("Este Learning Path no fue creado por este profesor.");
-        }
-    	}
 	
 	//El profesor edita el learning path editando sus actividades.
 	public void editarActividad(Actividad actividad) {
 		actividad.editar(this);
+		actividad.getLearningPath().setFechaModificacion(new Date());
+		actividad.getLearningPath().setVersion(actividad.getLearningPath().getVersion()+1);
 	}
 	
 	public void agregarPrerrequisitoActividad(Actividad actividad, Actividad prerrequisito) {
@@ -92,20 +98,19 @@ public class Profesor extends Usuario {
 	
 	//Clonar actividad
 	public Actividad clonarActividad(Actividad original) {
-		if (!original.getCreador().equals(this)) {
-			Actividad clon = original.clonarActividad(this);
-			if (clon != null) {
-				System.out.println("Actividad clonada exitosamente. Ahora puedes editarla.");
-				return clon;
-				
-			} else {
-				System.out.println("Error al clonar la actividad.");
-				return null;
-			}
-		} else {
-			System.out.println("No puedes clonar una actividad que tú mismo has creado.");
-			return null;
-		}
+	    if (!original.getCreador().equals(this)) {
+	        Actividad clon = original.clonarActividad(this);
+	        if (clon != null) {
+	        	System.out.println("Actividad clonada y guardada exitosamente.");
+	        	return clon;
+	        } else {
+	            System.out.println("Error al clonar la actividad.");
+	            return null;
+	        }
+	    } else {
+	        System.out.println("No puedes clonar una actividad que tú mismo has creado.");
+	        return null;
+	    }
 	}
 
 

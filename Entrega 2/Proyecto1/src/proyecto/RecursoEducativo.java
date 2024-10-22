@@ -30,12 +30,12 @@ public class RecursoEducativo extends Actividad{
 	
 	public void cambios(Scanner scanner) {
 	    System.out.print("Que desea editar (Recurso, Enlace): ");
-	    String editar = scanner.nextLine();
-	    if (editar.equals("Recurso")) {
+	    String editar = scanner.nextLine().toLowerCase();
+	    if (editar.equals("recurso")) {
 	    	System.out.print("Ingrese el nuevo tipo de recurso: ");
 		    String recurso = scanner.nextLine();
 		    this.tipoRecurso = recurso;
-	    } else if (editar.equals("Enlace")) {
+	    } else if (editar.equals("enlace")) {
 	    	System.out.print("Ingrese el nuevo enlace de la actividad: ");
 		    String enlace = scanner.nextLine();
 		    this.enlaceRecurso = enlace;

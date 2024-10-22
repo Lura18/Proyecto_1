@@ -10,5 +10,23 @@
     "correo": "luis@example.com",
     "tipoUsuario": "Estudiante",
     "nombre": "Luis"
+  },
+  {
+    "password": "sofi123",
+    "correo": "j.nunezc@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "Juan Sebastian"
+  },
+  {
+    "password": "sofi0293",
+    "correo": "l.sarmientog@uniandes.edu.co",
+    "tipoUsuario": "Estudiante",
+    "nombre": "Laura"
+  },
+  {
+    "password": "sofiteamomas",
+    "correo": "sofiteamo",
+    "tipoUsuario": "Estudiante",
+    "nombre": "Sebas"
   }
 ]}

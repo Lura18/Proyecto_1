@@ -37,16 +37,34 @@ public class Quiz extends Actividad{
 	    List<String> opciones = new ArrayList<String>();
 	    List<String> explicaciones = new ArrayList<String>();
 	    
-	    System.out.print("Ingrese la pregunta: ");
+	    System.out.print("Ingrese la nueva pregunta del quiz: ");
 	    String texto = scanner.nextLine();
+	    
 	    for (int i = 0; i < 4; i++ ) {
 		    System.out.print("Ingrese la opcion "+ (i+1)+" : ");
 		    opciones.add(scanner.nextLine());
+		    
 		    System.out.print("Ingrese la explicación de la opción "+ (i+1)+" : ");
 		    explicaciones.add(scanner.nextLine());
 	    }
-	    System.out.print("Ingrese el número de la opción correcta: ");
-	    int resp = Integer.parseInt(scanner.nextLine());
+	    
+	    // Validar la opción correcta
+	    int resp = -1;
+	    boolean opcionValida = false;
+	    while (!opcionValida) {
+	        System.out.print("Ingrese el número de la opción correcta (1-4): ");
+	        try {
+	        	resp = Integer.parseInt(scanner.nextLine());
+	            if (resp >= 1 && resp <= 4) {
+	                opcionValida = true; 
+	            } else {
+	                System.out.println("Error: Debe ingresar un número entre 1 y 4.");
+	            }
+	        } catch (NumberFormatException e) {
+	            System.out.println("Entrada no válida. Por favor, ingrese un número entre 1 y 4.");
+	        }
+	    }
+	    
 	    PreguntaMultiple p = new PreguntaMultiple(texto, opciones, resp, explicaciones);
         preguntas.add(p);
     }

@@ -44,8 +44,24 @@ public class PreguntaMultiple {
 		    System.out.println((i + 1) + ". " + opciones.get(i));
 		}
 		
-        System.out.print("Elige una opción (1-4): ");
-        int respuestaElegida = Integer.parseInt(scanner.nextLine());  // Ajustar a índice 0
+		boolean valida = false;
+		int respuestaElegida = -1;
+		
+		while (!valida) {
+	        System.out.print("Elige una opción (1-4): ");
+	        try {
+	            respuestaElegida = Integer.parseInt(scanner.nextLine());
+
+	            // Verificar si la opción está en el rango esperado (1-4)
+	            if (respuestaElegida >= 1 && respuestaElegida <= 4) {
+	                valida = true;
+	            } else {
+	                System.out.println("Opción no válida. Intenta nuevamente.");
+	            }
+	        } catch (NumberFormatException e) {
+	            System.out.println("Entrada no válida. Por favor, ingresa un número entre 1 y 4.");
+	        }
+		}
 
         boolean esCorrecta = (respuestaElegida == opcionCorrecta);
         

@@ -48,12 +48,12 @@ public class Tarea extends Actividad {
     
 	public void cambios(Scanner scanner) {
 	    System.out.print("Que desea editar (Descripcion, Objetivo): ");
-	    String editar = scanner.nextLine();
-	    if (editar.equals("Descripcion")) {
+	    String editar = scanner.nextLine().toLowerCase();
+	    if (editar.equals("descripcion")) {
 	    	System.out.print("Ingrese la nueva descripcion: ");
 		    String d = scanner.nextLine();
 		    this.descripcion = d;
-	    } else if (editar.equals("Objetivo")) {
+	    } else if (editar.equals("objetivo")) {
 	    	System.out.print("Ingrese el objetivo de la actividad: ");
 		    String o = scanner.nextLine();
 		    this.objetivo = o;

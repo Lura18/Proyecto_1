@@ -15,7 +15,7 @@ public class LearningPath {
     private double rating;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private String version;
+    private int version;
     private List<Actividad> actividades;
     private Profesor creador; // El profesor que creó el Learning Path
     
@@ -31,6 +31,7 @@ public class LearningPath {
         this.fechaCreacion = new Date();
         this.fechaModificacion = new Date();
         this.duracionEstimada = duracionEstimada;
+        this.version = 1;
         this.rating = calcularPromedioRating();
         //TO-DO RATING
 	}
@@ -72,11 +73,20 @@ public class LearningPath {
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
+	public void setFechaCreacion(Date date) {
+		this.fechaCreacion= date ;
+	}
 	public Date getFechaModificacion() {
 		return fechaModificacion;
 	}
-	public String getVersion() {
+	public void setFechaModificacion(Date date) {
+		this.fechaModificacion= date ;
+	}
+	public int getVersion() {
 		return version;
+	}
+	public void setVersion(int version) {
+		this.version= version ;
 	}
 	public List<Actividad> getActividades() {
 		return actividades;
