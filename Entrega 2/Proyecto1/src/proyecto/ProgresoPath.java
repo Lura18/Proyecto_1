@@ -12,9 +12,11 @@ import java.util.List;
     private float tasaExito;
     private float tasaFracaso;
     private List<Actividad> actividadesRealizadas;
+    private boolean completado;
+    private Estudiante estudiante;
   
     //Constructor
-    public ProgresoPath(LearningPath lp, Date fechaInicioPath) {
+    public ProgresoPath(LearningPath lp, Date fechaInicioPath, Estudiante estudiante) {
 		super();
 		this.lp = lp;
 		this.fechaInicioPath = fechaInicioPath;
@@ -23,6 +25,8 @@ import java.util.List;
 		this.tasaExito = 0;
 		this.tasaFracaso = 0;
 		this.actividadesRealizadas = new ArrayList<Actividad>();
+		this.completado = false;
+		this.estudiante = estudiante;
 	}
     
     //Getter and setter
@@ -53,9 +57,59 @@ import java.util.List;
 		return lp;
 	}
 
+	public boolean isCompletado() {
+		return completado;
+	}
+	
+	public Estudiante getEstudiante() {
+		return estudiante;
+	}
 	
 	//Métodos
 	public void agregarActividadRealizada(Actividad actividad) {
 		actividadesRealizadas.add(actividad);
 	}
+	
+	public void marcarCompletado() {
+		if(actividadesRealizadas.size() == lp.getActividades().size()) {
+			this.completado = true;
+			this.fechaFinPath = new Date();
+			System.out.println("¡Felicidades! Has completado el learning path: " + lp.getTitulo());
+		}
+	}
+	
+    public void calcularProgreso() {
+        int totalObligatorias = 0;
+        int completadasExitosas = 0;
+
+        for (Actividad actividad : lp.getActividades()) {
+            if (actividad.isObligatorio()) {
+                totalObligatorias++;
+                String resultado = estudiante.getProgresosAct().get(actividad).getResultado();
+                if (actividadesRealizadas.contains(actividad) && resultado.equals("Aprobada") ) {
+                    completadasExitosas++;
+                }
+            }
+        }
+        if (totalObligatorias > 0) {
+            this.porcentajePath = (float) completadasExitosas / totalObligatorias * 100;
+        }
+    }
+
+    public void actualizarTasas() {
+    	int exito = 0;
+    	int fracaso = 0;
+    	for (Actividad actividad : actividadesRealizadas) {
+    		String resultado = estudiante.getProgresosAct().get(actividad).getResultado();
+    		if (resultado.equals("Aprobada")) {
+    			exito++;
+    		} else if (resultado.equals("Reprobada")){
+    			fracaso++;
+    		} 
+    	}
+    	this.tasaExito = exito/actividadesRealizadas.size();
+    	this.tasaFracaso = fracaso/actividadesRealizadas.size();
+    }
+    
+    
 }

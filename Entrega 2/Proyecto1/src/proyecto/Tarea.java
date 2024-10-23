@@ -14,36 +14,21 @@ public class Tarea extends Actividad {
 		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, creador);
 		// TODO Auto-generated constructor stub
 		this.medioEntrega = "";
+		this.tipo = "Tarea";
 	}
 	
 	//Get and set
 	public String getMedioEntrega() {
 		return medioEntrega;
 	}
-	
 
 	//Metodos
 
-    public void enviarTarea(Scanner scanner) {
+    public void enviarTarea(Scanner scanner, ProgresoActividad progreso) {
 	    System.out.print("Ingrese el medio de envío de la tarea: ");
     	this.medioEntrega = scanner.nextLine();
+    	respuesta.put(progreso.getEstudiante(), medioEntrega);
         System.out.println("Has enviado la tarea: " + descripcion);
-    }
-    
-    public void calificarTarea(boolean aprobada, ProgresoActividad progreso, Profesor califica) {
-    	if (this.creador == califica) {
-        	String rta = "";
-        	if (aprobada) {
-                rta = "Aprobada";
-            } else {
-            	rta = "Reprobada";
-
-            }
-            progreso.completarActividad(rta);
-    		System.out.println("La calificación de la tarea " + descripcion + " ha sido completada. Su resultado es: " + rta +"\n");
-    	} else {
-    		System.out.println("No tiene los permisos para calfiifcar esta actividad");
-    	}
     }
     
 	public void cambios(Scanner scanner) {
@@ -62,11 +47,12 @@ public class Tarea extends Actividad {
 	    }
 	}
 
+
 	@Override
 	public void realizar(ProgresoActividad progreso) {
 		// TODO Auto-generated method stub
         Scanner scanner = new Scanner(System.in);
-		enviarTarea(scanner);
+		enviarTarea(scanner, progreso);
 		progreso.marcarRealizada("Enviada", new Date());
 	}
 

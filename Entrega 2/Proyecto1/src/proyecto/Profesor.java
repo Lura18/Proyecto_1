@@ -2,7 +2,11 @@ package proyecto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Profesor extends Usuario {
 	
@@ -47,6 +51,57 @@ public class Profesor extends Usuario {
         System.out.println("Learning Path creado exitosamente.");
         sistema.agregarPaths(nuevoLP);
         return nuevoLP;
+    }
+    
+    public Actividad crearActividad(Scanner scanner) {
+    	System.out.println("¿Qué tipo de actividad quiere crear? Seleccione el número\n1. Recurso educativo\n2. Encuesta\n3. Tarea\n4. Quiz\n5. Examen");
+    	boolean opcionValida = false;
+    	while (opcionValida) {
+	    	try {
+	        	int tipo = Integer.parseInt(scanner.nextLine());
+	            if (tipo < 1 || tipo > 5) {
+	            	System.out.println("Selección no válida. Por favor, intente nuevamente.");
+	            } else if (tipo == 1) {
+	            	opcionValida = true;
+	            	return crearRecurso(scanner);
+	            } else if (tipo == 2) {
+	            	opcionValida = true;
+	            	return crearEncuesta(scanner);
+	            } else if (tipo == 3) {
+	            	opcionValida = true;
+	            	return crearTarea(scanner);
+	            } else if (tipo == 4) {
+	            	opcionValida = true;
+	            	return crearQuiz(scanner);
+	            } else {
+	            	opcionValida = true;
+	            	return crearExamen(scanner);
+	            }
+	        } catch (InputMismatchException e) {
+	            System.out.println("Entrada no válida. Por favor, ingrese un número.");
+	        }
+    	}
+    	return null;
+    }
+    
+    public RecursoEducativo crearRecurso(Scanner scanner) {
+    	return null;
+    }
+    
+    public Encuesta crearEncuesta(Scanner scanner) {
+    	return null;
+    }
+    
+    public Tarea crearTarea(Scanner scanner) {
+    	return null;
+    }
+    
+    public Quiz crearQuiz(Scanner scanner) {
+    	return null;
+    }
+    
+    public Examen crearExamen(Scanner scanner) {
+    	return null;
     }
     
     public void añadirActividadALearningPath(LearningPath lp, Actividad actividad) {
@@ -114,5 +169,40 @@ public class Profesor extends Usuario {
 	    }
 	}
 
+	//Calificar
+	public void calificarActividad(Actividad actividad, Scanner scanner) {
+		if (actividad.getCreador().equals(this)){
+			Set<Estudiante> estudiantes = actividad.getRespuesta().keySet();
+			if (estudiantes != null) {
+				for (Estudiante estudiante: estudiantes) {
+					HashMap<Actividad, ProgresoActividad> mapa = estudiante.getProgresosAct();
+					ProgresoActividad progreso = mapa.get(actividad);
+					if (progreso.getResultado().equals("Enviada")) {
+						String rta = actividad.getRespuesta().get(estudiante);
+						if (actividad.getTipo().equals("Tarea")) {
+							System.out.println("El estudiante "+ estudiante.nombre + " mando la tarea por el medio: \n" + rta);
+						} else {
+							System.out.println("La respuesta del estudiante "+ estudiante.nombre + " es: \n" + rta);
+						}
+			            System.out.print("¿Cómo desea calificarla?\n1. Aprobada\n2.Reprobada ");
+			            String resultado = scanner.nextLine().toLowerCase();
+			            if (resultado.equals("1")) {
+							progreso.setResultado("Aprobada");
+							System.out.println("Se ha calificado la actividad "+ actividad.descripcion+ " del estudiante " + estudiante.nombre + ". Su resultado es Aprobada.");
+			            } else {
+			            	progreso.setResultado("Reprobada");
+							System.out.println("Se ha calificado la actividad "+ actividad.descripcion+ " del estudiante " + estudiante.nombre + ". Su resultado es Reprobada.");
+			            }
+						
+					}
+				}
+			} else {
+				System.out.println("No hay actividades por calificar.");
+			}
+		} else {
+			System.out.println("No tiene los permisos para calificar esta actividad.");
+		}
+	}
+	
 
 }

@@ -22,5 +22,11 @@
     "correo": "l.sarmientog@uniandes.edu.co",
     "tipoUsuario": "Estudiante",
     "nombre": "Laura"
+  },
+  {
+    "password": "2024",
+    "correo": "m.guzmann",
+    "tipoUsuario": "Estudiante",
+    "nombre": "Masiel"
   }
 ]}

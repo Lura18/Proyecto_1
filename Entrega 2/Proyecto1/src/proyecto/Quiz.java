@@ -80,8 +80,11 @@ public class Quiz extends Actividad{
 				nota += 1;
 			}
 		}
+		
 		double numPreguntas = preguntas.size();
-		this.notaObtenida = (nota/numPreguntas)*100;
+		if (numPreguntas != 0) {
+			this.notaObtenida = (nota/numPreguntas)*100;
+		}
 		
 		System.out.println("Tu nota es: " + notaObtenida);
 		if (notaObtenida >= notaAprobacion) {

@@ -10,15 +10,18 @@ import java.util.concurrent.TimeUnit;
 	    private long tiempoDedicado;
 	    private Date fechaInicio;
 	    private Date fechaFin;
+	    private Estudiante estudiante;
   
     //Constructor
-    public ProgresoActividad(Actividad actividad) {
+    public ProgresoActividad(Actividad actividad, Estudiante estudiante) {
         this.actividad = actividad;
         this.completada = false; 
         this.resultado = "Por completar"; 
         this.tiempoDedicado = 0; 
         this.fechaInicio = null;
         this.fechaFin = null;
+        this.estudiante = estudiante;
+        
     }
     
     //Get y set
@@ -57,6 +60,9 @@ import java.util.concurrent.TimeUnit;
 	public void setFechaFin(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
+	public Estudiante getEstudiante() {
+		return estudiante;
+	}
 
 	//Métodos
 	
@@ -76,7 +82,6 @@ import java.util.concurrent.TimeUnit;
         this.fechaFin = fecha;
         this.tiempoDedicado = calcularTiempoDedicado(fechaInicio, fechaFin);
     }
-
 
 
 }

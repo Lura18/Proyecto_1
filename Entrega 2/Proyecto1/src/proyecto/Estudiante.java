@@ -1,8 +1,12 @@
 package proyecto;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Estudiante extends Usuario {
@@ -10,27 +14,27 @@ public class Estudiante extends Usuario {
 
 	//Atributos
     private List<LearningPath> learningPathsInscritos;
-	private List<ProgresoActividad> progresosAct;
-	private List<ProgresoPath> progresoPaths;
+	private HashMap<Actividad, ProgresoActividad> progresosAct;
+	private Map<LearningPath, ProgresoPath> progresoPaths;
 	private List<Actividad> realizadas;
 	private boolean actividadEnProgreso;
 	//Constructor
 	public Estudiante(String nombre, String correo, String contrasena) {
 		super(nombre, correo, contrasena);
 		this.learningPathsInscritos = new ArrayList<>();
-		this.progresosAct = new ArrayList<>();
-		this.progresoPaths = new ArrayList<>();
+		this.progresosAct = new HashMap<Actividad, ProgresoActividad>();
+		this.progresoPaths = new HashMap<LearningPath, ProgresoPath>();
 		this.actividadEnProgreso = false;
 		this.realizadas = new ArrayList<>();
 		// TODO Auto-generated constructor stub
 	}
 
 	//Get and set
-	public List<ProgresoActividad> getProgresosAct() {
+	public HashMap<Actividad, ProgresoActividad> getProgresosAct() {
 		return progresosAct;
 	}
 	
-	public List<ProgresoPath> getProgresoPaths() {
+	public Map<LearningPath, ProgresoPath> getProgresoPaths() {
 		return progresoPaths;
 	}
 	
@@ -83,20 +87,23 @@ public class Estudiante extends Usuario {
         
         //Seleccion de opcion
         System.out.print("Ingrese el número del Learning Path al que desea inscribirse: ");
-        int seleccion = scanner.nextInt();
-        scanner.nextLine();
         
         //validacion
-        if (seleccion < 1 || seleccion > catalogo.size()) {
-            System.out.println("Selección no válida. Por favor, intente nuevamente.");
+        
+        try {
+        	int seleccion = Integer.parseInt(scanner.nextLine());
+            if (seleccion < 1 || seleccion > catalogo.size()) {
+            	System.out.println("Selección no válida. Por favor, intente nuevamente.");
+                return null;
+            } else {
+            	rta = catalogo.get(seleccion - 1);
+            	inscripcion(rta);
+                return rta;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada no válida. Por favor, ingrese un número.");
             return null;
         }
-        
-        rta = catalogo.get(seleccion - 1);
-        
-        inscripcion(rta);
-        
-        return rta;
     }
     		 
     public void inscripcion(LearningPath learningPath) {
@@ -104,11 +111,11 @@ public class Estudiante extends Usuario {
             learningPathsInscritos.add(learningPath);
             System.out.println("Te has inscrito exitosamente en el Learning Path: " + learningPath.getTitulo());
 			learningPath.mostrarEstructura();
-			ProgresoPath avance = new ProgresoPath(learningPath, new Date());
-			progresoPaths.add(avance);
+			ProgresoPath avance = new ProgresoPath(learningPath, new Date(), this);
+			progresoPaths.put(learningPath, avance);
             for (Actividad actividad : learningPath.getActividades()) {
-                ProgresoActividad progreso = new ProgresoActividad(actividad);
-                progresosAct.add(progreso);
+                ProgresoActividad progreso = new ProgresoActividad(actividad,this);
+                progresosAct.put(actividad, progreso);
             }
             
         } else {
@@ -117,7 +124,18 @@ public class Estudiante extends Usuario {
     }
     public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
     	
+    	Collection<ProgresoPath> paths = progresoPaths.values();
+    	for (ProgresoPath path: paths) {
+    		if(path.getLp().equals(learningPath)) {
+        		if (path.isCompletado()) {
+        			System.out.println("Ya has terminado todas las actividades del learning Path");
+        			return null;
+        		}
+    		}
+    	}
+    	
     	Actividad rta = null;
+    	List<Actividad> yaRealizadas = new ArrayList<>();
 		if (!actividadEnProgreso) { 
 			if (!learningPathsInscritos.contains(learningPath)) {
 	            System.out.println("No puedes realizar esta actividad porque no estás inscrito en su learning path.");
@@ -136,23 +154,39 @@ public class Estudiante extends Usuario {
 	            Actividad actividad = actividades.get(i);
 	            if (!realizadas.contains(actividad)) {
 	            	System.out.println((i + 1) + ". " + actividad.getDescripcion());
+	            } else {
+	            	yaRealizadas.add(actividad);
 	            }
 	        }
-
 	        
-	        System.out.print("Ingrese el número de la actividad que desea realizar: ");
-	        int seleccion = scanner.nextInt();
-	        scanner.nextLine();
+	        int seleccion = 0;
+	        boolean opcionValida = false;
+	        while (!opcionValida) {
+	            System.out.print("Ingrese el número de la actividad que desea realizar: ");
+	            try {
+	                seleccion = scanner.nextInt();
+	                scanner.nextLine(); 
 
-	        if (seleccion < 1 || seleccion > actividades.size()) {
-	            System.out.println("Selección no válida. Por favor, intente nuevamente.");
-	            return null;
+	                if (seleccion < 1 || seleccion > actividades.size()) {
+	                    System.out.println("Selección no válida. Por favor, intente nuevamente.");
+	                } 
+	                else if (yaRealizadas.contains(actividades.get(seleccion - 1))) {
+	                    System.out.println("Error. Ya realizó esta actividad.");
+	                } 
+	                else {
+	                    opcionValida = true; //
+	                }
+	            } catch (InputMismatchException e) {
+	                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+	                scanner.nextLine();
+	            }
 	        }
-
+		    
 	        rta = actividades.get(seleccion - 1);
 
 	        iniciarActividad(rta, learningPath);
 	        return rta;
+	        
 		} else {
 			System.out.println("No puedes iniciar 2 actividades a la vez.");
 		}
@@ -161,6 +195,7 @@ public class Estudiante extends Usuario {
     }
     
     public void iniciarActividad(Actividad actividad, LearningPath lp) {
+    	
 		boolean faltan = faltanPrerrequisitos(actividad);
     	
     	boolean esta = false;
@@ -169,7 +204,8 @@ public class Estudiante extends Usuario {
     	
     	
     	//Para obtener la anterior actividad realizada
-    	for(ProgresoPath path: progresoPaths) {
+    	Collection<ProgresoPath> paths = progresoPaths.values();
+    	for (ProgresoPath path: paths) {
     		if (path.getLp().equals(lp)) {
     			List<Actividad> lst = path.getActividadesRealizadas();
     			if (lst.size()>0) {
@@ -178,7 +214,8 @@ public class Estudiante extends Usuario {
     		}
     	}
     	
-        for (ProgresoActividad progreso : progresosAct) {
+    	Collection<ProgresoActividad> acts = progresosAct.values();
+    	for (ProgresoActividad progreso: acts) {
         	//Obtener la facha en la que se completó la ultima actividad
         	if (previa != null) {
         		if (progreso.getActividad().equals(previa) && !progreso.isCompletada()) {
@@ -197,19 +234,20 @@ public class Estudiante extends Usuario {
                 progreso.setFechaInicio(new Date());
                 esta =  true;
                 actividad.establecerFechaLimite(fecha);
+                this.actividadEnProgreso = true;
             }
         }
         if (!esta) {
             System.out.println("Ya has completado esta actividad o no está disponible.");
         }
-        this.actividadEnProgreso = true;
     	
     }
     
     public boolean faltanPrerrequisitos(Actividad actividad) {
     	if (!actividad.getPrerrequisitos().isEmpty()) {
             for (Actividad prerrequisito : actividad.getPrerrequisitos()) {
-            	for (ProgresoActividad progreso: progresosAct) {
+            	Collection<ProgresoActividad> acts = progresosAct.values();
+            	for (ProgresoActividad progreso: acts) {
             		if (progreso.getActividad().equals(prerrequisito) && !progreso.isCompletada()) {
             			return true;
             		}
@@ -221,14 +259,17 @@ public class Estudiante extends Usuario {
     
     public void realizarActividad(Actividad actividad) {
     	if (!actividad.equals(null)) {
-            for (ProgresoActividad progreso : progresosAct) {
+        	Collection<ProgresoActividad> acts = progresosAct.values();
+        	for (ProgresoActividad progreso: acts) {
             	if (progreso.getActividad().equals(actividad) && !progreso.isCompletada()) {
                     if (progreso.getFechaInicio() !=  null) {
                     	actividad.realizar(progreso);
-                    	
-                    	for(ProgresoPath path: progresoPaths) {
+                    	realizadas.add(actividad);
+                    	Collection<ProgresoPath> paths = progresoPaths.values();
+                    	for (ProgresoPath path: paths) {
                     		if (path.getLp().equals(actividad.getLearningPath())) {
                     			path.agregarActividadRealizada(actividad);
+                    			path.marcarCompletado();
                     		}
                     	}
                     	
@@ -252,7 +293,8 @@ public class Estudiante extends Usuario {
     		Actividad anterior = null;
         	
     		//Obtener actividades realizadas
-        	for (ProgresoPath p : progresoPaths) {
+        	Collection<ProgresoPath> paths = progresoPaths.values();
+        	for (ProgresoPath p: paths) {
                 if (p.getLp().equals(lp)) {
                 	lst = p.getActividadesRealizadas();
                 }
@@ -261,7 +303,8 @@ public class Estudiante extends Usuario {
         	//Obtener ultima actividad y su progreso
         	if (lst != null && lst.size()>0) {
         		ultima = lst.get(lst.size() -1);
-        		for (ProgresoActividad q : progresosAct) {
+            	Collection<ProgresoActividad> acts = progresosAct.values();
+            	for (ProgresoActividad q: acts) {
         			if (q.getActividad().equals(ultima)) {
         				p1 = q;
         			}

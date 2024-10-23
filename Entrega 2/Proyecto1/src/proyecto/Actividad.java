@@ -3,7 +3,9 @@ package proyecto;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Actividad implements Cloneable{
@@ -20,6 +22,8 @@ public abstract class Actividad implements Cloneable{
     protected List<Actividad> prerrequisitos;
     protected Profesor creador;
     protected List<Reseña> reseñas;
+    protected Map<Estudiante, String> respuesta;
+    protected String tipo;
 	
 	//Constructor
 	public Actividad(LearningPath lp, String descripcion, String objetivo, String nivelDificultad,
@@ -34,6 +38,8 @@ public abstract class Actividad implements Cloneable{
 		this.actividadesSeguimiento = new ArrayList<Actividad>();
 		this.prerrequisitos = new ArrayList<Actividad>();
 		this.creador = creador;
+		this.respuesta = new HashMap <Estudiante, String>();
+		this.tipo = "";
 	}
 	
 	//Get and set
@@ -79,6 +85,12 @@ public abstract class Actividad implements Cloneable{
 	}
 	public List<Reseña> getReseñas() {
 		return reseñas;
+	}
+	public Map<Estudiante, String> getRespuesta() {
+		return respuesta;
+	}
+	public String getTipo() {
+		return tipo;
 	}
 
 	//Metodos
@@ -173,4 +185,5 @@ public abstract class Actividad implements Cloneable{
 	    }
 	    return total / reseñas.size();
 	}
+
 }
