@@ -18,20 +18,11 @@ public abstract class Usuario {
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	public String getCorreo() {
 		return correo;
 	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
 	public String getContrasena() {
 		return contrasena;
-	}
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
 	}
 
 	//Metodos
@@ -39,16 +30,8 @@ public abstract class Usuario {
 	public abstract String getTipoUsuario();
 	
 	//Reseña
-	public void darReseñaActividad(Actividad actividad, String texto, float rating){
-		if (rating < 0 || rating > 10) {
-	        System.out.println("El rating debe estar entre 0 y 10.");
-	    }
-	    Reseña reseña = new Reseña(texto, rating);
-	    actividad.agregarReseña(reseña);
-	    System.out.println("Reseña agregada con éxito. Gracias por ayudarnos a mejorar!");
-	}
-	
-	//Regsitrarse
+	public abstract void darReseñaActividad(Actividad actividad, String texto, float rating);
+
 	
 	
 	

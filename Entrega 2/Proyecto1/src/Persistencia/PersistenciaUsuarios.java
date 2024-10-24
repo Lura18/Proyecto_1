@@ -15,8 +15,6 @@ import proyecto.Estudiante;
 import proyecto.Profesor;
 
 public class PersistenciaUsuarios {
-	
-	public static final String JSON = "JSON";
 
 	private static final String NOMBRE = "nombre";
     private static final String CORREO = "correo";

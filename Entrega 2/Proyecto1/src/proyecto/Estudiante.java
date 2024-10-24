@@ -58,12 +58,14 @@ public class Estudiante extends Usuario {
     }
 	
 	public void darReseñaActividad(Actividad actividad, String texto, float rating) {
-		if (rating < 0 || rating > 10) {
-	        System.out.println("El rating debe estar entre 0 y 10.");
-	    }
-	    Reseña reseña = new Reseña(texto, rating);
-	    actividad.agregarReseña(reseña);
-	    System.out.println("Reseña agregada con éxito. Gracias por ayudarnos a mejorar!");
+		ProgresoActividad prog = progresosAct.get(actividad);
+		
+		if (prog.isCompletada()) {
+			Reseña reseña = new Reseña(texto, rating);
+			reseña.hacerReseña(actividad);
+		} else {
+			System.out.println("Debes realizar una actividad para poder darle una reseña.");
+		}
 		
 	}
 
@@ -107,6 +109,7 @@ public class Estudiante extends Usuario {
     }
     		 
     public void inscripcion(LearningPath learningPath) {
+
         if (!learningPathsInscritos.contains(learningPath)) {
             learningPathsInscritos.add(learningPath);
             System.out.println("Te has inscrito exitosamente en el Learning Path: " + learningPath.getTitulo());
@@ -122,6 +125,7 @@ public class Estudiante extends Usuario {
             System.out.println("Ya estás inscrito en este Learning Path.");
         }
     }
+    
     public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
     	
     	ProgresoPath path = progresoPaths.get(learningPath);
@@ -132,6 +136,7 @@ public class Estudiante extends Usuario {
 
 		if (path.isCompletado()) {
 			System.out.println("¡Ya has terminado todas las actividades del learning Path!");
+			return null;
 		}
     	
     	Actividad rta = null;

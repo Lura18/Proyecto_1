@@ -21,5 +21,12 @@ public class Reseña {
 	}
 	
 	//Metodos
+	public void hacerReseña(Actividad actividad){
+		if (rating < 0 || rating > 10) {
+	        System.out.println("El rating debe estar entre 0 y 10.");
+	    }
+	    actividad.agregarReseña(this);
+	    System.out.println("Reseña agregada con éxito. Gracias por ayudarnos a mejorar!");
+	}
 	
 }

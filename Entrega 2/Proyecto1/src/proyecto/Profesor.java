@@ -30,6 +30,11 @@ public class Profesor extends Usuario {
 	//Metodos
 	
 	@Override
+	public String getTipoUsuario() {
+		return "Profesor";
+	}
+	
+	@Override
 	public void verLearningPaths() {
         System.out.println("Learning Paths creados:");
         for (LearningPath lp : learningPathsCreados) {
@@ -37,11 +42,12 @@ public class Profesor extends Usuario {
         }
 	}
 	
-	@Override
-	public String getTipoUsuario() {
-		return "Profesor";
-	}
 	
+	@Override
+	public void darReseñaActividad(Actividad actividad, String texto, float rating) {
+			Reseña reseña = new Reseña(texto, rating);
+			reseña.hacerReseña(actividad);;
+	}
 	
     public LearningPath crearLearningPath(String titulo, String descripcion, String objetivos, String nivelDificultad, int duracionEstimada, Registro sistema) {
     	
@@ -446,7 +452,8 @@ public class Profesor extends Usuario {
 	}
 
         
-    public void eliminarActividadDeLearningPath(LearningPath lp, Actividad actividad) {
+    public void eliminarActividadDeLearningPath(Actividad actividad) {
+    	LearningPath lp = actividad.getLearningPath();
         if (learningPathsCreados.contains(lp)) {
             if (lp.getActividades().remove(actividad)) {
                 lp.reducirTiempoLp(actividad);
