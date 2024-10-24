@@ -73,238 +73,124 @@ public class Main {
 	}
 	
     public static void main(String[] args) {
-        // Funciones de la aplicacion
+        
+    	// Funciones de la aplicacion
     	
-    	System.out.println("Prueba de Registro/Inicio sesión\n");
+        System.out.println("Bienvenido a la aplicación de Learning Path\n");
+        
+
+        System.out.println("1. Prueba de Registro e Inicio de sesión\n");
     	Registro sistema = new Registro();
     	//Main main = new Main();
     	Scanner scanner = new Scanner(System.in);
     	//main.correrAplicacion(scanner, sistema);
-    	
-    	System.out.println("\nFuncionalidades profesores\n");
+        
+        System.out.println("\n2. Funcionalidades de los Profesores\n");
     	
     	// Profesores para el ejemplo
-    	Profesor p = new Profesor("Profe. Bocanegra", "bocanegra@example.com", "password123");
-        //Profesor p2 = new Profesor("Profe. Castillo", "castillo@example.com", "pass456");
-    	
-    	// Crear un Learning Path
-    	LearningPath lp = p.crearLearningPath("Java Programming", "Aprende los fundamentos de Java","Dominar los conceptos de java y POO\n Aprender un nuevo lenguaje" ,"Intermedio", 8, sistema);
-        //LearningPath lp2 = p2.crearLearningPath("Python Programming", "Aprende los fundamentos de Python","Dominar los conceptos de python\n Aprender un nuevo lenguaje" ,"Principiante", 5, sistema);
-        
-        
-    	// Crear Actividades
+    	Profesor p = new Profesor("Profe. Ivan", "ivancho@example.com", "password123");
+        Profesor p2 = new Profesor("Profe. Castillo", "castillo@example.com", "pass456");
+    	      
+        System.out.println("\n2.1 Creación de Learning Paths\n");
+        LearningPath lp = p.crearLearningPath("Java Programming", 
+            "Aprende los fundamentos de Java", 
+            "Dominar los conceptos de java y POO\nAprender un nuevo lenguaje", 
+            "Intermedio", 8, sistema);
 
-        // Crear un quiz y agregar preguntas
-        Quiz quiz = new Quiz(lp, "Quiz Geografía Básica", "Reforzar las capitales y océanos", "Bajo", 1, true, 50, p); //El quiz se crea sin preguntas.
-        p.editarActividad(quiz); //Agrega una pregunta al quiz
+        LearningPath lp2 = p2.crearLearningPath("Python Programming", 
+            "Aprende los fundamentos de Python", 
+            "Dominar los conceptos de python\nAprender un nuevo lenguaje", 
+            "Principiante", 5, sistema);
+
+        System.out.println("\n2.2 Creación de Actividades para el Learning Path\n");
         
-        //Crea un examen
-        //Examen e1 = new Examen(lp, "Exámen Geografía Básica", "Evaluar los conocimientos en capitales y océanos", "Bajo", 1, true, p); //El examen se crea sin preguntas.
-        //p.editarActividad(e1); //agrega pregunta a un examen
+        //Creación de un examen para poder mostrar siempre la funcion de calificar actividades
+        Tarea tarea = new Tarea(lp, "Tarea: ejercicios de práctica", "Aprender tecnicas de resolución de problemas con programación", "Bajo", 60, false, p);
+        Actividad a1 = p.crearActividad(scanner);
+        Actividad a2 = p.crearActividad(scanner);
         
-        //Crea una encuesta
-        Encuesta en1 = new Encuesta(lp, "Encuesta curso", "Queremos saber porqué escogiste este learningPath", "Bajo", 1, false, p); //La encuesta se crea sin preguntas.
-        p.editarActividad(en1); //agrega pregunta a una encuesta
+        System.out.println("\n2.3 Agregar Prerrequisitos y Actividades de Seguimiento\n");
+        p.agregarPrerrequisitoActividad(a2, a1);
+        p.agregarPrerrequisitoActividad(a2, tarea);
+        p.agregarPrerrequisitoActividad(tarea, a1);
         
-        //Crea un recurso educativo
-        //RecursoEducativo r1 = new RecursoEducativo(lp, "Lectura Geografía Básica", "Aprender sobre capitales y océanos", "Bajo", 1, true, "Video", "Link", p);
-        //p.editarActividad(r1); //edita la informacion recurso/enclace
-        //RecursoEducativo r2 = new RecursoEducativo(lp2, "Lectura Geografía Básica", "Aprender sobre capitales y océanos", "Bajo", 1, true, "Video", "Link", p);
-        //p.editarActividad(r2); 
+        p.agregarActividadSeguimiento(a1, tarea);
+        p.agregarActividadSeguimiento(tarea, a2);
         
-        //Crea una tarea
-        Tarea t1 = new Tarea(lp, "Ensayo geografía", "Entender capitales y océanos", "Bajo", 1, true, p);
-        //p.editarActividad(t1); //modifica informacion descripcion/objetivo
-        
-        //Agrega los prerrequisitos
-        p.agregarPrerrequisitoActividad(quiz, en1);
-        p.agregarPrerrequisitoActividad(quiz, t1);
-        //p.agregarPrerrequisitoActividad(quiz, r1);
-        //p.agregarPrerrequisitoActividad(e1, quiz);
-        //p.agregarPrerrequisitoActividad(e1, r1);
-        //p.agregarPrerrequisitoActividad(e1, t1);
-        
-        //Agrega las actividades Recomendadas
-        //p.agregarActividadSeguimiento(en1, r1);
-        //p.agregarActividadSeguimiento(r1, t1);
-        p.agregarActividadSeguimiento(t1,quiz);
-        //p.agregarActividadSeguimiento(quiz,e1);
-        
-        //Añade las actividades al learningPath correspondiente
-        p.añadirActividadALearningPath(lp, en1);
-        //p.añadirActividadALearningPath(lp, r1);
-        p.añadirActividadALearningPath(lp, t1);
-        p.añadirActividadALearningPath(lp, quiz);
-        //p.añadirActividadALearningPath(lp, e1);
-        //p.añadirActividadALearningPath(lp2, r2);
-        
-        //Casos de error
-        
-        //Añadir actividad cuando no eres el creador del path
-        //p2.añadirActividadALearningPath(lp, r2);
-        //Añadir actividad que no es del learning path
-        //p.añadirActividadALearningPath(lp, r2);
-        //
+        p.añadirActividadALearningPath(tarea);
+
+        System.out.println("\n2.4 Calificación de Actividades (caso: vacio) \n");
+        p.calificarActividad(tarea, scanner);
+
     	
-    	//LearningPath lp3 = p3.crearLearningPath("Python Programming", "Aprende los fundamentos de Python","Dominar los conceptos de python\n Aprender un nuevo lenguaje" ,"Principiante", sis);
+    	System.out.println("\n3. Funcionalidades de los Estudiantes\n");
     	
-        p.calificarActividad(t1, scanner);
-        
-    	System.out.println("\nOtras funcionalidades del programa\n");
-    	
-    	//Funcionalidad editar actividad de otro profesor y clonar
-    	//Tarea t1 = new Tarea(lp3, "Ensayo geografía", "Entender capitales y océanos", "Bajo", 1, true, p3);
-        //p2.editarActividad(t1);
-        //Actividad tareaClonada = p2.clonarActividad(t1);
-        //p2.editarActividad(tareaClonada);
-        //System.out.print(tareaClonada.descripcion +"\n");
-        //System.out.print(tareaClonada.objetivo);
-       
-        //Funcionalidades estudiante
-    	System.out.println("Funcionalidades Estudiantes\n");
-    	Estudiante a = new Estudiante("Laura", "correo@example.com", "sebas");
-    	
-        p.calificarActividad(t1, scanner);
+    	 // Creación de un estudiante de prueba
+        Estudiante estudiante = new Estudiante("Laura", "correo@example.com", "pswrd123");
+
         
     	//Inscribirse a un learning path
-        LearningPath path = a.inscribirseEnLearningPath(scanner, sistema); //Muestra la estructura del elarning path
+        System.out.println("\n3.1 Inscripción en un Learning Path\n");
+        LearningPath learningPathEstudiante = estudiante.inscribirseEnLearningPath(scanner, sistema);
+
+        System.out.println("\n3.2 Pedir Recomendación de Actividades\n");
+        estudiante.pedirRecomendacionActividad(learningPathEstudiante);
         
-        if (path != null) {
-        	//Pedir recomendación
-            a.pedirRecomendacionActividad(path);
-            
-            //Puede iniciar cualquier actividad
-            Actividad act1 = a.seleccionarActividad(scanner, path);
-            //Realizar la actividad y completarla segun el caso
-            a.realizarActividad(act1);
-            
-            //Pedir nueva recomendación
-            a.pedirRecomendacionActividad(path);
-            
-            //Iniciar otra actividad
-            Actividad act2 = a.seleccionarActividad(scanner, path);
-            
-            //No se puede iniciar 2 actividades a la vez
-            Actividad aError = a.seleccionarActividad(scanner, path);
-            
-            //Terminar actividad 
-            if (act2.equals(null)) {
-            	a.realizarActividad(aError);
-            } else {
-                a.realizarActividad(act2);
-            }
-            
-            //Iniciar actividad
-            Actividad act3 = a.seleccionarActividad(scanner, path);
-            a.realizarActividad(act3);
-            
-            //dar reseñas
-            a.darReseñaActividad(act3, "Muy buena tarea, me gustó mucho", (float) 9.5);
-            
-            System.out.println("Promedio de rating de la tarea: " + act3.calcularPromedioRating());
-            System.out.println("Promedio de rating del Learning Path: " + path.calcularPromedioRating());
-            
-            //Hacer una actividad después de terminar el learning path
-            Actividad act4 = a.seleccionarActividad(scanner, path);
-            
-            p.calificarActividad(t1, scanner);
-        }
+        System.out.println("\n3.3 Realizar una Actividad\n");
+        estudiante.iniciarActividad(tarea);
+        estudiante.realizarActividad(tarea);
         
+        System.out.println("\n3.4 Pedir otra recomendación\n");
+        estudiante.pedirRecomendacionActividad(learningPathEstudiante);
+
+        System.out.println("\n3.5 Selección y Realización de Actividades\n");
+        Actividad act1 = estudiante.seleccionarActividad(scanner, learningPathEstudiante);
+        estudiante.realizarActividad(act1);
+
+        System.out.println("\n3.6 Pedir progreso\n");
+        estudiante.pedirProgresoPath(lp);;
+
+        System.out.println("\n3.7 Selección y Realización de Actividades\n");
+        Actividad act2 = estudiante.seleccionarActividad(scanner, learningPathEstudiante);
+        estudiante.realizarActividad(act2);
+
+        System.out.println("\n3.8 Reseñar una Actividad\n");
+        estudiante.darReseñaActividad(act2, "Muy buena tarea, me gustó mucho", (float) 9.5);
+
+        System.out.println("Promedio de rating de la tarea: " + act2.calcularPromedioRating());
+        System.out.println("Promedio de rating del Learning Path: " + learningPathEstudiante.calcularPromedioRating());
+    
+ 
+        //Hacer una actividad después de terminar el learning path
+        estudiante.realizarActividad(tarea);
+            
+        p.calificarActividad(tarea, scanner);
+        
+        
+        
+        System.out.println("\n4. Casos de Error y Manejo del Programa\n");
+
+        System.out.println("4.1 Error: Intentar editar una actividad sin permisos\n");
+        p2.editarActividad(tarea); // 
+
+        System.out.println("\n4.2 Error: Intentar agregar actividad a un Learning Path sin ser creador\n");
+        p2.añadirActividadALearningPath(tarea); 
+
+
+        // 4.3 Intentar inscribirse en un Learning Path inexistente
+        System.out.println("\n4.3 Clonar una actividad para poder editarla\n");
+        Actividad tareaClonada = p2.clonarActividad(tarea);
+        System.out.print("Descripción orginal: "+ tareaClonada.descripcion +"\n");
+        System.out.print("Objetivo orginal: "+ tareaClonada.objetivo +"\n");
+        p2.editarActividad(tareaClonada);
+        System.out.print(tareaClonada.descripcion +"\n");
+        System.out.print(tareaClonada.objetivo +"\n");
+
+        // 4.5 Intentar calificar una actividad sin ser el profesor creador
+        System.out.println("\n4. Error: Intentar calificar una actividad sin ser el creador\n");
+        p2.calificarActividad(tarea, scanner);
+
         
     }
     
-    public void logicaProfesor(Profesor p, Scanner scanner, Registro sistema) {
-    	//Para los profesores 
-    	
-    	// Crear un Learning Path
-    	LearningPath lp = p.crearLearningPath("Java Programming", "Aprende los fundamentos de Java","Dominar los conceptos de java y POO\n Aprender un nuevo lenguaje" ,"Intermedio", 8, sistema);
-        LearningPath lp2 = p.crearLearningPath("Python Programming", "Aprende los fundamentos de Python","Dominar los conceptos de python\n Aprender un nuevo lenguaje" ,"Principiante", 5, sistema);
-        
-        
-        if (lp != null && lp2 != null) {
-        	// Crear Actividades
-
-            // Crear un quiz y agregar preguntas
-            Quiz quiz = new Quiz(lp, "Quiz Geografía Básica", "Reforzar las capitales y océanos", "Bajo", 1, true, 50, p);
-            p.editarActividad(quiz); //Agrega una pregunta al quiz
-            
-            //Crea un examen
-            Examen e1 = new Examen(lp, "Exámen Geografía Básica", "Evaluar los conocimientos en capitales y océanos", "Bajo", 1, true, p);
-            p.editarActividad(e1); //agrega pregunta a un examen
-            
-            //Crea una encuesta
-            Encuesta en1 = new Encuesta(lp, "Encuesta curso", "Queremos saber porqué escogiste este learningPath", "Bajo", 1, false, p);
-            p.editarActividad(en1); //agrega pregunta a una encuesta
-            
-            //Crea un recurso educativo
-            RecursoEducativo r1 = new RecursoEducativo(lp, "Lectura Geografía Básica", "Aprender sobre capitales y océanos", "Bajo", 1, true, "Video", "Link", p);
-            p.editarActividad(r1); //edita la informacion recurso/enclace
-            RecursoEducativo r2 = new RecursoEducativo(lp2, "Lectura Geografía Básica", "Aprender sobre capitales y océanos", "Bajo", 1, true, "Video", "Link", p);
-            p.editarActividad(r2); //edita la informacion recurso/enclace
-            
-            //Crea una tarea
-            Tarea t1 = new Tarea(lp, "Ensayo geografía", "Entender capitales y océanos", "Bajo", 1, true, p);
-            p.editarActividad(t1); //modifica informacion descripcion/objetivo
-            
-            //Agrega los prerrequisitos
-            p.agregarPrerrequisitoActividad(quiz, en1);
-            p.agregarPrerrequisitoActividad(quiz, t1);
-            p.agregarPrerrequisitoActividad(quiz, r1);
-            p.agregarPrerrequisitoActividad(e1, quiz);
-            p.agregarPrerrequisitoActividad(e1, r1);
-            p.agregarPrerrequisitoActividad(e1, t1);
-            
-            //Agrega las actividades Recomendadas
-            p.agregarActividadSeguimiento(en1, r1);
-            p.agregarActividadSeguimiento(r1, t1);
-            p.agregarActividadSeguimiento(t1,quiz);
-            p.agregarActividadSeguimiento(quiz,e1);
-            
-            //Añade las actividades al learningPath correspondiente
-            p.añadirActividadALearningPath(lp, en1);
-            p.añadirActividadALearningPath(lp, r1);
-            p.añadirActividadALearningPath(lp, t1);
-            p.añadirActividadALearningPath(lp, quiz);
-            p.añadirActividadALearningPath(lp, e1);
-            p.añadirActividadALearningPath(lp2, r2);
-    	}
-    }
-        
-
-    public void logicaEstudiante(Estudiante a, Scanner scanner, Registro sistema) {
-        //Inscribirse a un learning path
-        LearningPath lp = a.inscribirseEnLearningPath(scanner, sistema); //Muestra la estructura del elarning path
-        
-        if (lp != null) {
-        	//Pedir recomendación
-            a.pedirRecomendacionActividad(lp);
-            
-            //Puede iniciar cualquier actividad
-            Actividad act1 = a.seleccionarActividad(scanner, lp);
-            //Realizar la actividad y completarla segun el caso
-            a.realizarActividad(act1);
-            
-            //Pedir nueva recomendación
-            a.pedirRecomendacionActividad(lp);
-            
-            //Iniciar otra actividad
-            Actividad act2 = a.seleccionarActividad(scanner, lp);
-            
-            //No se puede iniciar 2 actividades a la vez
-            a.seleccionarActividad(scanner, lp);
-            
-            //Terminar actividad para poder empezar otra
-            a.realizarActividad(act2);
-            
-            //Iniciar actividad
-            Actividad act3 = a.seleccionarActividad(scanner, lp);
-            a.realizarActividad(act3);
-            
-            //dar reseñas
-            a.darReseñaActividad(act3, "Muy buena tarea, me gustó mucho", (float) 9.5);
-            
-            System.out.println("Promedio de rating de la tarea: " + act3.calcularPromedioRating());
-            System.out.println("Promedio de rating del Learning Path: " + lp.calcularPromedioRating());
-        }
-    }
 }

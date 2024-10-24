@@ -45,22 +45,6 @@ public class Examen extends Actividad {
 		}
 	}
 
-    public void calificarExamen(boolean aprobada, ProgresoActividad progreso, Profesor califica) {
-    	if (this.creador == califica) {
-        	String rta = "";
-        	if (aprobada) {
-                rta = "Aprobada";
-            } else {
-            	rta = "Reprobada";
-            }
-            progreso.completarActividad(rta);
-    		System.out.println("La calificación del examen " + descripcion + " ha sido completada. Su resultado es: " + rta +"\n");
-    		
-    	} else {
-    		System.out.println("No tiene los permisos para calfiifcar esta actividad");
-    	}
-    }
-
 	@Override
 	public void realizar(ProgresoActividad progresoEstudiante) {
 		// TODO Auto-generated method stub

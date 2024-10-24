@@ -17,6 +17,7 @@ public class Encuesta extends Actividad {
 		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, creador);
 		// TODO Auto-generated constructor stub
 		this.preguntas = new ArrayList<String>();
+		this.tipo = "Encuesta";
 	}
 	
 	//Get and set
@@ -33,9 +34,11 @@ public class Encuesta extends Actividad {
         preguntas.add(texto);
     }
     
-	public void verPreguntas() {
+	public void responder(Scanner scanner, Estudiante estudiante) {
 		for (int i = 0; i < preguntas.size(); i++) {
 		    System.out.println((i + 1) + ". " + preguntas.get(i));
+		    String rta = scanner.nextLine();
+		    respuesta.put(estudiante, rta);
 		}
 
 	}
@@ -44,6 +47,10 @@ public class Encuesta extends Actividad {
 	@Override
 	public void realizar(ProgresoActividad progreso) {
 		// TODO Auto-generated method stub
+		Estudiante estudiante = progreso.getEstudiante();
+    	Scanner scanner = new Scanner(System.in);
+		responder(scanner, estudiante);
+		
         progreso.marcarRealizada("Aprobada", new Date());
         progreso.completarActividad("Aprobada");
         System.out.println("Has completado la encuesta: " + descripcion + "\n");
