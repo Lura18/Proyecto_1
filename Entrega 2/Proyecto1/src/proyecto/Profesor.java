@@ -514,7 +514,7 @@ public class Profesor extends Usuario {
 						} else {
 							System.out.println("La respuesta del estudiante "+ estudiante.nombre + " es: \n" + rta);
 						}
-			            System.out.print("¿Cómo desea calificarla?\n1. Aprobada\n2.Reprobada ");
+			            System.out.print("¿Cómo desea calificarla?\n1.Aprobada\n2.Reprobada ");
 			            String resultado = scanner.nextLine().toLowerCase();
 			            if (resultado.equals("1")) {
 							progreso.setResultado("Aprobada");

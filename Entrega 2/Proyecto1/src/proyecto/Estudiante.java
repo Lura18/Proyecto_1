@@ -124,15 +124,15 @@ public class Estudiante extends Usuario {
     }
     public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
     	
-    	Collection<ProgresoPath> paths = progresoPaths.values();
-    	for (ProgresoPath path: paths) {
-    		if(path.getLp().equals(learningPath)) {
-        		if (path.isCompletado()) {
-        			System.out.println("Ya has terminado todas las actividades del learning Path");
-        			return null;
-        		}
-    		}
-    	}
+    	ProgresoPath path = progresoPaths.get(learningPath);
+    	
+		if (path.getPorcentajePath() == 100) {
+			System.out.println("Aviso: ¡Ya has terminado todas las actividades obligatorias del learning Path!");
+		}
+
+		if (path.isCompletado()) {
+			System.out.println("¡Ya has terminado todas las actividades del learning Path!");
+		}
     	
     	Actividad rta = null;
     	List<Actividad> yaRealizadas = new ArrayList<>();
@@ -228,7 +228,7 @@ public class Estudiante extends Usuario {
         		System.out.println("Advertencia: Te recomendamos completar los prerrequisitos para esta actividad: " );
         		for (Actividad act : pre) {
         			ProgresoActividad prog = progresosAct.get(act);
-        			if (prog.isCompletada())
+        			if (!prog.isCompletada())
         				System.out.println(act.descripcion);
         		}
         	}
@@ -248,15 +248,13 @@ public class Estudiante extends Usuario {
     public boolean faltanPrerrequisitos(Actividad actividad) {
     	if (!actividad.getPrerrequisitos().isEmpty()) {
             for (Actividad prerrequisito : actividad.getPrerrequisitos()) {
-            	Collection<ProgresoActividad> acts = progresosAct.values();
-            	for (ProgresoActividad progreso: acts) {
-            		if (progreso.getActividad().equals(prerrequisito) && !progreso.isCompletada()) {
-            			return true;
-            		}
-                }
+            	ProgresoActividad progreso = progresosAct.get(prerrequisito);
+        		if (!progreso.isCompletada()) {
+        			return true;
+        		}
             }
-        }
-    	return false;
+    	}
+	return false;
     }
     
     public void realizarActividad(Actividad actividad) {

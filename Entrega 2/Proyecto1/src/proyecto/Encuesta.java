@@ -36,7 +36,8 @@ public class Encuesta extends Actividad {
     
 	public void responder(Scanner scanner, Estudiante estudiante) {
 		for (int i = 0; i < preguntas.size(); i++) {
-		    System.out.println((i + 1) + ". " + preguntas.get(i));
+		    System.out.println("Pregunta " + (i + 1) + ". " + preguntas.get(i));
+		    System.out.print("Ingrese su respuesta: \n");
 		    String rta = scanner.nextLine();
 		    respuesta.put(estudiante, rta);
 		}

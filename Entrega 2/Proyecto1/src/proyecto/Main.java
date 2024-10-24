@@ -157,14 +157,17 @@ public class Main {
         System.out.println("\n3.8 Reseñar una Actividad\n");
         estudiante.darReseñaActividad(act2, "Muy buena tarea, me gustó mucho", (float) 9.5);
 
-        System.out.println("Promedio de rating de la tarea: " + act2.calcularPromedioRating());
-        System.out.println("Promedio de rating del Learning Path: " + learningPathEstudiante.calcularPromedioRating());
+        System.out.println("\nPromedio de rating de la tarea: " + act2.calcularPromedioRating());
+        System.out.println("\nPromedio de rating del Learning Path: " + learningPathEstudiante.calcularPromedioRating());
     
  
         //Hacer una actividad después de terminar el learning path
         estudiante.realizarActividad(tarea);
             
         p.calificarActividad(tarea, scanner);
+        
+        System.out.println("\n4. Nuevo progreso luego de calificación \n");
+        estudiante.pedirProgresoPath(lp);
         
         
         
