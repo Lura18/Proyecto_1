@@ -81,9 +81,9 @@ public class Main {
 
         System.out.println("1. Prueba de Registro e Inicio de sesión\n");
     	Registro sistema = new Registro();
-    	//Main main = new Main();
+    	Main main = new Main();
     	Scanner scanner = new Scanner(System.in);
-    	//main.correrAplicacion(scanner, sistema);
+    	main.correrAplicacion(scanner, sistema);
         
         System.out.println("\n2. Funcionalidades de los Profesores\n");
     	
@@ -97,15 +97,11 @@ public class Main {
             "Dominar los conceptos de java y POO\nAprender un nuevo lenguaje", 
             "Intermedio", 8, sistema);
 
-        LearningPath lp2 = p2.crearLearningPath("Python Programming", 
-            "Aprende los fundamentos de Python", 
-            "Dominar los conceptos de python\nAprender un nuevo lenguaje", 
-            "Principiante", 5, sistema);
 
         System.out.println("\n2.2 Creación de Actividades para el Learning Path\n");
         
         //Creación de un examen para poder mostrar siempre la funcion de calificar actividades
-        Tarea tarea = new Tarea(lp, "Tarea: ejercicios de práctica", "Aprender tecnicas de resolución de problemas con programación", "Bajo", 60, false, p);
+        Tarea tarea = new Tarea(lp, "Tarea: ejercicios de práctica", "Aprender tecnicas de resolución de problemas con programación", "Bajo", 60, true, p);
         Actividad a1 = p.crearActividad(scanner);
         Actividad a2 = p.crearActividad(scanner);
         
@@ -161,15 +157,14 @@ public class Main {
         System.out.println("\nPromedio de rating del Learning Path: " + learningPathEstudiante.calcularPromedioRating());
     
  
-        //Hacer una actividad después de terminar el learning path
-        estudiante.realizarActividad(tarea);
+        System.out.println("\n3.8 Empezar una actividad después de terminar el learning path\n");
+        estudiante.seleccionarActividad(scanner, learningPathEstudiante);
             
+        System.out.println("\nCalificación de actividad\n");
         p.calificarActividad(tarea, scanner);
         
-        System.out.println("\n4. Nuevo progreso luego de calificación \n");
+        System.out.println("\n3.9. Nuevo progreso luego de calificación \n");
         estudiante.pedirProgresoPath(lp);
-        
-        
         
         System.out.println("\n4. Casos de Error y Manejo del Programa\n");
 
@@ -178,9 +173,7 @@ public class Main {
 
         System.out.println("\n4.2 Error: Intentar agregar actividad a un Learning Path sin ser creador\n");
         p2.añadirActividadALearningPath(tarea); 
-
-
-        // 4.3 Intentar inscribirse en un Learning Path inexistente
+ 
         System.out.println("\n4.3 Clonar una actividad para poder editarla\n");
         Actividad tareaClonada = p2.clonarActividad(tarea);
         System.out.print("Descripción orginal: "+ tareaClonada.descripcion +"\n");
@@ -189,7 +182,6 @@ public class Main {
         System.out.print(tareaClonada.descripcion +"\n");
         System.out.print(tareaClonada.objetivo +"\n");
 
-        // 4.5 Intentar calificar una actividad sin ser el profesor creador
         System.out.println("\n4. Error: Intentar calificar una actividad sin ser el creador\n");
         p2.calificarActividad(tarea, scanner);
 
