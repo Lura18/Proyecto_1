@@ -1,1 +1,12 @@
-{"learningPaths": []}
+{"learningPaths": [{
+  "descripcion": "Aprende los conceptos básicos de programación",
+  "creador": {
+    "correo": "arce",
+    "nombre": "juan"
+  },
+  "nivelDificultad": "medio",
+  "objetivos": "Comprender estructuras de control y sintaxis básica",
+  "titulo": "Introducción a la Programación",
+  "actividades": [0],
+  "duracionEstimada": 70
+}]}

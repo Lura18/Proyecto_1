@@ -13,7 +13,7 @@ public class Main2 {
     private List<Actividad> actividades;
     private PersistenciaActividades persistenciaActividades;
     private PersistenciaLearningPaths persistenciaLearningPaths;
-    private String archivoUsuarios = "usuarios.json"; // Declara archivoUsuarios como variable de instancia
+    private String archivoUsuarios = "usuarios.json";
 
     public Main2() {
         learningPaths = new ArrayList<>();
@@ -53,7 +53,7 @@ public class Main2 {
                 } else {
                     System.out.println("Error en la autenticación del estudiante.");
                 }
-            } else {
+            } else if (tipoUsuario.equals("2")) {
                 Profesor profesor = sistema.loginProfesor(correo, contrasena);
                 if (profesor != null) {
                     System.out.println("Bienvenido " + profesor.getNombre() + "!");
@@ -76,10 +76,12 @@ public class Main2 {
                 Estudiante nuevoEstudiante = new Estudiante(nombre, correo, contrasena);
                 sistema.registrarEstudiante(nuevoEstudiante);
                 System.out.println("Estudiante registrado exitosamente.");
+                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante); // Llama a las opciones del estudiante inmediatamente después del registro
             } else if (tipoRegistro.equals("2")) {
                 Profesor nuevoProfesor = new Profesor(nombre, correo, contrasena);
                 sistema.registrarProfesor(nuevoProfesor);
                 System.out.println("Profesor registrado exitosamente.");
+                ejecutarOpcionesProfesor(scanner, sistema, nuevoProfesor); // Llama a las opciones del profesor inmediatamente después del registro
             } else {
                 System.out.println("Opción no válida.");
             }
@@ -119,6 +121,7 @@ public class Main2 {
                     if (nuevoLp != null) {
                         learningPaths.add(nuevoLp);
                         System.out.println("Learning Path creado y guardado exitosamente.");
+                        guardarCambios();  // Asegura el guardado en JSON después de agregar el Learning Path.
                     } else {
                         System.out.println("Error al crear el Learning Path.");
                     }
@@ -131,6 +134,8 @@ public class Main2 {
                     if (nuevaActividad != null) {
                         actividades.add(nuevaActividad);
                         System.out.println("Actividad creada y guardada exitosamente.");
+                        guardarCambios();  // Asegura el guardado en JSON después de agregar la actividad.
+                        
                     } else {
                         System.out.println("Error al crear la actividad.");
                     }
@@ -155,7 +160,7 @@ public class Main2 {
 
                                 if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
                                     Actividad actividadSeleccionada = actividades.get(actividadIndex);
-                                    profesor.añadirActividadALearningPath((LearningPath) lpSeleccionado, (Actividad) actividadSeleccionada);
+                                    profesor.añadirActividadALearningPath(lpSeleccionado, actividadSeleccionada);
 
                                     System.out.println("Actividad añadida al Learning Path exitosamente.");
                                 } else {
@@ -171,7 +176,9 @@ public class Main2 {
                         System.out.println("No hay Learning Paths disponibles.");
                     }
                     break;
-
+                case "5":
+                    continuar = false;
+                    break;
                 default:
                     System.out.println("Opción no válida.");
             }
@@ -238,11 +245,10 @@ public class Main2 {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         Registro sistema = new Registro();
-        Main main = new Main();
+        Main2 main = new Main2();
         main.correrAplicacion(scanner, sistema);
     }
 }
-
 
 
 

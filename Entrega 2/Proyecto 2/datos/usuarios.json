@@ -58,5 +58,17 @@
     "correo": "d@icloud.com",
     "tipoUsuario": "Profesor",
     "nombre": "david"
+  },
+  {
+    "password": "paulo1234",
+    "correo": "paulo@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "paulo"
+  },
+  {
+    "password": "sandra22",
+    "correo": "sandrabullock@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "sandra"
   }
 ]}

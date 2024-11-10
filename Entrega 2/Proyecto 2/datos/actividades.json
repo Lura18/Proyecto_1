@@ -1,1 +1,12 @@
-{"actividades": []}
+{"actividades": [{
+  "descripcion": "Este quiz está diseñado para evaluar tus conocimientos básicos sobre los conceptos de programación vistos hasta ahora. Incluirá preguntas sobre estructuras de control, variables, tipos de datos, y sintaxis fundamental. ",
+  "objetivo": "El objetivo del quiz es evaluar y reforzar la comprensión de los conceptos básicos de programación, asegurando que el estudiante tenga una base sólida en temas como estructuras de control, variables, tipos de datos y sintaxis fundamental antes de avanzar a contenidos más avanzados del Learning Path.",
+  "creador": {
+    "correo": "arce",
+    "nombre": "juan"
+  },
+  "nivelDificultad": "bajo",
+  "duracionEsperada": 60,
+  "obligatorio": true,
+  "tipoActividad": "Quiz"
+}]}
