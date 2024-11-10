@@ -1,4 +1,4 @@
-package proyecto;
+ package proyecto;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -157,7 +157,7 @@ public class Profesor extends Usuario {
         
         RecursoEducativo nuevo = new RecursoEducativo(path, des, obj, dif, duracionEsperada, obl, tipo, enl, this);
         
-        añadirActividadALearningPath(nuevo);
+        añadirActividadALearningPath(path,nuevo);
     	
         return nuevo;
     }
@@ -217,7 +217,7 @@ public class Profesor extends Usuario {
         
         nuevo.agregarPregunta(scanner);
         
-        añadirActividadALearningPath(nuevo);
+        añadirActividadALearningPath(path, nuevo);
 
         System.out.println("Encuesta creada exitosamente.\n");
 
@@ -277,7 +277,7 @@ public class Profesor extends Usuario {
         
         Tarea tarea = new Tarea(path, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, this);
 
-        añadirActividadALearningPath(tarea);
+        añadirActividadALearningPath(path,tarea);
 
         System.out.println("Tarea creada exitosamente.\n");
         
@@ -364,7 +364,7 @@ public class Profesor extends Usuario {
             }
         }
 
-        añadirActividadALearningPath(quiz);
+        añadirActividadALearningPath(path, quiz);
         System.out.println("Quiz creado exitosamente.\n");
 
         return quiz;
@@ -435,21 +435,21 @@ public class Profesor extends Usuario {
             }
         }
         
-        añadirActividadALearningPath(examen);
+        añadirActividadALearningPath(path, examen);
 
     	return null;
     }
     
-    public void añadirActividadALearningPath(Actividad actividad) {
-    	if (actividad.getCreador().equals(this)) {
-        	LearningPath lp = actividad.getLearningPath();
-        	lp.getActividades().add(actividad);
-        	lp.añadirTiempoLp(actividad);
-            System.out.println(actividad.getTipo() + "añadida exitosamente al Learning Path: " + lp.getDescripcion());
-    	} else {
+    public void añadirActividadALearningPath(LearningPath learningPath, Actividad actividad) {
+        if (actividad.getCreador().equals(this)) {
+            learningPath.getActividades().add(actividad);
+            learningPath.añadirTiempoLp(actividad);
+            System.out.println(actividad.getTipo() + " añadida exitosamente al Learning Path: " + learningPath.getDescripcion());
+        } else {
             System.out.println("No tiene los permisos para añadir la actividad.");
-    	}
-	}
+        }
+    }
+
 
         
     public void eliminarActividadDeLearningPath(Actividad actividad) {
@@ -543,3 +543,4 @@ public class Profesor extends Usuario {
 	
 
 }
+

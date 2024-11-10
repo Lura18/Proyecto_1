@@ -28,5 +28,35 @@
     "correo": "m.guzmann",
     "tipoUsuario": "Estudiante",
     "nombre": "Masiel"
+  },
+  {
+    "password": "sofia2005",
+    "correo": "sofiariaszuluaga@gmail.com",
+    "tipoUsuario": "Estudiante",
+    "nombre": "sofia"
+  },
+  {
+    "password": "juan2003",
+    "correo": "arce",
+    "tipoUsuario": "Profesor",
+    "nombre": "juan"
+  },
+  {
+    "password": "2003",
+    "correo": "juan@gmail.com",
+    "tipoUsuario": "Estudiante",
+    "nombre": "juanp"
+  },
+  {
+    "password": "stanley2121",
+    "correo": "s.23@gmail.com",
+    "tipoUsuario": "Estudiante",
+    "nombre": "Sara"
+  },
+  {
+    "password": "d2001",
+    "correo": "d@icloud.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "david"
   }
 ]}

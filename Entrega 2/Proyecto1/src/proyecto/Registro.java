@@ -91,6 +91,14 @@ public class Registro {
     public void agregarPaths(LearningPath lp) {
     	this.paths.add(lp);
     }
+    
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
 
 
