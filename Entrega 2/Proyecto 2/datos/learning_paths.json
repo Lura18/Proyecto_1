@@ -1,12 +1,41 @@
-{"learningPaths": [{
-  "descripcion": "Aprende los conceptos básicos de programación",
-  "creador": {
-    "correo": "arce",
-    "nombre": "juan"
+{"learningPaths": [
+  {
+    "descripcion": "Aprende los conceptos básicos de programación",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "medio",
+    "objetivos": "Comprender estructuras de control y sintaxis básica",
+    "titulo": "Introducción a la Programación",
+    "actividades": [],
+    "duracionEstimada": 70
   },
-  "nivelDificultad": "medio",
-  "objetivos": "Comprender estructuras de control y sintaxis básica",
-  "titulo": "Introducción a la Programación",
-  "actividades": [0],
-  "duracionEstimada": 70
-}]}
+  {
+    "descripcion": "disenio y programacion orientado a objetos ",
+    "creador": {
+      "correo": "paulo@gmail.com",
+      "nombre": "paulo"
+    },
+    "nivelDificultad": "medio",
+    "objetivos": "aprender como funcionan las clases en java ",
+    "titulo": "DPOO",
+    "actividades": [],
+    "duracionEstimada": 20
+  },
+  {
+    "descripcion": "Aprende a desarrollar aplicaciones web completas usando JavaScript, desde el frontend hasta el backend.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "alto",
+    "objetivos": "Desarrollar habilidades en HTML, CSS, JavaScript, Node.js y MongoDB para construir aplicaciones web completas.",
+    "titulo": "Desarrollo Web Full Stack con JavaScript",
+    "actividades": [
+      0,
+      1
+    ],
+    "duracionEstimada": 220
+  }
+]}

@@ -7,18 +7,14 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import proyecto.Actividad;
 import proyecto.Tarea;
 import proyecto.Quiz;
 import proyecto.Examen;
 import proyecto.Encuesta;
 import proyecto.Profesor;
-import proyecto.Reseña;
-import proyecto.Estudiante;
 
 public class PersistenciaActividades {
 
@@ -76,7 +72,7 @@ public class PersistenciaActividades {
                     nuevaActividad = new Tarea(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
                     break;
                 case "Quiz":
-                    double notaAprobacion = 60.0; // Valor por defecto o cargarlo si es necesario
+                    double notaAprobacion = 60.0; 
                     nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, notaAprobacion, creador);
                     break;
                 case "Examen":
@@ -154,5 +150,6 @@ public class PersistenciaActividades {
         }
     }
 }
+
 
 

@@ -98,6 +98,24 @@ public class Registro {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+        
+    }
+ // En la clase Registro
+    public List<Estudiante> getEstudiantesInscritosEnLearningPaths(List<LearningPath> learningPaths) {
+        List<Estudiante> estudiantesInscritos = new ArrayList<>();
+        for (Estudiante estudiante : estudiantes) {
+            for (LearningPath lp : learningPaths) {
+                if (estudiante.getLearningPathsInscritos().contains(lp)) {
+                    estudiantesInscritos.add(estudiante);
+                    break; // Para evitar añadir el mismo estudiante varias veces
+                }
+            }
+        }
+        return estudiantesInscritos;
+    }
+
+    public List<Estudiante> getEstudiantes() {
+        return estudiantes;
     }
 
 

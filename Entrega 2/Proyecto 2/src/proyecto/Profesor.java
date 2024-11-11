@@ -541,6 +541,45 @@ public class Profesor extends Usuario {
 		}
 	}
 	
+	
+	public void verProgresoEstudiantes(Registro sistema) {
+	    System.out.println("Progreso de los estudiantes en los Learning Paths creados por el profesor:");
+
+	    for (Estudiante estudiante : sistema.getEstudiantes()) {
+	        for (LearningPath lp : learningPathsCreados) { // Asumiendo que tienes una lista learningPathsCreados
+	            if (estudiante.getLearningPathsInscritos().contains(lp)) {
+	                System.out.println("Estudiante: " + estudiante.getNombre() + " (" + estudiante.getCorreo() + ")");
+	                System.out.println("Learning Path: " + lp.getTitulo());
+
+	                ProgresoPath progresoPath = estudiante.getProgresoPaths().get(lp);
+	                if (progresoPath != null) {
+	                    System.out.println("  - Progreso del Learning Path: " + progresoPath.getPorcentajePath() + "%");
+	                    System.out.println("  - Tasa de éxito: " + progresoPath.getTasaExito() + "%");
+	                    System.out.println("  - Tasa de fracaso: " + progresoPath.getTasaFracaso() + "%");
+	                    System.out.println("  - Completado: " + (progresoPath.isCompletado() ? "Sí" : "No"));
+	                    
+	                    // Mostrar progreso de cada actividad
+	                    System.out.println("  Actividades:");
+	                    for (Actividad actividad : lp.getActividades()) {
+	                        ProgresoActividad progresoActividad = estudiante.getProgresosAct().get(actividad);
+	                        if (progresoActividad != null) {
+	                            System.out.println("    * " + actividad.getDescripcion());
+	                            System.out.println("      - Completada: " + (progresoActividad.isCompletada() ? "Sí" : "No"));
+	                            System.out.println("      - Resultado: " + progresoActividad.getResultado());
+	                            System.out.println("      - Tiempo dedicado: " + progresoActividad.getTiempoDedicado() + " horas");
+	                        }
+	                    }
+	                } else {
+	                    System.out.println("  - Progreso no disponible.");
+	                }
+	                System.out.println("--------------------------------");
+	            }
+	        }
+	    }
+	}
+
+
+	
 
 }
 

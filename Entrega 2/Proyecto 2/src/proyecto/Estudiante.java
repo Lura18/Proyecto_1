@@ -68,6 +68,39 @@ public class Estudiante extends Usuario {
 		}
 		
 	}
+	
+	
+	public void mostrarProgreso() {
+	    System.out.println("Learning Paths en los que estás inscrito:");
+	    for (LearningPath lp : learningPathsInscritos) {
+	        System.out.println("Learning Path: " + lp.getTitulo());
+	        
+	        // Mostrar progreso del Learning Path
+	        ProgresoPath progresoPath = progresoPaths.get(lp);
+	        if (progresoPath != null) {
+	            System.out.println("  - Progreso del Learning Path: " + progresoPath.getPorcentajePath() + "%");
+	            System.out.println("  - Tasa de éxito: " + progresoPath.getTasaExito() + "%");
+	            System.out.println("  - Tasa de fracaso: " + progresoPath.getTasaFracaso() + "%");
+	            System.out.println("  - Completado: " + (progresoPath.isCompletado() ? "Sí" : "No"));
+
+	            // Mostrar progreso de cada actividad en el Learning Path
+	            System.out.println("  Actividades:");
+	            for (Actividad actividad : lp.getActividades()) {
+	                ProgresoActividad progresoActividad = progresosAct.get(actividad);
+	                if (progresoActividad != null) {
+	                    System.out.println("    * " + actividad.getDescripcion());
+	                    System.out.println("      - Completada: " + (progresoActividad.isCompletada() ? "Sí" : "No"));
+	                    System.out.println("      - Resultado: " + progresoActividad.getResultado());
+	                    System.out.println("      - Tiempo dedicado: " + progresoActividad.getTiempoDedicado() + " horas");
+	                }
+	            }
+	        } else {
+	            System.out.println("  - Progreso no disponible.");
+	        }
+	        System.out.println("--------------------------------");
+	    }
+	}
+
 
 	
     public LearningPath inscribirseEnLearningPath(Scanner scanner, Registro sistema) {

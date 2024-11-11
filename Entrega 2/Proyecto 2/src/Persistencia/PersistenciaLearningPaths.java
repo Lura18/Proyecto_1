@@ -43,6 +43,8 @@ public class PersistenciaLearningPaths {
     }
 
     private void cargarLearningPaths(List<LearningPath> learningPaths, JSONArray jPaths, List<Actividad> actividades) {
+        System.out.println("Tamaño de la lista de actividades antes de cargar Learning Paths: " + actividades.size());
+
         for (int i = 0; i < jPaths.length(); i++) {
             JSONObject jPath = jPaths.getJSONObject(i);
             String titulo = jPath.getString(TITULO);
@@ -62,11 +64,19 @@ public class PersistenciaLearningPaths {
             JSONArray jActividades = jPath.getJSONArray(ACTIVIDADES);
             for (int j = 0; j < jActividades.length(); j++) {
                 int idActividad = jActividades.getInt(j); // Índice de la actividad
-                nuevoPath.getActividades().add(actividades.get(idActividad));
+                
+                // Validación de índice antes de acceder a la lista de actividades
+                if (idActividad >= 0 && idActividad < actividades.size()) {
+                    nuevoPath.getActividades().add(actividades.get(idActividad));
+                } else {
+                    System.out.println("Índice de actividad inválido: " + idActividad + ", tamaño de la lista de actividades: " + actividades.size());
+                }
             }
 
             learningPaths.add(nuevoPath);
         }
+        
+        System.out.println("Tamaño de la lista de actividades después de cargar Learning Paths: " + actividades.size());
     }
 
     public void salvarLearningPaths(String archivo, List<LearningPath> learningPaths) throws IOException {
@@ -90,7 +100,8 @@ public class PersistenciaLearningPaths {
             // Guardar las actividades del Learning Path como índices o IDs
             JSONArray jActividades = new JSONArray();
             for (Actividad actividad : path.getActividades()) {
-                jActividades.put(path.getActividades().indexOf(actividad)); // Usamos el índice de la actividad
+                int index = path.getActividades().indexOf(actividad);
+                jActividades.put(index); // Guardamos el índice de la actividad en la lista
             }
             jPath.put(ACTIVIDADES, jActividades);
 
@@ -103,4 +114,5 @@ public class PersistenciaLearningPaths {
         }
     }
 }
+
 

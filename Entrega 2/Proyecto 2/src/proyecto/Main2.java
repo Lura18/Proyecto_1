@@ -25,10 +25,28 @@ public class Main2 {
     public void correrAplicacion(Scanner scanner, Registro sistema) throws Exception {
         try {
             sistema.cargarUsuarios("./datos/" + archivoUsuarios);
-            learningPaths = persistenciaLearningPaths.cargarLearningPaths("./datos/learning_paths.json", actividades);
             actividades = persistenciaActividades.cargarActividades("./datos/actividades.json");
+            learningPaths = persistenciaLearningPaths.cargarLearningPaths("./datos/learning_paths.json", actividades);
 
-            System.out.println("Actividades y Learning Paths cargados exitosamente.");
+            // Verificación de carga de datos
+            System.out.println("Actividades cargadas:");
+            for (Actividad actividad : actividades) {
+                if (actividad != null) {
+                    System.out.println("- " + actividad.getDescripcion());
+                } else {
+                    System.out.println("Actividad nula encontrada en la lista de actividades.");
+                }
+            }
+            
+            System.out.println("Learning Paths cargados:");
+            for (LearningPath lp : learningPaths) {
+                System.out.println("- " + lp.getTitulo());
+                System.out.println("  Actividades en el Learning Path:");
+                for (Actividad act : lp.getActividades()) {
+                    System.out.println("    * " + act.getDescripcion());
+                }
+            }
+
         } catch (IOException e) {
             System.out.println("Error al cargar actividades o Learning Paths, se inicializarán listas vacías.");
             learningPaths = new ArrayList<>();
@@ -76,12 +94,12 @@ public class Main2 {
                 Estudiante nuevoEstudiante = new Estudiante(nombre, correo, contrasena);
                 sistema.registrarEstudiante(nuevoEstudiante);
                 System.out.println("Estudiante registrado exitosamente.");
-                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante); // Llama a las opciones del estudiante inmediatamente después del registro
+                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante);
             } else if (tipoRegistro.equals("2")) {
                 Profesor nuevoProfesor = new Profesor(nombre, correo, contrasena);
                 sistema.registrarProfesor(nuevoProfesor);
                 System.out.println("Profesor registrado exitosamente.");
-                ejecutarOpcionesProfesor(scanner, sistema, nuevoProfesor); // Llama a las opciones del profesor inmediatamente después del registro
+                ejecutarOpcionesProfesor(scanner, sistema, nuevoProfesor);
             } else {
                 System.out.println("Opción no válida.");
             }
@@ -101,7 +119,8 @@ public class Main2 {
             System.out.println("2. Ver Learning Paths");
             System.out.println("3. Crear Actividad");
             System.out.println("4. Agregar Actividad a Learning Path");
-            System.out.println("5. Salir");
+            System.out.println("5. Ver Progreso de Estudiantes");
+            System.out.println("6. Salir");
 
             String opcion = scanner.nextLine();
             switch (opcion) {
@@ -121,7 +140,7 @@ public class Main2 {
                     if (nuevoLp != null) {
                         learningPaths.add(nuevoLp);
                         System.out.println("Learning Path creado y guardado exitosamente.");
-                        guardarCambios();  // Asegura el guardado en JSON después de agregar el Learning Path.
+                        guardarCambios();
                     } else {
                         System.out.println("Error al crear el Learning Path.");
                     }
@@ -134,8 +153,7 @@ public class Main2 {
                     if (nuevaActividad != null) {
                         actividades.add(nuevaActividad);
                         System.out.println("Actividad creada y guardada exitosamente.");
-                        guardarCambios();  // Asegura el guardado en JSON después de agregar la actividad.
-                        
+                        guardarCambios();
                     } else {
                         System.out.println("Error al crear la actividad.");
                     }
@@ -161,9 +179,10 @@ public class Main2 {
                                 if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
                                     Actividad actividadSeleccionada = actividades.get(actividadIndex);
                                     profesor.añadirActividadALearningPath(lpSeleccionado, actividadSeleccionada);
-
                                     System.out.println("Actividad añadida al Learning Path exitosamente.");
+                                    guardarCambios();
                                 } else {
+                                
                                     System.out.println("Selección de actividad inválida.");
                                 }
                             } else {
@@ -177,6 +196,9 @@ public class Main2 {
                     }
                     break;
                 case "5":
+                    profesor.verProgresoEstudiantes(sistema);
+                    break;
+                case "6":
                     continuar = false;
                     break;
                 default:
@@ -191,7 +213,8 @@ public class Main2 {
             System.out.println("\nOpciones de Estudiante:");
             System.out.println("1. Inscribirse en un Learning Path");
             System.out.println("2. Ver Learning Paths disponibles");
-            System.out.println("3. Salir");
+            System.out.println("3. Ver mi progreso");
+            System.out.println("4. Salir");
 
             String opcion = scanner.nextLine();
             switch (opcion) {
@@ -224,6 +247,9 @@ public class Main2 {
                     }
                     break;
                 case "3":
+                    estudiante.mostrarProgreso();
+                    break;
+                case "4":
                     continuar = false;
                     break;
                 default:
