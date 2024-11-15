@@ -37,5 +37,17 @@
       1
     ],
     "duracionEstimada": 220
+  },
+  {
+    "descripcion": "Aprende a hacer pruebas con Junit",
+    "creador": {
+      "correo": "paulo@gmail.com",
+      "nombre": "paulo"
+    },
+    "nivelDificultad": "medio",
+    "objetivos": "Crear pruebas integradas para un programa usando Junit",
+    "titulo": "Pruebas con Junit",
+    "actividades": [],
+    "duracionEstimada": 10
   }
 ]}

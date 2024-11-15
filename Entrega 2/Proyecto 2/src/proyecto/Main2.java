@@ -147,6 +147,7 @@ public class Main2 {
                     break;
                 case "2":
                     profesor.verLearningPaths();
+                    //System.out.println(profesor.getLearningPathsCreados());
                     break;
                 case "3":
                     Actividad nuevaActividad = profesor.crearActividad(scanner);

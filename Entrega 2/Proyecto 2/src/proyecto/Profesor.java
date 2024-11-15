@@ -39,6 +39,8 @@ public class Profesor extends Usuario {
         System.out.println("Learning Paths creados:");
         for (LearningPath lp : learningPathsCreados) {
             System.out.println("- " + lp.getTitulo());
+        //System.out.println(getLearningPathsCreados());
+
         }
 	}
 	
