@@ -58,7 +58,7 @@ public class PersistenciaActividades {
             String nivelDificultad = jActividad.getString(NIVEL_DIFICULTAD);
             int duracion = jActividad.getInt(DURACION);
             boolean obligatorio = jActividad.getBoolean(OBLIGATORIO);
-            
+
             // Cargar el creador (Profesor)
             JSONObject jCreador = jActividad.getJSONObject(CREADOR);
             String nombreCreador = jCreador.getString("nombre");
@@ -73,7 +73,8 @@ public class PersistenciaActividades {
                     break;
                 case "Quiz":
                     double notaAprobacion = 60.0; 
-                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, notaAprobacion, creador);
+                    String tipoPregunta = "VoF";
+                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, notaAprobacion, creador, tipoPregunta);
                     break;
                 case "Examen":
                     nuevaActividad = new Examen(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
