@@ -11,16 +11,18 @@ public class Quiz extends Actividad{
 	//Atributos
 	private double notaAprobacion;
 	private double notaObtenida;
-	private List<PreguntaMultiple> preguntas;
+	private List<PreguntaQuiz> preguntas;
+	private String tipoPregunta;
 
 	//Constructor
 	public Quiz(LearningPath lp, String descripcion, String objetivo, String nivelDificultad, int duracionEsperada,
-			boolean obligatorio, double notaAprobacion, Profesor creador) {
+			boolean obligatorio, double notaAprobacion, Profesor creador, String tipoPregunta) {
 		super(lp, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, creador);
 		// TODO Auto-generated constructor stub
 		this.notaAprobacion = notaAprobacion;
 		this.notaObtenida = 0.0;
-		this.preguntas = new ArrayList<PreguntaMultiple>();
+		this.preguntas = new ArrayList<PreguntaQuiz>();
+		this.tipoPregunta = tipoPregunta;
 	}
 	
 	//get and set
@@ -34,39 +36,66 @@ public class Quiz extends Actividad{
 	
 	//Metodos
     public void agregarPregunta(Scanner scanner) {
-	    List<String> opciones = new ArrayList<String>();
 	    List<String> explicaciones = new ArrayList<String>();
-	    
-	    System.out.print("Ingrese la nueva pregunta del quiz: ");
-	    String texto = scanner.nextLine();
-	    
-	    for (int i = 0; i < 4; i++ ) {
-		    System.out.print("Ingrese la opcion "+ (i+1)+" : ");
-		    opciones.add(scanner.nextLine());
+    	List<String> opciones = new ArrayList<String>();
+    	
+	    if (tipoPregunta == "Texto") {
+	    	System.out.print("Ingrese la nueva pregunta del quiz: ");
+		    String texto = scanner.nextLine();
 		    
-		    System.out.print("Ingrese la explicación de la opción "+ (i+1)+" : ");
-		    explicaciones.add(scanner.nextLine());
+		    for (int i = 0; i < 4; i++ ) {
+			    System.out.print("Ingrese la opcion "+ (i+1)+" : ");
+			    opciones.add(scanner.nextLine());
+			    
+			    System.out.print("Ingrese la explicación de la opción "+ (i+1)+" : ");
+			    explicaciones.add(scanner.nextLine());
+		    }
+		    
+		    int resp = -1;
+		    boolean opcionValida = false;
+		    while (!opcionValida) {
+		        System.out.print("Ingrese el número de la opción correcta (1-4): ");
+		        try {
+		        	resp = Integer.parseInt(scanner.nextLine());
+		            if (resp >= 1 && resp <= 4) {
+		                opcionValida = true; 
+		            } else {
+		                System.out.println("Error: Debe ingresar un número entre 1 y 4.");
+		            }
+		        } catch (NumberFormatException e) {
+		            System.out.println("Entrada no válida. Por favor, ingrese un número entre 1 y 4.");
+		        }
+		    }
+		    
+		    PreguntaMultiple p = new PreguntaMultiple(texto, resp, explicaciones, opciones);
+	        preguntas.add(p);
+	    } else {
+	    	System.out.print("Ingrese la nueva pregunta del quiz: ");
+		    String texto = scanner.nextLine();
+		    
+		    
+		    int resp = -1;
+		    boolean opcionValida = false;
+		    while (!opcionValida) {
+		        System.out.print("Ingrese la respuesta de la pregunta:\n1. Verdadero\n2. Falso ");
+		        try {
+		        	resp = Integer.parseInt(scanner.nextLine());
+		            if (resp >= 1 && resp <= 2) {
+		                opcionValida = true; 
+		            } else {
+		                System.out.println("Error: Debe ingresar un número (1 o 2).");
+		            }
+		        } catch (NumberFormatException e) {
+		            System.out.println("Entrada no válida. Por favor, ingrese un número (1 o 2).");
+		        }
+		        
+		        System.out.print("Ingrese la explicación de la respuesta: \n");
+			    explicaciones.add(scanner.nextLine());
+		    }
+		    
+		    PreguntaTrueFalse p = new PreguntaTrueFalse(texto, resp, explicaciones);
+	        preguntas.add(p);
 	    }
-	    
-	    // Validar la opción correcta
-	    int resp = -1;
-	    boolean opcionValida = false;
-	    while (!opcionValida) {
-	        System.out.print("Ingrese el número de la opción correcta (1-4): ");
-	        try {
-	        	resp = Integer.parseInt(scanner.nextLine());
-	            if (resp >= 1 && resp <= 4) {
-	                opcionValida = true; 
-	            } else {
-	                System.out.println("Error: Debe ingresar un número entre 1 y 4.");
-	            }
-	        } catch (NumberFormatException e) {
-	            System.out.println("Entrada no válida. Por favor, ingrese un número entre 1 y 4.");
-	        }
-	    }
-	    
-	    PreguntaMultiple p = new PreguntaMultiple(texto, opciones, resp, explicaciones);
-        preguntas.add(p);
     }
   
 	
@@ -74,7 +103,7 @@ public class Quiz extends Actividad{
 		double nota = 0;
         String resultado = "";
         
-		for (PreguntaMultiple p: preguntas) {
+		for (PreguntaQuiz p: preguntas) {
 			boolean rta = p.mostrarYResolver(scanner);
 			if (rta) {
 				nota += 1;
