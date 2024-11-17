@@ -18,7 +18,6 @@ public class Profesor extends Usuario {
 	public Profesor(String nombre, String correo, String contrasena) {
 		super(nombre, correo, contrasena);
         this.learningPathsCreados = new ArrayList<>();
-		// TODO Auto-generated constructor stub
 	}
 	
 	//Get and set
