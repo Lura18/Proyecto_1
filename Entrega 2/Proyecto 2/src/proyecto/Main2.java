@@ -67,7 +67,8 @@ public class Main2 {
                 Estudiante estudiante = sistema.loginEstudiante(correo, contrasena);
                 if (estudiante != null) {
                     System.out.println("¡Bienvenido " + estudiante.getNombre() + "!");
-                    ejecutarOpcionesEstudiante(scanner, estudiante);
+                    ejecutarOpcionesEstudiante(scanner, estudiante, sistema);
+
                 } else {
                     System.out.println("Error en la autenticación del estudiante.");
                 }
@@ -94,7 +95,7 @@ public class Main2 {
                 Estudiante nuevoEstudiante = new Estudiante(nombre, correo, contrasena);
                 sistema.registrarEstudiante(nuevoEstudiante);
                 System.out.println("Estudiante registrado exitosamente.");
-                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante);
+                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante, sistema);
             } else if (tipoRegistro.equals("2")) {
                 Profesor nuevoProfesor = new Profesor(nombre, correo, contrasena);
                 sistema.registrarProfesor(nuevoProfesor);
@@ -120,11 +121,16 @@ public class Main2 {
             System.out.println("3. Crear Actividad");
             System.out.println("4. Agregar Actividad a Learning Path");
             System.out.println("5. Ver Progreso de Estudiantes");
-            System.out.println("6. Salir");
+            System.out.println("6. Eliminar Actividad de Learning Path");
+            System.out.println("7. Agregar Prerrequisito a Actividad");
+            System.out.println("8. Agregar Actividad de Seguimiento");
+            System.out.println("9. Clonar Actividad");
+            System.out.println("10. Calificar Actividades");
+            System.out.println("11. Salir");
 
             String opcion = scanner.nextLine();
             switch (opcion) {
-                case "1":
+                case "1": // Crear Learning Path
                     System.out.print("Ingrese el título del Learning Path: ");
                     String titulo = scanner.nextLine();
                     System.out.print("Ingrese la descripción: ");
@@ -145,10 +151,12 @@ public class Main2 {
                         System.out.println("Error al crear el Learning Path.");
                     }
                     break;
-                case "2":
+
+                case "2": // Ver Learning Paths
                     profesor.verLearningPaths();
                     break;
-                case "3":
+
+                case "3": // Crear Actividad
                     Actividad nuevaActividad = profesor.crearActividad(scanner);
                     if (nuevaActividad != null) {
                         actividades.add(nuevaActividad);
@@ -158,7 +166,8 @@ public class Main2 {
                         System.out.println("Error al crear la actividad.");
                     }
                     break;
-                case "4":
+
+                case "4": // Agregar Actividad a Learning Path
                     if (!learningPaths.isEmpty()) {
                         System.out.println("Seleccione el Learning Path al que desea agregar la actividad:");
                         for (int i = 0; i < learningPaths.size(); i++) {
@@ -182,7 +191,6 @@ public class Main2 {
                                     System.out.println("Actividad añadida al Learning Path exitosamente.");
                                     guardarCambios();
                                 } else {
-                                
                                     System.out.println("Selección de actividad inválida.");
                                 }
                             } else {
@@ -195,32 +203,14 @@ public class Main2 {
                         System.out.println("No hay Learning Paths disponibles.");
                     }
                     break;
-                case "5":
+
+                case "5": // Ver Progreso de Estudiantes
                     profesor.verProgresoEstudiantes(sistema);
                     break;
-                case "6":
-                    continuar = false;
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
-            }
-        }
-    }
 
-    private void ejecutarOpcionesEstudiante(Scanner scanner, Estudiante estudiante) {
-        boolean continuar = true;
-        while (continuar) {
-            System.out.println("\nOpciones de Estudiante:");
-            System.out.println("1. Inscribirse en un Learning Path");
-            System.out.println("2. Ver Learning Paths disponibles");
-            System.out.println("3. Ver mi progreso");
-            System.out.println("4. Salir");
-
-            String opcion = scanner.nextLine();
-            switch (opcion) {
-                case "1":
+                case "6": // Eliminar Actividad de Learning Path
                     if (!learningPaths.isEmpty()) {
-                        System.out.println("Seleccione el Learning Path al que desea inscribirse:");
+                        System.out.println("Seleccione el Learning Path del que desea eliminar una actividad:");
                         for (int i = 0; i < learningPaths.size(); i++) {
                             System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
                         }
@@ -228,8 +218,20 @@ public class Main2 {
 
                         if (lpIndex >= 0 && lpIndex < learningPaths.size()) {
                             LearningPath lpSeleccionado = learningPaths.get(lpIndex);
-                            estudiante.inscripcion(lpSeleccionado);
-                            System.out.println("Inscripción exitosa al Learning Path: " + lpSeleccionado.getTitulo());
+                            System.out.println("Seleccione la actividad a eliminar:");
+                            List<Actividad> actividadesLP = lpSeleccionado.getActividades();
+                            for (int i = 0; i < actividadesLP.size(); i++) {
+                                System.out.println((i + 1) + ". " + actividadesLP.get(i).getDescripcion());
+                            }
+                            int actividadIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                            if (actividadIndex >= 0 && actividadIndex < actividadesLP.size()) {
+                                Actividad actividadSeleccionada = actividadesLP.get(actividadIndex);
+                                profesor.eliminarActividadDeLearningPath(actividadSeleccionada);
+                                guardarCambios();
+                            } else {
+                                System.out.println("Selección de actividad inválida.");
+                            }
                         } else {
                             System.out.println("Selección de Learning Path inválida.");
                         }
@@ -237,19 +239,233 @@ public class Main2 {
                         System.out.println("No hay Learning Paths disponibles.");
                     }
                     break;
-                case "2":
-                    for (LearningPath lp : learningPaths) {
-                        System.out.println("Título: " + lp.getTitulo());
-                        System.out.println("Descripción: " + lp.getDescripcion());
-                        System.out.println("Duración: " + lp.getDuracionEstimada() + " horas");
-                        System.out.println("Objetivos: " + lp.getObjetivos());
-                        System.out.println("-----------------------------");
+
+                case "7": // Agregar Prerrequisito a Actividad
+                    if (!actividades.isEmpty()) {
+                        System.out.println("Seleccione la actividad a la que desea agregar un prerrequisito:");
+                        for (int i = 0; i < actividades.size(); i++) {
+                            System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                        }
+                        int actividadIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
+                            Actividad actividadPrincipal = actividades.get(actividadIndex);
+
+                            System.out.println("Seleccione la actividad que desea establecer como prerrequisito:");
+                            for (int i = 0; i < actividades.size(); i++) {
+                                System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                            }
+                            int prerrequisitoIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                            if (prerrequisitoIndex >= 0 && prerrequisitoIndex < actividades.size()) {
+                                Actividad prerrequisito = actividades.get(prerrequisitoIndex);
+                                profesor.agregarPrerrequisitoActividad(actividadPrincipal, prerrequisito);
+                                System.out.println("Prerrequisito agregado exitosamente.");
+                                guardarCambios();
+                            } else {
+                                System.out.println("Selección de prerrequisito inválida.");
+                            }
+                        } else {
+                            System.out.println("Selección de actividad inválida.");
+                        }
+                    } else {
+                        System.out.println("No hay actividades disponibles.");
                     }
                     break;
-                case "3":
+
+                case "8": // Agregar Actividad de Seguimiento
+                    if (!actividades.isEmpty()) {
+                        System.out.println("Seleccione la actividad a la que desea agregar una actividad de seguimiento:");
+                        for (int i = 0; i < actividades.size(); i++) {
+                            System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                        }
+                        int actividadIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
+                            Actividad actividadPrincipal = actividades.get(actividadIndex);
+
+                            System.out.println("Seleccione la actividad que desea establecer como seguimiento:");
+                            for (int i = 0; i < actividades.size(); i++) {
+                                System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                            }
+                            int seguimientoIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                            if (seguimientoIndex >= 0 && seguimientoIndex < actividades.size()) {
+                                Actividad seguimiento = actividades.get(seguimientoIndex);
+                                profesor.agregarActividadSeguimiento(actividadPrincipal, seguimiento);
+                                System.out.println("Actividad de seguimiento agregada exitosamente.");
+                                guardarCambios();
+                            } else {
+                                System.out.println("Selección de actividad de seguimiento inválida.");
+                            }
+                        } else {
+                            System.out.println("Selección de actividad inválida.");
+                        }
+                    } else {
+                        System.out.println("No hay actividades disponibles.");
+                    }
+                    break;
+
+                case "9": // Clonar Actividad
+                    if (!actividades.isEmpty()) {
+                        System.out.println("Seleccione la actividad que desea clonar:");
+                        for (int i = 0; i < actividades.size(); i++) {
+                            System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                        }
+                        int actividadIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
+                            Actividad original = actividades.get(actividadIndex);
+                            Actividad clon = profesor.clonarActividad(original);
+                            if (clon != null) {
+                                actividades.add(clon);
+                                System.out.println("Actividad clonada exitosamente.");
+                                guardarCambios();
+                            }
+                        } else {
+                            System.out.println("Selección de actividad inválida.");
+                        }
+                    } else {
+                        System.out.println("No hay actividades disponibles para clonar.");
+                    }
+                    break;
+
+                case "10": // Calificar Actividades
+                    if (!actividades.isEmpty()) {
+                        System.out.println("Seleccione la actividad que desea calificar:");
+                        for (int i = 0; i < actividades.size(); i++) {
+                            System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                        }
+                        int actividadIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
+                            Actividad actividad = actividades.get(actividadIndex);
+                            profesor.calificarActividad(actividad, scanner);
+                            guardarCambios();
+                        } else {
+                            System.out.println("Selección de actividad inválida.");
+                        }
+                    } else {
+                        System.out.println("No hay actividades disponibles para calificar.");
+                    }
+                    break;
+
+                case "11": // Salir
+                    continuar = false;
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+    }
+
+    private void ejecutarOpcionesEstudiante(Scanner scanner, Estudiante estudiante, Registro sistema) {
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("\nOpciones de Estudiante:");
+            System.out.println("1. Inscribirse en un Learning Path");
+            System.out.println("2. Ver Learning Paths inscritos");
+            System.out.println("3. Iniciar Actividad");
+            System.out.println("4. Completar Actividad");
+            System.out.println("5. Ver mi progreso");
+            System.out.println("6. Pedir recomendación de actividad");
+            System.out.println("7. Pedir progreso de Learning Path");
+            System.out.println("8. Dar reseña de actividad");
+            System.out.println("9. Salir");
+
+            String opcion = scanner.nextLine();
+            switch (opcion) {
+                case "1": // Inscribirse en un Learning Path
+                    LearningPath nuevoLp = estudiante.inscribirseEnLearningPath(scanner, sistema);
+                    if (nuevoLp != null) {
+                        System.out.println("Inscripción exitosa al Learning Path: " + nuevoLp.getTitulo());
+                    }
+                    break;
+                case "2": // Ver Learning Paths inscritos
+                    estudiante.verLearningPaths();
+                    break;
+                case "3": // Iniciar Actividad
+                    System.out.println("Seleccione el Learning Path:");
+                    for (int i = 0; i < learningPaths.size(); i++) {
+                        System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
+                    }
+                    int lpIndexIniciar = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (lpIndexIniciar >= 0 && lpIndexIniciar < learningPaths.size()) {
+                        LearningPath lpSeleccionado = learningPaths.get(lpIndexIniciar);
+                        Actividad actividad = estudiante.seleccionarActividad(scanner, lpSeleccionado);
+                        if (actividad != null) {
+                            estudiante.iniciarActividad(actividad);
+                            System.out.println("Actividad " + actividad.getDescripcion() + " iniciada.");
+                        }
+                    } else {
+                        System.out.println("Selección de Learning Path inválida.");
+                    }
+                    break;
+                case "4": // Completar Actividad
+                    System.out.println("Seleccione el Learning Path:");
+                    for (int i = 0; i < learningPaths.size(); i++) {
+                        System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
+                    }
+                    int lpIndexCompletar = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (lpIndexCompletar >= 0 && lpIndexCompletar < learningPaths.size()) {
+                        LearningPath lpSeleccionado = learningPaths.get(lpIndexCompletar);
+                        Actividad actividad = estudiante.seleccionarActividad(scanner, lpSeleccionado);
+                        if (actividad != null) {
+                            estudiante.realizarActividad(actividad);
+                            System.out.println("Actividad " + actividad.getDescripcion() + " completada.");
+                        }
+                    } else {
+                        System.out.println("Selección de Learning Path inválida.");
+                    }
+                    break;
+                case "5": // Ver mi progreso
                     estudiante.mostrarProgreso();
                     break;
-                case "4":
+                case "6": // Pedir recomendación de actividad
+                    System.out.println("Seleccione el Learning Path:");
+                    for (int i = 0; i < learningPaths.size(); i++) {
+                        System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
+                    }
+                    int lpIndexRecomendacion = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (lpIndexRecomendacion >= 0 && lpIndexRecomendacion < learningPaths.size()) {
+                        LearningPath lpSeleccionado = learningPaths.get(lpIndexRecomendacion);
+                        estudiante.pedirRecomendacionActividad(lpSeleccionado);
+                    } else {
+                        System.out.println("Selección de Learning Path inválida.");
+                    }
+                    break;
+                case "7": // Pedir progreso de Learning Path
+                    System.out.println("Seleccione el Learning Path:");
+                    for (int i = 0; i < learningPaths.size(); i++) {
+                        System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
+                    }
+                    int lpIndexProgreso = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (lpIndexProgreso >= 0 && lpIndexProgreso < learningPaths.size()) {
+                        LearningPath lpSeleccionado = learningPaths.get(lpIndexProgreso);
+                        estudiante.pedirProgresoPath(lpSeleccionado);
+                    } else {
+                        System.out.println("Selección de Learning Path inválida.");
+                    }
+                    break;
+                case "8": // Dar reseña de actividad
+                    System.out.println("Seleccione la actividad para dar una reseña:");
+                    for (int i = 0; i < actividades.size(); i++) {
+                        System.out.println((i + 1) + ". " + actividades.get(i).getDescripcion());
+                    }
+                    int actividadIndexReseña = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (actividadIndexReseña >= 0 && actividadIndexReseña < actividades.size()) {
+                        Actividad actividad = actividades.get(actividadIndexReseña);
+                        System.out.print("Ingrese su reseña: ");
+                        String texto = scanner.nextLine();
+                        System.out.print("Ingrese la calificación (0-5): ");
+                        float rating = Float.parseFloat(scanner.nextLine());
+                        estudiante.darReseñaActividad(actividad, texto, rating);
+                    } else {
+                        System.out.println("Selección de actividad inválida.");
+                    }
+                    break;
+                case "9": // Salir
                     continuar = false;
                     break;
                 default:
@@ -257,6 +473,8 @@ public class Main2 {
             }
         }
     }
+
+
 
     private void guardarCambios() {
         try {

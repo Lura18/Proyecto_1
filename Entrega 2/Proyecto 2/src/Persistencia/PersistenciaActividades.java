@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import proyecto.Actividad;
 import proyecto.Tarea;
 import proyecto.Quiz;
+import proyecto.RecursoEducativo;
 import proyecto.Examen;
 import proyecto.Encuesta;
 import proyecto.Profesor;
@@ -58,7 +59,7 @@ public class PersistenciaActividades {
             String nivelDificultad = jActividad.getString(NIVEL_DIFICULTAD);
             int duracion = jActividad.getInt(DURACION);
             boolean obligatorio = jActividad.getBoolean(OBLIGATORIO);
-            
+
             // Cargar el creador (Profesor)
             JSONObject jCreador = jActividad.getJSONObject(CREADOR);
             String nombreCreador = jCreador.getString("nombre");
@@ -72,12 +73,10 @@ public class PersistenciaActividades {
                     nuevaActividad = new Tarea(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
                     break;
                 case "Quiz":
-                    double notaAprobacion = 60.0; 
-                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, notaAprobacion, creador);
+                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, 60.0, creador);
                     break;
                 case "Examen":
                     nuevaActividad = new Examen(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
-                    
                     JSONArray jPreguntasAbiertas = jActividad.getJSONArray(PREGUNTAS);
                     for (int j = 0; j < jPreguntasAbiertas.length(); j++) {
                         ((Examen) nuevaActividad).getPreguntasAbiertas().add(jPreguntasAbiertas.getString(j));
@@ -85,11 +84,13 @@ public class PersistenciaActividades {
                     break;
                 case "Encuesta":
                     nuevaActividad = new Encuesta(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
-                    
                     JSONArray jPreguntasEncuesta = jActividad.getJSONArray(PREGUNTAS);
                     for (int j = 0; j < jPreguntasEncuesta.length(); j++) {
                         ((Encuesta) nuevaActividad).getPreguntasAbiertas().add(jPreguntasEncuesta.getString(j));
                     }
+                    break;
+                case "RecursoEducativo":
+                    nuevaActividad = new RecursoEducativo(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, "Tipo de recurso", "Enlace", creador);
                     break;
             }
 
@@ -101,7 +102,19 @@ public class PersistenciaActividades {
                 }
             }
 
-            actividades.add(nuevaActividad);
+            // Validar duplicados antes de agregar
+            if (nuevaActividad != null) {
+                // Crear una variable auxiliar final
+                final Actividad actividadAux = nuevaActividad;
+
+                // Validar duplicados
+                if (actividades.stream().noneMatch(a -> a.getDescripcion().equals(actividadAux.getDescripcion()))) {
+                    actividades.add(actividadAux);
+                } else {
+                    System.out.println("Advertencia: Actividad duplicada o inválida: " + actividadAux.getDescripcion());
+                }
+            }
+
         }
     }
 
