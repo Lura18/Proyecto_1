@@ -154,6 +154,7 @@ public class Main2 {
 
                 case "2": // Ver Learning Paths
                     profesor.verLearningPaths();
+                    //System.out.println(profesor.getLearningPathsCreados());
                     break;
 
                 case "3": // Crear Actividad

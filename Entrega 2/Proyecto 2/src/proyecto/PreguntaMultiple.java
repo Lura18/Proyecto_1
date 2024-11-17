@@ -3,36 +3,26 @@ package proyecto;
 import java.util.List;
 import java.util.Scanner;
 
-public class PreguntaMultiple {
+public class PreguntaMultiple extends PreguntaQuiz {
 	
-	//Atributos
-	private String textoPregunta;
-    private List<String> opciones;
-    private int opcionCorrecta;
-    private List<String> explicaciones;
-    
-    //Cosntructor
-	public PreguntaMultiple(String textoPregunta, List<String> opciones, int opcionCorrecta, List<String> explicaciones) {
+	
+	private List<String> opciones;
+	
+    //Constructor
+	public PreguntaMultiple(String textoPregunta, int opcionCorrecta, List<String> explicaciones,List<String> opciones) {
+		super(textoPregunta, opcionCorrecta, explicaciones);
         if (opciones.size() != 4 || explicaciones.size() != 4) {
         	System.out.println(opciones.size());
         	System.out.println(explicaciones.size());
             throw new IllegalArgumentException("Debe haber exactamente 4 opciones y 4 explicaciones.");
         }
-		this.textoPregunta = textoPregunta;
 		this.opciones = opciones;
-		this.opcionCorrecta = opcionCorrecta;
-		this.explicaciones = explicaciones;
 	}
+
 	
 	//Get and set
-	public String getTextoPregunta() {
-		return textoPregunta;
-	}
 	public List<String> getOpciones() {
 		return opciones;
-	}
-	public List<String> getExplicaciones() {
-		return explicaciones;
 	}
 	
 	//Metodos

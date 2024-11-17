@@ -73,7 +73,12 @@ public class PersistenciaActividades {
                     nuevaActividad = new Tarea(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
                     break;
                 case "Quiz":
-                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, 60.0, creador);
+
+                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, 60.0, creador, correoCreador);
+                    double notaAprobacion = 60.0; 
+                    String tipoPregunta = "VoF";
+                    nuevaActividad = new Quiz(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, notaAprobacion, creador, tipoPregunta);
+
                     break;
                 case "Examen":
                     nuevaActividad = new Examen(null, descripcion, objetivo, nivelDificultad, duracion, obligatorio, creador);
