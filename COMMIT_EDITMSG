@@ -1,0 +1,64 @@
+Merge branch 'main' of https://github.com/Lura18/Proyecto_1
+
+# Conflicts:
+#	Entrega 2/Proyecto 2/bin/Persistencia/PersistenciaActividades.class
+#	Entrega 2/Proyecto 2/datos/learning_paths.json
+#	Entrega 2/Proyecto 2/src/Persistencia/PersistenciaActividades.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please run
+#	git update-ref -d MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch and 'origin/main' have diverged,
+# and have 1 and 5 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   .project
+#	new file:   Entrega 2/.settings/org.eclipse.core.resources.prefs
+#	modified:   Entrega 2/Proyecto 2/.classpath
+#	modified:   Entrega 2/Proyecto 2/bin/Persistencia/PersistenciaActividades.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Actividad.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Encuesta.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Estudiante.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Examen.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/LearningPath.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Main.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Main2.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/PreguntaMultiple.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/PreguntaQuiz.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/PreguntaTrueFalse.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Profesor.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/ProgresoActividad.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/ProgresoPath.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Quiz.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/RecursoEducativo.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Registro.class
+#	new file:   "Entrega 2/Proyecto 2/bin/proyecto/Rese\303\261a.class"
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Tarea.class
+#	new file:   Entrega 2/Proyecto 2/bin/proyecto/Usuario.class
+#	modified:   Entrega 2/Proyecto 2/datos/learning_paths.json
+#	modified:   Entrega 2/Proyecto 2/src/Persistencia/PersistenciaActividades.java
+#	modified:   Entrega 2/Proyecto 2/src/proyecto/Main2.java
+#	modified:   Entrega 2/Proyecto 2/src/proyecto/PreguntaMultiple.java
+#	new file:   Entrega 2/Proyecto 2/src/proyecto/PreguntaQuiz.java
+#	new file:   Entrega 2/Proyecto 2/src/proyecto/PreguntaTrueFalse.java
+#	modified:   Entrega 2/Proyecto 2/src/proyecto/Profesor.java
+#	modified:   Entrega 2/Proyecto 2/src/proyecto/Quiz.java
+#	new file:   Entrega 2/Proyecto 2/src/testProyecto/TestProfesor.java
+#
+# Changes not staged for commit:
+#	modified:   Entrega 2/Proyecto 2/bin/.gitignore
+#	modified:   Entrega 2/Proyecto 2/bin/proyecto/Estudiante.class
+#	modified:   Entrega 2/Proyecto 2/bin/proyecto/Main2.class
+#	modified:   Entrega 2/Proyecto 2/bin/proyecto/Profesor.class
+#	modified:   Entrega 2/Proyecto 2/src/proyecto/Profesor.java
+#

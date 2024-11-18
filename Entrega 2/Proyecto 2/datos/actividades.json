@@ -1,38 +1,55 @@
 {"actividades": [
   {
-    "descripcion": "Este quiz está diseñado para evaluar tus conocimientos básicos sobre los conceptos de programación vistos hasta ahora. Incluirá preguntas sobre estructuras de control, variables, tipos de datos, y sintaxis fundamental. ",
-    "objetivo": "El objetivo del quiz es evaluar y reforzar la comprensión de los conceptos básicos de programación, asegurando que el estudiante tenga una base sólida en temas como estructuras de control, variables, tipos de datos y sintaxis fundamental antes de avanzar a contenidos más avanzados del Learning Path.",
+    "descripcion": "Realiza un análisis exploratorio utilizando un conjunto de datos público (puedes usar uno de tu elección, como \"Iris Dataset\", \"Titanic Dataset\" o cualquier otro de Kaggle o UCI Machine Learning Repository).",
+    "objetivo": "El objetivo es identificar patrones, tendencias y posibles valores atípicos.",
     "creador": {
       "correo": "arce",
       "nombre": "juan"
     },
     "nivelDificultad": "bajo",
+    "duracionEsperada": 40,
+    "obligatorio": true,
+    "tipoActividad": "Tarea"
+  },
+  {
+    "descripcion": "Introducción a la Programación en Python.",
+    "objetivo": "Aprender los fundamentos básicos de programación en Python.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "Bajo.",
     "duracionEsperada": 60,
     "obligatorio": true,
-    "tipoActividad": "Quiz"
+    "tipoActividad": "RecursoEducativo"
   },
   {
-    "descripcion": "Quiz 1",
-    "objetivo": "Evaluar el conocimiento de los conceptos básicos de HTML, CSS y JavaScript.",
-    "creador": {
-      "correo": "arce",
-      "nombre": "juan"
-    },
-    "nivelDificultad": "medio",
-    "duracionEsperada": 30,
-    "obligatorio": true,
-    "tipoActividad": "Quiz"
-  },
-  {
-    "descripcion": "Este recurso proporciona una introducción a los conceptos fundamentales de Java, incluyendo sintaxis básica, tipos de datos y estructuras de control.",
-    "objetivo": "Familiarizarse con los fundamentos de la programación en Java.",
+    "descripcion": "Encuesta sobre preferencias de aprendizaje.",
+    "objetivo": "Conocer las preferencias de los estudiantes en métodos de aprendizaje.",
     "creador": {
       "correo": "arce",
       "nombre": "juan"
     },
     "nivelDificultad": "bajo",
-    "duracionEsperada": 90,
+    "duracionEsperada": 10,
+    "preguntas": [
+      "¿Prefieres videos o lecturas?",
+      "¿Te gustaría tener cuestionarios frecuentes?",
+      "¿Qué herramientas prefieres para resolver problemas de programación?"
+    ],
+    "obligatorio": false,
+    "tipoActividad": "Encuesta"
+  },
+  {
+    "descripcion": "Crear un programa que calcule la suma de dos números.",
+    "objetivo": "Practicar la programación básica en Python.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "Medio.",
+    "duracionEsperada": 120,
     "obligatorio": true,
-    "tipoActividad": "RecursoEducativo"
+    "tipoActividad": "Tarea"
   }
 ]}

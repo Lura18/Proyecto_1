@@ -18,7 +18,6 @@ public class Profesor extends Usuario {
 	public Profesor(String nombre, String correo, String contrasena) {
 		super(nombre, correo, contrasena);
         this.learningPathsCreados = new ArrayList<>();
-		// TODO Auto-generated constructor stub
 	}
 	
 	//Get and set
@@ -354,14 +353,25 @@ public class Profesor extends Usuario {
             obligatorio = true;
         }
 
-        Quiz quiz = new Quiz(path, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, notaAprobacion, this);
+        System.out.print("¿Qué tipo de respuesta tendrá el quiz?:\n1. Texto\n2. Verdadero o Falso ");
+        String tipoPregunta = scanner.nextLine();
+        String pregunta = "";
+        
+        if (tipoPregunta.equals("1")){
+        	pregunta = "Texto";
+        } else {
+        	pregunta = "VoF";
+        }
+        
+        Quiz quiz = new Quiz(path, descripcion, objetivo, nivelDificultad, duracionEsperada, obligatorio, notaAprobacion, this, pregunta);
+        
 
         boolean agregarMasPreguntas = true;
         while (agregarMasPreguntas) {
             quiz.agregarPregunta(scanner);
             System.out.print("¿Desea agregar otra pregunta? (si/no): ");
             String continuar = scanner.nextLine().toLowerCase();
-            if (!continuar.equals("s")) {
+            if (!continuar.equals("si")) {
                 agregarMasPreguntas = false;
             }
         }

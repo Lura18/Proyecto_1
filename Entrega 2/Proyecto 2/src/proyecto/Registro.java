@@ -7,54 +7,50 @@ import java.util.List;
 import Persistencia.PersistenciaUsuarios;
 
 public class Registro {
-	
-	//Atributos
-	private List<Profesor> profesores;
-	private List<Estudiante> estudiantes;
-	private List<Usuario> usuarios;
-	private List<LearningPath> paths;
-    private PersistenciaUsuarios persistencia;
 
-    
-    //Constructor
+    // Atributos
+    private List<Profesor> profesores;
+    private List<Estudiante> estudiantes;
+    private List<Usuario> usuarios;
+    private List<LearningPath> paths;
+    private PersistenciaUsuarios persistenciaUsuarios;
+
+    // Constructor
     public Registro() {
-    	profesores = new ArrayList<>();
-		estudiantes = new ArrayList<>();
-        persistencia = new PersistenciaUsuarios();
+        profesores = new ArrayList<>();
+        estudiantes = new ArrayList<>();
+        usuarios = new ArrayList<>();
         paths = new ArrayList<>();
-        
-	}
+        persistenciaUsuarios = new PersistenciaUsuarios(); // Inicialización de persistencia
+    }
 
     public List<LearningPath> getPaths() {
-		return paths;
-	}
+        return paths;
+    }
 
-	//Mteodos
-	public void registrarProfesor(Profesor profesor) {
+    // Métodos
+    public void registrarProfesor(Profesor profesor) {
         for (Usuario u : usuarios) {
-            if (u instanceof Profesor) {
-                Profesor p = (Profesor) u;
-                if (p.getCorreo().equals(profesor.getCorreo())) {
-                    System.out.println("El profesor ya está registrado.");
-                }
+            if (u instanceof Profesor && u.getCorreo().equals(profesor.getCorreo())) {
+                System.out.println("El profesor ya está registrado.");
+                return; // Evitar agregar duplicados
             }
         }
         profesores.add(profesor);
         usuarios.add(profesor);
     }
-	
-	public void registrarEstudiante(Estudiante estudiante) throws Exception {
+
+    public void registrarEstudiante(Estudiante estudiante) throws Exception {
         for (Usuario u : usuarios) {
-            if (u instanceof Estudiante) {
-	            if (u.getCorreo().equals(estudiante.getCorreo())) {
-	                System.out.println("El estudiante ya está registrado.");
-	            }
+            if (u instanceof Estudiante && u.getCorreo().equals(estudiante.getCorreo())) {
+                System.out.println("El estudiante ya está registrado.");
+                return; // Evitar agregar duplicados
             }
         }
         estudiantes.add(estudiante);
         usuarios.add(estudiante);
     }
-	
+
     public Profesor loginProfesor(String correo, String contrasena) throws Exception {
         for (Usuario u : usuarios) {
             if (u instanceof Profesor) {
@@ -67,40 +63,47 @@ public class Registro {
         throw new Exception("Login fallido. Usuario o contraseña incorrectos.");
     }
 
-
     public Estudiante loginEstudiante(String correo, String contrasena) throws Exception {
         for (Usuario u : usuarios) {
             if (u instanceof Estudiante) {
-            	Estudiante e = (Estudiante) u;
-	            if (e.getCorreo().equals(correo) && e.getContrasena().equals(contrasena)) {
-	                return  e;
-	            }
+                Estudiante e = (Estudiante) u;
+                if (e.getCorreo().equals(correo) && e.getContrasena().equals(contrasena)) {
+                    return e;
+                }
             }
         }
         throw new Exception("Login fallido. Usuario o contraseña incorrectos.");
     }
 
-    public void cargarUsuarios(String archivo) throws Exception {
-        usuarios = persistencia.cargarUsuarios(archivo);
+    public List<Usuario> cargarUsuarios(String archivo) throws IOException {
+        usuarios = persistenciaUsuarios.cargarUsuarios(archivo); // Actualiza la lista de usuarios
+        // Clasificar usuarios en profesores y estudiantes
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Profesor) {
+                profesores.add((Profesor) usuario);
+            } else if (usuario instanceof Estudiante) {
+                estudiantes.add((Estudiante) usuario);
+            }
+        }
+        return usuarios;
     }
 
     public void salvarUsuarios(String archivo) throws Exception {
-        persistencia.salvarUsuarios(archivo, usuarios);
+        persistenciaUsuarios.salvarUsuarios(archivo, usuarios);
     }
-    
+
     public void agregarPaths(LearningPath lp) {
-    	this.paths.add(lp);
+        this.paths.add(lp);
     }
-    
+
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
-        
     }
- // En la clase Registro
+
     public List<Estudiante> getEstudiantesInscritosEnLearningPaths(List<LearningPath> learningPaths) {
         List<Estudiante> estudiantesInscritos = new ArrayList<>();
         for (Estudiante estudiante : estudiantes) {
@@ -117,7 +120,4 @@ public class Registro {
     public List<Estudiante> getEstudiantes() {
         return estudiantes;
     }
-
-
-
 }

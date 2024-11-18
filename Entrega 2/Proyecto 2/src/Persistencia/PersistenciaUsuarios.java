@@ -25,11 +25,25 @@ public class PersistenciaUsuarios {
     public List<Usuario> cargarUsuarios(String archivo) throws IOException {
         List<Usuario> usuarios = new ArrayList<>();
         String jsonCompleto = new String(Files.readAllBytes(new File(archivo).toPath()));
-        JSONObject raiz = new JSONObject( jsonCompleto );
+        JSONObject raiz = new JSONObject(jsonCompleto);
 
-        cargarUsuarios(usuarios, raiz.getJSONArray("usuarios"));
+        JSONArray jUsuarios = raiz.getJSONArray("usuarios");
+        for (int i = 0; i < jUsuarios.length(); i++) {
+            JSONObject usuario = jUsuarios.getJSONObject(i);
+            String tipoUsuario = usuario.getString("tipoUsuario");
+            String nombre = usuario.getString("nombre");
+            String correo = usuario.getString("correo");
+            String password = usuario.getString("password");
+
+            if ("Profesor".equals(tipoUsuario)) {
+                usuarios.add(new Profesor(nombre, correo, password));
+            } else if ("Estudiante".equals(tipoUsuario)) {
+                usuarios.add(new Estudiante(nombre, correo, password));
+            }
+        }
         return usuarios;
     }
+
     
     private void cargarUsuarios(List<Usuario> usuarios, JSONArray jUsuarios) {
         int numUsuarios = jUsuarios.length();
