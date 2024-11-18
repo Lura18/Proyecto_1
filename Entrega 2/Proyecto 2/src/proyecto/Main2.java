@@ -24,9 +24,14 @@ public class Main2 {
 
     public void correrAplicacion(Scanner scanner, Registro sistema) throws Exception {
         try {
-            sistema.cargarUsuarios("./datos/" + archivoUsuarios);
+            // Cargar usuarios
+            List<Usuario> usuarios = sistema.cargarUsuarios("./datos/" + archivoUsuarios);
+
+            // Cargar actividades
             actividades = persistenciaActividades.cargarActividades("./datos/actividades.json");
-            learningPaths = persistenciaLearningPaths.cargarLearningPaths("./datos/learning_paths.json", actividades);
+
+            // Cargar learning paths con la lista de usuarios
+            learningPaths = persistenciaLearningPaths.cargarLearningPaths("./datos/learning_paths.json", actividades, usuarios);
 
             // Verificación de carga de datos
             System.out.println("Actividades cargadas:");
@@ -37,7 +42,7 @@ public class Main2 {
                     System.out.println("Actividad nula encontrada en la lista de actividades.");
                 }
             }
-            
+
             System.out.println("Learning Paths cargados:");
             for (LearningPath lp : learningPaths) {
                 System.out.println("- " + lp.getTitulo());
@@ -157,16 +162,113 @@ public class Main2 {
                     //System.out.println(profesor.getLearningPathsCreados());
                     break;
 
-                case "3": // Crear Actividad
-                    Actividad nuevaActividad = profesor.crearActividad(scanner);
-                    if (nuevaActividad != null) {
-                        actividades.add(nuevaActividad);
-                        System.out.println("Actividad creada y guardada exitosamente.");
-                        guardarCambios();
-                    } else {
-                        System.out.println("Error al crear la actividad.");
+                
+                case "3":
+                    System.out.println("Creando una nueva actividad...");
+                    System.out.println("¿Qué tipo de actividad quiere crear? Seleccione el número:");
+                    System.out.println("1. Recurso Educativo");
+                    System.out.println("2. Encuesta");
+                    System.out.println("3. Tarea");
+                    System.out.println("4. Quiz");
+                    System.out.println("5. Examen");
+
+                    int tipoActividad = scanner.nextInt();
+                    scanner.nextLine(); // Consumir salto de línea
+
+                    System.out.print("Ingrese la descripción: ");
+                    String descripcionActividad = scanner.nextLine();
+
+                    System.out.print("Ingrese el objetivo: ");
+                    String objetivoActividad = scanner.nextLine();
+
+                    System.out.print("Ingrese el nivel de dificultad (bajo, medio, alto): ");
+                    String nivelDificultadActividad = scanner.nextLine();
+
+                    System.out.print("Ingrese la duración esperada (en minutos): ");
+                    int duracionEsperadaActividad = scanner.nextInt();
+                    scanner.nextLine(); // Consumir salto de línea
+
+                    System.out.print("¿Es obligatorio? (true/false): ");
+                    boolean obligatorioActividad = scanner.nextBoolean();
+                    scanner.nextLine(); // Consumir salto de línea
+
+                    // Utilizar el profesor autenticado como creador
+                    switch (tipoActividad) {
+                        case 1: // Recurso Educativo
+                            System.out.println("Creando un Recurso Educativo...");
+                            System.out.print("Ingrese el tipo de recurso: ");
+                            String tipoRecurso = scanner.nextLine();
+                            System.out.print("Ingrese el enlace del recurso: ");
+                            String enlaceRecurso = scanner.nextLine();
+
+                            RecursoEducativo recurso = new RecursoEducativo(null, descripcionActividad, objetivoActividad,
+                                    nivelDificultadActividad, duracionEsperadaActividad, obligatorioActividad, tipoRecurso,
+                                    enlaceRecurso, profesor); // profesor autenticado
+                            actividades.add(recurso);
+                            System.out.println("Recurso Educativo creado: " + recurso.getDescripcion());
+                            break;
+
+                        case 2: // Encuesta
+                            Encuesta encuesta = new Encuesta(null, descripcionActividad, objetivoActividad,
+                                    nivelDificultadActividad, duracionEsperadaActividad, obligatorioActividad, profesor); // profesor autenticado
+                            System.out.println("Ingrese las preguntas de la encuesta (escriba 'fin' para terminar):");
+                            while (true) {
+                                System.out.print("Pregunta: ");
+                                String pregunta = scanner.nextLine();
+                                if (pregunta.equalsIgnoreCase("fin"))
+                                    break;
+                                encuesta.getPreguntasAbiertas().add(pregunta);
+                            }
+                            actividades.add(encuesta);
+                            System.out.println("Encuesta creada: " + encuesta.getDescripcion());
+                            break;
+
+                        case 3: // Tarea
+                            Tarea tarea = new Tarea(null, descripcionActividad, objetivoActividad,
+                                    nivelDificultadActividad, duracionEsperadaActividad, obligatorioActividad, profesor); // profesor autenticado
+                            actividades.add(tarea);
+                            System.out.println("Tarea creada: " + tarea.getDescripcion());
+                            break;
+
+                        case 4: // Quiz
+                            System.out.print("Ingrese la nota de aprobación para el Quiz: ");
+                            double notaAprobacion = scanner.nextDouble();
+                            scanner.nextLine(); // Consumir salto de línea
+
+                            System.out.print("Seleccione el tipo de pregunta (1. Múltiple opción, 2. Verdadero/Falso): ");
+                            int tipoPregunta = scanner.nextInt();
+                            scanner.nextLine(); // Consumir salto de línea
+
+                            String tipoPreguntaTexto = tipoPregunta == 1 ? "Múltiple" : "VoF";
+                            Quiz quiz = new Quiz(null, descripcionActividad, objetivoActividad, nivelDificultadActividad,
+                                    duracionEsperadaActividad, obligatorioActividad, notaAprobacion, profesor, tipoPreguntaTexto); // profesor autenticado
+                            actividades.add(quiz);
+                            System.out.println("Quiz creado: " + quiz.getDescripcion());
+                            break;
+
+                        case 5: // Examen
+                            Examen examen = new Examen(null, descripcionActividad, objetivoActividad, nivelDificultadActividad,
+                                    duracionEsperadaActividad, obligatorioActividad, profesor); // profesor autenticado
+                            System.out.println("Ingrese las preguntas del examen (escriba 'fin' para terminar):");
+                            while (true) {
+                                System.out.print("Pregunta: ");
+                                String pregunta = scanner.nextLine();
+                                if (pregunta.equalsIgnoreCase("fin"))
+                                    break;
+                                examen.getPreguntasAbiertas().add(pregunta);
+                            }
+                            actividades.add(examen);
+                            System.out.println("Examen creado: " + examen.getDescripcion());
+                            break;
+
+                        default:
+                            System.out.println("Opción inválida.");
                     }
                     break;
+
+
+
+
 
                 case "4": // Agregar Actividad a Learning Path
                     if (!learningPaths.isEmpty()) {

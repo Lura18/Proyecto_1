@@ -1,12 +1,55 @@
-{"actividades": [{
-  "descripcion": "Realiza un análisis exploratorio utilizando un conjunto de datos público (puedes usar uno de tu elección, como \"Iris Dataset\", \"Titanic Dataset\" o cualquier otro de Kaggle o UCI Machine Learning Repository).",
-  "objetivo": "El objetivo es identificar patrones, tendencias y posibles valores atípicos.",
-  "creador": {
-    "correo": "arce",
-    "nombre": "juan"
+{"actividades": [
+  {
+    "descripcion": "Realiza un análisis exploratorio utilizando un conjunto de datos público (puedes usar uno de tu elección, como \"Iris Dataset\", \"Titanic Dataset\" o cualquier otro de Kaggle o UCI Machine Learning Repository).",
+    "objetivo": "El objetivo es identificar patrones, tendencias y posibles valores atípicos.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "duracionEsperada": 40,
+    "obligatorio": true,
+    "tipoActividad": "Tarea"
   },
-  "nivelDificultad": "bajo",
-  "duracionEsperada": 40,
-  "obligatorio": true,
-  "tipoActividad": "Tarea"
-}]}
+  {
+    "descripcion": "Introducción a la Programación en Python.",
+    "objetivo": "Aprender los fundamentos básicos de programación en Python.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "Bajo.",
+    "duracionEsperada": 60,
+    "obligatorio": true,
+    "tipoActividad": "RecursoEducativo"
+  },
+  {
+    "descripcion": "Encuesta sobre preferencias de aprendizaje.",
+    "objetivo": "Conocer las preferencias de los estudiantes en métodos de aprendizaje.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "duracionEsperada": 10,
+    "preguntas": [
+      "¿Prefieres videos o lecturas?",
+      "¿Te gustaría tener cuestionarios frecuentes?",
+      "¿Qué herramientas prefieres para resolver problemas de programación?"
+    ],
+    "obligatorio": false,
+    "tipoActividad": "Encuesta"
+  },
+  {
+    "descripcion": "Crear un programa que calcule la suma de dos números.",
+    "objetivo": "Practicar la programación básica en Python.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "Medio.",
+    "duracionEsperada": 120,
+    "obligatorio": true,
+    "tipoActividad": "Tarea"
+  }
+]}

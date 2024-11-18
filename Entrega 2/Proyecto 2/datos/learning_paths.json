@@ -1,55 +1,30 @@
-{"learningPaths": [{
-  "descripcion": "LP1: Descubre cómo transformar datos en decisiones inteligentes.",
-  "creador": {
-    "correo": "arce",
-    "nombre": "juan"
-  },
-
-  "nivelDificultad": "madio",
-  "objetivos": "Comprender los fundamentos del análisis de datos.",
-  "titulo": "Mastering Data Analytics: From Basics to Advanced",
-  "actividades": [0],
-  "duracionEstimada": 42
-}]}
-=======
+{"learningPaths": [
   {
-    "descripcion": "disenio y programacion orientado a objetos ",
+    "descripcion": "LP1: Descubre cómo transformar datos en decisiones inteligentes.",
     "creador": {
-      "correo": "paulo@gmail.com",
-      "nombre": "paulo"
+      "correo": "arce",
+      "nombre": "juan"
     },
-    "nivelDificultad": "medio",
-    "objetivos": "aprender como funcionan las clases en java ",
-    "titulo": "DPOO",
-    "actividades": [],
-    "duracionEstimada": 20
+    "nivelDificultad": "madio",
+    "objetivos": "Comprender los fundamentos del análisis de datos.",
+    "titulo": "Mastering Data Analytics: From Basics to Advanced",
+    "actividades": [
+      0,
+      1,
+      2
+    ],
+    "duracionEstimada": 112
   },
   {
-    "descripcion": "Aprende a desarrollar aplicaciones web completas usando JavaScript, desde el frontend hasta el backend.",
+    "descripcion": "LP2: Aprende a implementar soluciones de Machine Learning desde cero.",
     "creador": {
       "correo": "arce",
       "nombre": "juan"
     },
     "nivelDificultad": "alto",
-    "objetivos": "Desarrollar habilidades en HTML, CSS, JavaScript, Node.js y MongoDB para construir aplicaciones web completas.",
-    "titulo": "Desarrollo Web Full Stack con JavaScript",
-    "actividades": [
-      0,
-      1
-    ],
-    "duracionEstimada": 220
-  },
-  {
-    "descripcion": "Aprende a hacer pruebas con Junit",
-    "creador": {
-      "correo": "paulo@gmail.com",
-      "nombre": "paulo"
-    },
-    "nivelDificultad": "medio",
-    "objetivos": "Crear pruebas integradas para un programa usando Junit",
-    "titulo": "Pruebas con Junit",
-    "actividades": [],
-    "duracionEstimada": 10
+    "objetivos": "Desarrollar un proyecto completo de Machine Learning, desde la recopilación de datos hasta el despliegue.",
+    "titulo": "Machine Learning: De la teoría a la práctica",
+    "actividades": [0],
+    "duracionEstimada": 180
   }
 ]}
-

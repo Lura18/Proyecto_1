@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import proyecto.LearningPath;
 import proyecto.Actividad;
 import proyecto.Profesor;
+import proyecto.Usuario;
 
 public class PersistenciaLearningPaths {
 
@@ -23,60 +24,53 @@ public class PersistenciaLearningPaths {
     private static final String ACTIVIDADES = "actividades";
     private static final String CREADOR = "creador";
 
-    public List<LearningPath> cargarLearningPaths(String archivo, List<Actividad> actividades) throws IOException {
+    public List<LearningPath> cargarLearningPaths(String archivo, List<Actividad> actividades, List<Usuario> usuarios) throws IOException {
         List<LearningPath> learningPaths = new ArrayList<>();
-        File file = new File(archivo);
-        
-        // Verifica si el archivo existe, si no, lo crea con una estructura JSON básica
-        if (!file.exists()) {
-            try (PrintWriter pw = new PrintWriter(archivo)) {
-                pw.write("{\"learningPaths\": []}");
-            }
-            System.out.println("Archivo de learning paths no encontrado. Se ha creado un archivo vacío.");
-        }
-
-        String jsonCompleto = new String(Files.readAllBytes(file.toPath()));
+        String jsonCompleto = new String(Files.readAllBytes(new File(archivo).toPath()));
         JSONObject raiz = new JSONObject(jsonCompleto);
 
-        cargarLearningPaths(learningPaths, raiz.getJSONArray("learningPaths"), actividades);
-        return learningPaths;
-    }
-
-    private void cargarLearningPaths(List<LearningPath> learningPaths, JSONArray jPaths, List<Actividad> actividades) {
-        System.out.println("Tamaño de la lista de actividades antes de cargar Learning Paths: " + actividades.size());
-
+        JSONArray jPaths = raiz.getJSONArray("learningPaths");
         for (int i = 0; i < jPaths.length(); i++) {
             JSONObject jPath = jPaths.getJSONObject(i);
-            String titulo = jPath.getString(TITULO);
-            String descripcion = jPath.getString(DESCRIPCION);
-            String objetivos = jPath.getString(OBJETIVOS);
-            String nivelDificultad = jPath.getString(NIVEL_DIFICULTAD);
-            int duracionEstimada = jPath.getInt(DURACION_ESTIMADA);
+            String titulo = jPath.getString("titulo");
+            String descripcion = jPath.getString("descripcion");
+            String objetivos = jPath.getString("objetivos");
+            String nivelDificultad = jPath.getString("nivelDificultad");
+            int duracionEstimada = jPath.getInt("duracionEstimada");
 
-            // Cargar el creador del Learning Path (Profesor)
-            JSONObject jCreador = jPath.getJSONObject(CREADOR);
-            Profesor creador = new Profesor(jCreador.getString("nombre"), jCreador.getString("correo"), "");
+            // Identificar al creador (Profesor) usando la lista de usuarios
+            JSONObject jCreador = jPath.getJSONObject("creador");
+            String correoCreador = jCreador.getString("correo");
+            Profesor creador = null;
+
+            for (Usuario usuario : usuarios) {
+                if (usuario instanceof Profesor && usuario.getCorreo().equals(correoCreador)) {
+                    creador = (Profesor) usuario;
+                    break;
+                }
+            }
+
+            if (creador == null) {
+                System.out.println("Profesor con correo " + correoCreador + " no encontrado. Saltando este Learning Path.");
+                continue;
+            }
 
             // Crear el Learning Path
             LearningPath nuevoPath = new LearningPath(titulo, descripcion, objetivos, nivelDificultad, creador, duracionEstimada);
 
-            // Asociar actividades al Learning Path usando índices del JSON
-            JSONArray jActividades = jPath.getJSONArray(ACTIVIDADES);
+            // Asociar actividades al Learning Path
+            JSONArray jActividades = jPath.getJSONArray("actividades");
             for (int j = 0; j < jActividades.length(); j++) {
-                int idActividad = jActividades.getInt(j); // Índice de la actividad
-                
-                // Validación de índice antes de acceder a la lista de actividades
+                int idActividad = jActividades.getInt(j);
                 if (idActividad >= 0 && idActividad < actividades.size()) {
                     nuevoPath.getActividades().add(actividades.get(idActividad));
-                } else {
-                    System.out.println("Índice de actividad inválido: " + idActividad + ", tamaño de la lista de actividades: " + actividades.size());
                 }
             }
 
             learningPaths.add(nuevoPath);
+            creador.getLearningPathsCreados().add(nuevoPath);
         }
-        
-        System.out.println("Tamaño de la lista de actividades después de cargar Learning Paths: " + actividades.size());
+        return learningPaths;
     }
 
     public void salvarLearningPaths(String archivo, List<LearningPath> learningPaths) throws IOException {
