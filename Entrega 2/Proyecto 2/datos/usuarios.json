@@ -70,5 +70,23 @@
     "correo": "sandrabullock@gmail.com",
     "tipoUsuario": "Profesor",
     "nombre": "sandra"
+  },
+  {
+    "password": "jaime123",
+    "correo": "jaime@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "jaime"
+  },
+  {
+    "password": "jaime123",
+    "correo": "jaime@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "jaime"
+  },
+  {
+    "password": "jaime123",
+    "correo": "jaime@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "jaime"
   }
 ]}

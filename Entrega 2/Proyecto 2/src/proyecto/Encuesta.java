@@ -25,7 +25,7 @@ public class Encuesta extends Actividad {
 		return preguntas;
 	}
 
-
+ 
 	//Metodos
 	
     public void agregarPregunta(Scanner scanner) {
@@ -40,7 +40,7 @@ public class Encuesta extends Actividad {
 		    System.out.print("Ingrese su respuesta: \n");
 		    String rta = scanner.nextLine();
 		    respuesta.put(estudiante, rta);
-		}
+		} 
 
 	}
 

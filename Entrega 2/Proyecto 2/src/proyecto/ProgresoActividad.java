@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
         this.fechaInicio = null;
         this.fechaFin = null;
         this.estudiante = estudiante;
-        
+         
     }
     
     //Get y set
@@ -65,7 +65,7 @@ import java.util.concurrent.TimeUnit;
 	}
 
 	//Métodos
-	
+	 
 	public long calcularTiempoDedicado(Date inicio, Date fin) {
         long diff = fin.getTime() - inicio.getTime(); // Diferencia en milisegundos
         return TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS); // Convertir a horas
@@ -83,5 +83,5 @@ import java.util.concurrent.TimeUnit;
         this.tiempoDedicado = calcularTiempoDedicado(fechaInicio, fechaFin);
     }
 
-
+ 
 }

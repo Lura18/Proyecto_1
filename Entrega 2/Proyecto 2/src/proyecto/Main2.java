@@ -2,6 +2,8 @@ package proyecto;
 
 import Persistencia.PersistenciaActividades;
 import Persistencia.PersistenciaLearningPaths;
+import Persistencia.PersistenciaUsuarios;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,9 @@ public class Main2 {
     private List<Actividad> actividades;
     private PersistenciaActividades persistenciaActividades;
     private PersistenciaLearningPaths persistenciaLearningPaths;
+    private PersistenciaUsuarios persistenciaUsuarios;
     private String archivoUsuarios = "usuarios.json";
+    
 
     public Main2() {
         learningPaths = new ArrayList<>();
@@ -24,10 +28,10 @@ public class Main2 {
 
     public void correrAplicacion(Scanner scanner, Registro sistema) throws Exception {
         try {
-            sistema.cargarUsuarios("./datos/" + archivoUsuarios);
+            sistema.cargarUsuarios("./datos/usuarios.json");
             actividades = persistenciaActividades.cargarActividades("./datos/actividades.json");
             learningPaths = persistenciaLearningPaths.cargarLearningPaths("./datos/learning_paths.json", actividades);
-
+  
             // Verificación de carga de datos
             System.out.println("Actividades cargadas:");
             for (Actividad actividad : actividades) {
@@ -275,6 +279,8 @@ public class Main2 {
         Main2 main = new Main2();
         main.correrAplicacion(scanner, sistema);
     }
+    
+
 }
 
 
