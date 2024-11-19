@@ -18,7 +18,6 @@ import proyecto.Actividad;
 import proyecto.Encuesta;
 import proyecto.Estudiante;
 import proyecto.LearningPath;
-import proyecto.Main2;
 import proyecto.Profesor;
 import proyecto.ProgresoActividad;
 import proyecto.Quiz;
@@ -41,7 +40,7 @@ public class ActividadesTest {
 	LearningPath lp2 = new LearningPath("Interfaz Grafica", "Aprende a disenar una interfaz grafica", "Crear interfaz grafica en java", "medio", profMario, 10);
 	Encuesta encuesta = new Encuesta(lp, "encuesta de Junit", "conocer Junit", "medio", 10, false, profMario);
 	Tarea tarea = new Tarea(lp, "diferentes tipos de asserts", "conocer los tipos de asserts", "medio", 40, true, profMario);
-	Quiz quiz = new Quiz(lp2, "asserts", "escoger assert correcto", "medio", 20, true, 3.0, profMario);
+	Quiz quiz = new Quiz(lp2, "asserts", "escoger assert correcto", "medio", 20, true, 3.0, profMario, "Texto");
 	Reseña resena = new Reseña("Muy buena encuesta", 9);
 	Reseña resena2 = new Reseña("No me gusto", 3);
 	
