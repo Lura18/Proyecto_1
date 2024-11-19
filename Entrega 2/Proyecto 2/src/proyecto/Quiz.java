@@ -21,25 +21,28 @@ public class Quiz extends Actividad{
 		// TODO Auto-generated constructor stub
 		this.notaAprobacion = notaAprobacion;
 		this.notaObtenida = 0.0;
-		this.preguntas = new ArrayList<PreguntaQuiz>();
+		this.setPreguntas(new ArrayList<PreguntaQuiz>());
 		this.tipoPregunta = tipoPregunta;
 	}
-	
+	  
 	//get and set
 	public double getNotaAprobacion() {
 		return notaAprobacion;
 	}
 	public double getNotaObtenida() {
 		return notaObtenida;
-	}
+		
+		
 
+	}
+ 
 	
 	//Metodos
     public void agregarPregunta(Scanner scanner) {
 	    List<String> explicaciones = new ArrayList<String>();
     	List<String> opciones = new ArrayList<String>();
     	
-	    if (tipoPregunta == "Texto") {
+	    if (tipoPregunta.equals("Texto")) {
 	    	System.out.print("Ingrese la nueva pregunta del quiz: ");
 		    String texto = scanner.nextLine();
 		    
@@ -68,7 +71,7 @@ public class Quiz extends Actividad{
 		    }
 		    
 		    PreguntaMultiple p = new PreguntaMultiple(texto, resp, explicaciones, opciones);
-	        preguntas.add(p);
+	        getPreguntas().add(p);
 	    } else {
 	    	System.out.print("Ingrese la nueva pregunta del quiz: ");
 		    String texto = scanner.nextLine();
@@ -94,7 +97,7 @@ public class Quiz extends Actividad{
 		    }
 		    
 		    PreguntaTrueFalse p = new PreguntaTrueFalse(texto, resp, explicaciones);
-	        preguntas.add(p);
+	        getPreguntas().add(p);
 	    }
     }
   
@@ -103,14 +106,14 @@ public class Quiz extends Actividad{
 		double nota = 0;
         String resultado = "";
         
-		for (PreguntaQuiz p: preguntas) {
+		for (PreguntaQuiz p: getPreguntas()) {
 			boolean rta = p.mostrarYResolver(scanner);
 			if (rta) {
 				nota += 1;
 			}
 		}
 		
-		double numPreguntas = preguntas.size();
+		double numPreguntas = getPreguntas().size();
 		if (numPreguntas != 0) {
 			this.notaObtenida = (nota/numPreguntas)*100;
 		}
@@ -146,5 +149,15 @@ public class Quiz extends Actividad{
 		}
 		
 	}
+
+	public List<PreguntaQuiz> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(List<PreguntaQuiz> preguntas) {
+		this.preguntas = preguntas;
+	}
+	
+
 
 }

@@ -24,7 +24,7 @@ public abstract class Actividad implements Cloneable{
     protected List<Reseña> reseñas;
     protected Map<Estudiante, String> respuesta;
     protected String tipo;
-	
+	 
 	//Constructor
 	public Actividad(LearningPath lp, String descripcion, String objetivo, String nivelDificultad,
 			int duracionEsperada, boolean obligatorio, Profesor creador) {
@@ -119,7 +119,7 @@ public abstract class Actividad implements Cloneable{
             }
         }
     }
-    
+      
     public void agregarActividadSeguimiento(Actividad actividad) {
     	if (actividad.getLearningPath().equals(this.learningPath)){
             actividadesSeguimiento.add(actividad);
@@ -154,7 +154,7 @@ public abstract class Actividad implements Cloneable{
         	System.out.println("Aún no has completado la última actividad.");
         }
 	} 
-    
+   
     public Actividad clonarActividad(Profesor nuevo) {
 		try {
 			Actividad clon = (Actividad) this.clone(); // Clonar la actividad
@@ -163,6 +163,7 @@ public abstract class Actividad implements Cloneable{
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 			return null;
+			
 		}
     }
     

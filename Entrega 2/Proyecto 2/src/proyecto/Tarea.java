@@ -47,7 +47,7 @@ public class Tarea extends Actividad {
 	    }
 	}
 
-
+ 
 	@Override
 	public void realizar(ProgresoActividad progreso) {
 		// TODO Auto-generated method stub

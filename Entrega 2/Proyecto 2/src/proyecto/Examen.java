@@ -44,7 +44,7 @@ public class Examen extends Actividad {
 		    System.out.print("Has terminado el examen. Tu resultado se mostrará una vez el profesor califique tus respuestas.\n");
 		}
 	}
-
+ 
 	@Override
 	public void realizar(ProgresoActividad progresoEstudiante) {
 		// TODO Auto-generated method stub

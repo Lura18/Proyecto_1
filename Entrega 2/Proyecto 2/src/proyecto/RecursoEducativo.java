@@ -18,7 +18,7 @@ public class RecursoEducativo extends Actividad{
         this.enlaceRecurso = enlaceRecurso;
 		// TODO Auto-generated constructor stub
 	}
-	
+	 
 	//get and set
 	public String getTipoRecurso() {
 		return tipoRecurso;

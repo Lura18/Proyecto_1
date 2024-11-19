@@ -51,5 +51,17 @@
     "duracionEsperada": 120,
     "obligatorio": true,
     "tipoActividad": "Tarea"
+  },
+  {
+    "descripcion": "Quiz de conceptos básicos de programación.",
+    "objetivo": "Evaluar conceptos fundamentales de programación.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "",
+    "duracionEsperada": 20,
+    "obligatorio": true,
+    "tipoActividad": "Quiz"
   }
 ]}
