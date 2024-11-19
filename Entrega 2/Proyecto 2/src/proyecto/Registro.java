@@ -102,7 +102,20 @@ public class Registro {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+
+        // Clasificar usuarios en profesores y estudiantes
+        profesores.clear();
+        estudiantes.clear();
+
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Profesor) {
+                profesores.add((Profesor) usuario);
+            } else if (usuario instanceof Estudiante) {
+                estudiantes.add((Estudiante) usuario);
+            }
+        }
     }
+
 
     public List<Estudiante> getEstudiantesInscritosEnLearningPaths(List<LearningPath> learningPaths) {
         List<Estudiante> estudiantesInscritos = new ArrayList<>();
