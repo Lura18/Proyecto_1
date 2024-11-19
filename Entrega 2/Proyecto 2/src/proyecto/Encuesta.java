@@ -25,7 +25,7 @@ public class Encuesta extends Actividad {
 		return preguntas;
 	}
 
- 
+  
 	//Metodos
 	
     public void agregarPregunta(Scanner scanner) {
