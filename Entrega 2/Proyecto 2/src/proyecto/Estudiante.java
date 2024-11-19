@@ -164,11 +164,8 @@ public class Estudiante extends Usuario {
     	    System.out.println("Aviso: ¡Ya has terminado todas las actividades obligatorias del learning Path!");
     	} else if (path == null) {
     	    System.out.println("No se encontró un progreso para este Learning Path.");
+    	    return null;
     	}
-        
-        if (path.getPorcentajePath() == 100) {
-            System.out.println("Aviso: ¡Ya has terminado todas las actividades obligatorias del learning Path!");
-        }
 
         if (path.isCompletado()) {
             System.out.println("¡Ya has terminado todas las actividades del learning Path!");
