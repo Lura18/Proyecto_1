@@ -1,4 +1,4 @@
-{"usuarios": [
+[
   {
     "password": "password123",
     "correo": "gomez@example.com",
@@ -72,21 +72,15 @@
     "nombre": "sandra"
   },
   {
-    "password": "jaime123",
-    "correo": "jaime@gmail.com",
-    "tipoUsuario": "Profesor",
-    "nombre": "jaime"
+    "password": "lina2022",
+    "correo": "lina22",
+    "tipoUsuario": "Estudiante",
+    "nombre": "lina"
   },
   {
-    "password": "jaime123",
-    "correo": "jaime@gmail.com",
-    "tipoUsuario": "Profesor",
-    "nombre": "jaime"
-  },
-  {
-    "password": "jaime123",
-    "correo": "jaime@gmail.com",
-    "tipoUsuario": "Profesor",
-    "nombre": "jaime"
+    "password": "123",
+    "correo": "chanel",
+    "tipoUsuario": "Estudiante",
+    "nombre": "coco"
   }
-]}
+]
