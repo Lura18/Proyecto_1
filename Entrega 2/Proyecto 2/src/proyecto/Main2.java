@@ -251,11 +251,30 @@ public class Main2 {
                             scanner.nextLine(); // Consumir salto de línea
 
                             String tipoPreguntaTexto = tipoPregunta == 1 ? "Múltiple" : "VoF";
+
+                            // Crear instancia del Quiz
                             Quiz quiz = new Quiz(null, descripcionActividad, objetivoActividad, nivelDificultadActividad,
-                                    duracionEsperadaActividad, obligatorioActividad, notaAprobacion, profesor, tipoPreguntaTexto); // profesor autenticado
+                                    duracionEsperadaActividad, obligatorioActividad, notaAprobacion, profesor, tipoPreguntaTexto);
+
+                            // Agregar preguntas al Quiz
+                            System.out.println("Agregue las preguntas al Quiz (escriba 'fin' para terminar):");
+                            while (true) {
+                                quiz.agregarPregunta(scanner); // Método que permite agregar preguntas al quiz
+
+                                System.out.print("¿Desea agregar otra pregunta? (si/no): ");
+                                String continuar1 = scanner.nextLine().toLowerCase(); // Declarar 'continuar'
+
+                                if (continuar1.equals("no") || continuar1.equals("fin")) { // Validar entrada del usuario
+                                    break; // Salir del bucle si el usuario no quiere continuar
+                                }
+                            }
+             
+
+                            // Agregar el Quiz a las actividades
                             actividades.add(quiz);
                             System.out.println("Quiz creado: " + quiz.getDescripcion());
                             break;
+
 
                         case 5: // Examen
                             Examen examen = new Examen(null, descripcionActividad, objetivoActividad, nivelDificultadActividad,
@@ -379,6 +398,7 @@ public class Main2 {
                             } else {
                                 System.out.println("Selección de prerrequisito inválida.");
                             }
+                            
                         } else {
                             System.out.println("Selección de actividad inválida.");
                         }

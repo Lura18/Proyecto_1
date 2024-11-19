@@ -82,5 +82,11 @@
     "correo": "chanel",
     "tipoUsuario": "Estudiante",
     "nombre": "coco"
+  },
+  {
+    "password": "alioli",
+    "correo": "olioli",
+    "tipoUsuario": "Profesor",
+    "nombre": "oliver"
   }
 ]
