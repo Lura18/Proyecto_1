@@ -29,13 +29,83 @@ public class QuizTest {
 	Profesor profMario = new Profesor("Mario", "mario@gmail.com", "mario123");
 	Profesor profJaime = new Profesor("Jaime", "jaime@gmail.com", "jaime123");
 	LearningPath lp = new LearningPath("Pruebas Junit", "Aprende a hacer pruebas con Junit", "Pruebas integradas", "medio", profMario, 20);
-	Quiz quiz = new Quiz(lp, "encuesta de Junit", "conocer Junit", "medio", 10, false, 3, profMario, "Texto");
+	Quiz quiz = new Quiz(lp, "encuesta de Junit", "conocer Junit", "medio", 10, false, 70, profMario, "Texto");
+	Quiz quiz2 = new Quiz(lp, "junit", "aprende de junit", "medio", 10, false, 70, profMario, "TrueFalse");
 	Estudiante estudianteJose = new Estudiante("jose", "jose@gmail.com", "jose123");
 	List<String> explicaciones;
 	PreguntaTrueFalse pregTF1 = new PreguntaTrueFalse("Las pruebas se hacen sin junit", 0, explicaciones);
 	
 
+	@Test
+	public void testAgregarPreguntaTexto() {
+		String simulatedInput = "Cual es la funcion de una prueba integrada?\nporque si\nporque si\nasegurar que el codigo funcione correctamente\npuedes probar cada parte del codigo\nno sirven\nno sirven\notra respuesta\notra respuesta\n2";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+        Scanner scanner = new Scanner(inputStream);
+        
+        var outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        
+        quiz.agregarPregunta(scanner);
+        
+        String output = outputStream.toString();
+        
+        List<PreguntaQuiz> preguntas = quiz.getPreguntas();
+        
+        assertEquals(1, preguntas.size());
+        
+        PreguntaQuiz preg = preguntas.get(0);
+
+        assertEquals("Cual es la funcion de una prueba integrada?", preg.getTextoPregunta());
+        assertTrue(preg.getExplicaciones().contains("porque si"));
+        assertTrue(preg.getExplicaciones().contains("puedes probar cada parte del codigo"));
+        assertTrue(preg.getExplicaciones().contains("no sirven"));
+        assertTrue(preg.getExplicaciones().contains("otra respuesta"));
+        assertEquals(2, preg.getOpcionCorrecta());  
+        
+	}
 	
+	@Test
+	public void testAgregarPreguntaTrueFalse() {
+		String simulatedInput = "Las pruebas integradas mejoran el codigo?\n1\npuedes asegurar que no existan errores en el codigo";
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+        Scanner scanner = new Scanner(inputStream);
+        
+        var outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        
+        quiz2.agregarPregunta(scanner);
+        
+        String output = outputStream.toString();
+        
+        List<PreguntaQuiz> preguntas = quiz.getPreguntas();
+        assertEquals(1, preguntas.size());
+        
+        PreguntaQuiz preg = preguntas.get(0);
+
+        assertEquals("Las pruebas integradas mejoran el codigo?", preg.getTextoPregunta());
+        assertTrue(preg.getExplicaciones().contains("puedes asegurar que no existan errores en el codigo"));
+        assertEquals(1, preg.getOpcionCorrecta());
+        
+	}
+	
+	
+	@Test
+	public void testRealizarQuizAprobada() {
+		String simulatedInput = "Cual es la funcion de una prueba integrada?\nporque si\nporque si\nasegurar que el codigo funcione correctamente\npuedes probar cada parte del codigo\nno sirven\nno sirven\notra respuesta\notra respuesta\n2";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+        Scanner scanner = new Scanner(inputStream);
+        
+        var outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        
+        quiz.agregarPregunta(scanner);
+        
+        String resultado = quiz.realizarQuiz(scanner);
+        
+        
+
+	}
+	//no sirve
 	@Test
 	public void testRealizar() {
 		ProgresoActividad progreso = new ProgresoActividad(quiz, estudianteJose);
@@ -84,6 +154,7 @@ public class QuizTest {
         assertFalse(quiz.getRespuesta().containsKey(estudianteJose));
 	}
 	
+	//no sirve
 	@Test
 	public void testEditarCreador() {
 		List<PreguntaQuiz> preguntas = quiz.getPreguntas();

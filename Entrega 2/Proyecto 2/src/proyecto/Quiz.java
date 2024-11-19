@@ -32,14 +32,14 @@ public class Quiz extends Actividad{
 	public double getNotaObtenida() {
 		return notaObtenida;
 	}
-
+ 
 	
 	//Metodos
     public void agregarPregunta(Scanner scanner) {
 	    List<String> explicaciones = new ArrayList<String>();
     	List<String> opciones = new ArrayList<String>();
     	
-	    if (tipoPregunta == "Texto") {
+	    if (tipoPregunta.equals("Texto")) {
 	    	System.out.print("Ingrese la nueva pregunta del quiz: ");
 		    String texto = scanner.nextLine();
 		    
@@ -154,5 +154,7 @@ public class Quiz extends Actividad{
 	public void setPreguntas(List<PreguntaQuiz> preguntas) {
 		this.preguntas = preguntas;
 	}
+	
+
 
 }

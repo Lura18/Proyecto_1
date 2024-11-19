@@ -42,7 +42,7 @@ public class Profesor extends Usuario {
 
         }
 	}
-	
+	 
 	
 	@Override
 	public void darReseñaActividad(Actividad actividad, String texto, float rating) {
