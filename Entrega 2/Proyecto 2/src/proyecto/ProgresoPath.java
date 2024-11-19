@@ -30,6 +30,15 @@ import java.util.List;
 	}
     
     //Getter and setter
+    
+    public void setPorcentajePath(float x) {
+    	this.porcentajePath = x;
+    }
+    
+    public void setCompletado(boolean x) {
+    	this.completado = x;
+    }
+    
 	public Date getFechaInicioPath() {
 		return fechaInicioPath;
 	}

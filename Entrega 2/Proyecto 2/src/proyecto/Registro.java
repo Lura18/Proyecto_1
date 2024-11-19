@@ -40,11 +40,11 @@ public class Registro {
         usuarios.add(profesor);
     }
 
-    public void registrarEstudiante(Estudiante estudiante) throws Exception {
+    public void registrarEstudiante(Estudiante estudiante) {
         for (Usuario u : usuarios) {
             if (u instanceof Estudiante && u.getCorreo().equals(estudiante.getCorreo())) {
                 System.out.println("El estudiante ya está registrado.");
-                return; // Evitar agregar duplicados
+                return; 
             }
         }
         estudiantes.add(estudiante);

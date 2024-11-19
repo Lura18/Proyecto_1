@@ -102,6 +102,20 @@ public class Estudiante extends Usuario {
 
         if (disponibles.isEmpty()) {
             System.out.println("No hay Learning Paths disponibles para inscripción en este momento.");
+    public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
+    	
+    	ProgresoPath path = progresoPaths.get(learningPath);
+    	
+    	
+    	if (path != null && path.getPorcentajePath() == 100) {
+    	    System.out.println("Aviso: ¡Ya has terminado todas las actividades obligatorias del learning Path!");
+    	} else if (path == null) {
+    	    System.out.println("No se encontró un progreso para este Learning Path.");
+    	    return null;
+    	}
+
+        if (path.isCompletado()) {
+            System.out.println("¡Ya has terminado todas las actividades del learning Path!");
             return null;
         }
 
