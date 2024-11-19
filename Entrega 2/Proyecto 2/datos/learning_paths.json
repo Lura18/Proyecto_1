@@ -38,5 +38,17 @@
     "titulo": "Curso especializado de cocina peruana",
     "actividades": [],
     "duracionEstimada": 20
+  },
+  {
+    "descripcion": "aprender sobre taylor swift y como hacer una marca personal",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "objetivos": "aprender sobre marketing  ",
+    "titulo": "Curso de taylor swift",
+    "actividades": [],
+    "duracionEstimada": 3
   }
 ]}
