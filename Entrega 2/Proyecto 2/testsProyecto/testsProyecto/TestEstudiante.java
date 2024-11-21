@@ -1,4 +1,4 @@
-package testProyecto;
+package testsProyecto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,19 +55,17 @@ public class TestEstudiante {
     
     @Test
     public void testInscribirseEnLearningPathVacio() {
-    	Registro sistema2 = new Registro();
-    	assertNull(e1.inscribirseEnLearningPath(scanner, sistema2), "Debería estar vacío.");
+    	e1.inscribirLearningPath(lp);
+    	assertEquals((e1.getLearningPathsInscritos().size()), 0, "Debería estar vacío.");
     }
     
     @Test
     public void testInscribirseEnLearningPath() {
-        String input = "1\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
         
         // Crear objetos necesarios para la prueba
         
         // Ejecutar el método
-        LearningPath resultado = e1.inscribirseEnLearningPath(new Scanner(System.in), sistema);
+        LearningPath resultado = e1.inscribirLearningPath(lp);
         e1.verLearningPaths();
         // Verificar resultados
         assertNotNull(resultado, "El resultado no debe ser null cuando hay un Learning Path disponible");

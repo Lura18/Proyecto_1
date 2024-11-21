@@ -78,7 +78,7 @@ public class Estudiante extends Usuario {
         }
     }
 
-    public void inscribirLearningPath(LearningPath learningPath) {
+    public LearningPath inscribirLearningPath(LearningPath learningPath) {
         if (!learningPathsInscritos.contains(learningPath)) {
             learningPathsInscritos.add(learningPath);
             System.out.println("Te has inscrito exitosamente en el Learning Path: " + learningPath.getTitulo());
@@ -92,9 +92,13 @@ public class Estudiante extends Usuario {
                 ProgresoActividad progreso = new ProgresoActividad(actividad, this);
                 progresosAct.put(actividad, progreso);
             }
+            
+            return learningPath;
         } else {
             System.out.println("Ya estás inscrito en este Learning Path.");
+            return null;
         }
+        
     }
 
     public LearningPath inscribirseEnLearningPath(Scanner scanner, List<LearningPath> allLearningPaths) {
@@ -102,46 +106,10 @@ public class Estudiante extends Usuario {
 
         if (disponibles.isEmpty()) {
             System.out.println("No hay Learning Paths disponibles para inscripción en este momento.");
-    public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath){
-    	
-    	ProgresoPath path = progresoPaths.get(learningPath);
-    	
-    	
-    	if (path != null && path.getPorcentajePath() == 100) {
-    	    System.out.println("Aviso: ¡Ya has terminado todas las actividades obligatorias del learning Path!");
-    	} else if (path == null) {
-    	    System.out.println("No se encontró un progreso para este Learning Path.");
-    	    return null;
-    	}
-
-        if (path.isCompletado()) {
-            System.out.println("¡Ya has terminado todas las actividades del learning Path!");
-            return null;
         }
-
-        System.out.println("Learning Paths disponibles para inscripción:");
-        for (int i = 0; i < disponibles.size(); i++) {
-            System.out.println((i + 1) + ". " + disponibles.get(i).getTitulo());
-        }
-
-        while (true) {
-            try {
-                System.out.print("Seleccione el número del Learning Path para inscribirse: ");
-                int seleccion = Integer.parseInt(scanner.nextLine());
-
-                if (seleccion < 1 || seleccion > disponibles.size()) {
-                    System.out.println("Selección inválida. Por favor, intente de nuevo.");
-                } else {
-                    LearningPath seleccionado = disponibles.get(seleccion - 1);
-                    inscribirLearningPath(seleccionado);
-                    return seleccionado;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, ingrese un número.");
-            }
-        }
+		return null;
     }
-
+        
     public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath) {
         if (!learningPathsInscritos.contains(learningPath)) {
             System.out.println("No estás inscrito en este Learning Path.");
