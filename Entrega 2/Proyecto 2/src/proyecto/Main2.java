@@ -22,7 +22,7 @@ public class Main2 {
         persistenciaActividades = new PersistenciaActividades();
         persistenciaLearningPaths = new PersistenciaLearningPaths();
     }
-
+ 
     public void correrAplicacion(Scanner scanner, Registro sistema) throws Exception {
         try {
             // Verificar si el archivo de usuarios existe
@@ -517,7 +517,7 @@ public class Main2 {
                     System.out.println("Learning Paths en los que estás inscrito:");
                     for (LearningPath lp : inscritos) {
                         System.out.println("- " + lp.getTitulo());
-                    }
+                    } 
                 }
                 break;
             case "3": // Iniciar Actividad

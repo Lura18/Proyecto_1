@@ -21,7 +21,7 @@ public class EncuestaTest {
 	LearningPath lp = new LearningPath("Pruebas Junit", "Aprende a hacer pruebas con Junit", "Pruebas integradas", "medio", profMario, 20);
 	Encuesta encuesta = new Encuesta(lp, "encuesta de Junit", "conocer Junit", "medio", 10, false, profMario);
 	Estudiante estudianteJose = new Estudiante("jose", "jose@gmail.com", "jose123");
-	
+	 
 	@Test
 	public void testAgregarPregunta() {
 		List<String> preguntas = encuesta.getPreguntasAbiertas();

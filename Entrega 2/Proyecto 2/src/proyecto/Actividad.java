@@ -116,6 +116,7 @@ public abstract class Actividad implements Cloneable{
             long tiempoRestante = fechaLimite.getTime() - new Date().getTime();
             if (tiempoRestante <= TimeUnit.HOURS.toMillis(1)) {
                 System.out.println("Recordatorio: La actividad '" + descripcion + "' tiene una hora para su fecha límite recomendada.");
+                //System.out.println("tiempo restante: " + tiempoRestante);
             }
         }
     }

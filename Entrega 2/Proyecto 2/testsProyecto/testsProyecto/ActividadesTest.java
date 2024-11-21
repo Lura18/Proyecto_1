@@ -101,7 +101,7 @@ public class ActividadesTest {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(2024, Calendar.JANUARY, 1, 12, 0, 0);
-		calendar.add(Calendar.MINUTE, -60);
+		calendar.add(Calendar.MINUTE, 60);
 		
 		Date fechaAnterior = calendar.getTime();
 		encuesta.establecerFechaLimite(fechaAnterior);
@@ -112,7 +112,8 @@ public class ActividadesTest {
         encuesta.RecordatorioActividad(progreso);
         
         String output = outputStream.toString().trim();
-
+        
+        assertEquals("", output);
         assertTrue(output.isEmpty());
 	}
 	

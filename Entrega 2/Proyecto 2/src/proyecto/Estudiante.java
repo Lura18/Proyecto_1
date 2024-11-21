@@ -169,7 +169,7 @@ public class Estudiante extends Usuario {
             }
         }
     }
-
+ 
     public void iniciarActividad(Actividad actividad) {
         if (actividadEnProgreso) {
             System.out.println("Ya tienes una actividad en progreso. Completa la actual antes de iniciar otra.");
