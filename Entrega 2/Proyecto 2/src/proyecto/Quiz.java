@@ -31,6 +31,9 @@ public class Quiz extends Actividad{
 	}
 	public double getNotaObtenida() {
 		return notaObtenida;
+		
+		
+
 	}
  
 	

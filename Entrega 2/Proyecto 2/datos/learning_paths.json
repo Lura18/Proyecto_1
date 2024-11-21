@@ -26,5 +26,17 @@
     "titulo": "Machine Learning: De la teoría a la práctica",
     "actividades": [0],
     "duracionEstimada": 180
+  },
+  {
+    "descripcion": "En este curso aprenderas sobre comida peruana ",
+    "creador": {
+      "correo": "olioli",
+      "nombre": "oliver"
+    },
+    "nivelDificultad": "bajo",
+    "objetivos": "aprender a cocinar paso a paso y con buen sabor ",
+    "titulo": "Curso especializado de cocina peruana",
+    "actividades": [],
+    "duracionEstimada": 20
   }
 ]}

@@ -164,6 +164,7 @@ public abstract class Actividad implements Cloneable{
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 			return null;
+			
 		}
     }
     
