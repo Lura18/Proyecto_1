@@ -449,7 +449,7 @@ public class Profesor extends Usuario {
         
         añadirActividadALearningPath(path, examen);
 
-    	return null;
+    	return examen;
     }
     
     public void añadirActividadALearningPath(LearningPath learningPath, Actividad actividad) {
