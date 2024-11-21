@@ -63,5 +63,33 @@
     "duracionEsperada": 20,
     "obligatorio": true,
     "tipoActividad": "Quiz"
+  },
+  {
+    "descripcion": "Examen de Programación",
+    "objetivo": "Evaluar conocimientos en estructuras de datos",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "duracionEsperada": 50,
+    "preguntas": [
+      "¿Qué es una pila en programación?",
+      "¿Qué es una cola de prioridad?"
+    ],
+    "obligatorio": true,
+    "tipoActividad": "Examen"
+  },
+  {
+    "descripcion": "Un quiz corto para evaluar conocimientos básicos sobre temas culturales y naturales.",
+    "objetivo": "diversion",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "duracionEsperada": 15,
+    "obligatorio": false,
+    "tipoActividad": "Quiz"
   }
 ]}
