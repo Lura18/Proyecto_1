@@ -268,12 +268,19 @@ public class Main2 {
                                     break; // Salir del bucle si el usuario no quiere continuar
                                 }
                             }
-             
 
                             // Agregar el Quiz a las actividades
                             actividades.add(quiz);
-                            System.out.println("Quiz creado: " + quiz.getDescripcion());
+
+                            // Guardar el Quiz en el archivo JSON
+                            try {
+                                persistenciaActividades.salvarActividades("./datos/actividades.json", actividades);
+                                System.out.println("Quiz creado y guardado correctamente.");
+                            } catch (IOException e) {
+                                System.out.println("Error al guardar el Quiz: " + e.getMessage());
+                            }
                             break;
+
 
 
                         case 5: // Examen

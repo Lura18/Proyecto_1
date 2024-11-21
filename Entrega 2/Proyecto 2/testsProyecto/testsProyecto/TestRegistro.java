@@ -1,4 +1,4 @@
-package testProyecto;
+package testsProyecto;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -148,7 +148,7 @@ public class TestRegistro {
     @Test
     public void testSalvarUsuariosArchivoVacio() throws Exception {
 
-        registro.salvarUsuarios("usuariosTest.json");
+        registro.salvarUsuarios("./datos/usuariosTest.json");
         
         File archivo = new File("usuariosTest.json");
         assertTrue(archivo.exists(), "El archivo de prueba debería existir.");
@@ -177,12 +177,24 @@ public class TestRegistro {
     @Test
     public void testGetEstudiantesInscritosEnLearningPaths() throws Exception {
         registro.registrarEstudiante(estudiante1);
-        estudiante1.inscripcion(lp1);
+        estudiante1.inscribirLearningPath(lp1);
         List<LearningPath> paths = new ArrayList<>();
         paths.add(lp1);
         
         List<Estudiante> estudiantesInscritos = registro.getEstudiantesInscritosEnLearningPaths(paths);
         assertEquals(1, estudiantesInscritos.size());
         assertTrue(estudiantesInscritos.contains(estudiante1));
+    }
+    
+    @Test
+    public void testSeUsuarios() {
+    	List<Usuario> usuarios = new ArrayList<Usuario>();
+    	usuarios.add(profesor1);
+    	usuarios.add(estudiante1);
+    	
+    	registro.setUsuarios(usuarios);
+    	
+    	assertEquals(registro.getUsuarios(), usuarios, "Deberian ser iguales");
+    	
     }
 }
