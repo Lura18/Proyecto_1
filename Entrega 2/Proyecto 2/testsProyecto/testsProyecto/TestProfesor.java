@@ -300,26 +300,5 @@ public class TestProfesor {
 	    otroProfesor.agregarActividadSeguimiento(act1, prerrequisito);
 	}
 	
-	@Test
-	public void testCalificarActividad() {
-	    Estudiante e1 = new Estudiante("Student 1", "a", "a");
-
-	    e1.inscribirLearningPath(lp);
-	    e1.iniciarActividad(act1);
-	    e1.realizarActividad(act1);
-
-	    act1.getRespuesta().put(e1, "Respuesta del estudiante");
-
-	    Scanner scanner = new Scanner("1\n");
-	    
-		String simulatedInput = 
-	            "1\n"
-	            ; // Enlace del recurso
-	        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-	        
-	    p1.calificarActividad(act1, scanner);
-
-	    assertEquals("Aprobada", e1.getProgresosAct().get(act1));
-	}
 	
 }

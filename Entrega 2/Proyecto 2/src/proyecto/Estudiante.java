@@ -47,6 +47,10 @@ public class Estudiante extends Usuario {
         return progresosAct;
     }
 
+    public void setProgresosAct(Map<Actividad, ProgresoActividad> progresos) {
+        this.progresosAct = progresos;
+    }
+    
     public Map<LearningPath, ProgresoPath> getProgresoPaths() {
         return progresoPaths;
     }
