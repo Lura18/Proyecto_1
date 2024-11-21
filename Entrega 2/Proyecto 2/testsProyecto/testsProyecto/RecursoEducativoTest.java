@@ -94,18 +94,18 @@ public class RecursoEducativoTest {
 	@Test
 	public void testEditarCreador() {
 		String simulatedInput = "recurso\nCurso Online\n";
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
-        Scanner scanner = new Scanner(inputStream);
-        
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-        
-        recurso.editar(profMario);
-        
-        assertEquals("Curso Online", recurso.getTipoRecurso());
-        assertTrue(outputStream.toString().contains("Que desea editar"));
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+		Scanner scanner = new Scanner(inputStream);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outputStream));
+		
+		recurso.editar(profMario);
+		
+		assertEquals("Curso Online", recurso.getTipoRecurso());
+		assertTrue(outputStream.toString().contains("Que desea editar"));
 	}
-	
+	 
 	@Test
 	public void testEditarNoCreador() {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

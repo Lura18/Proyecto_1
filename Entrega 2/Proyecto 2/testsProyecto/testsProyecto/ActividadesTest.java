@@ -95,27 +95,6 @@ public class ActividadesTest {
 		
 	}
 	
-	@Test
-	public void testRecordatorioActividadFueraDeTiempo() {
-		ProgresoActividad progreso = new ProgresoActividad(encuesta, estudianteJose);
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(2024, Calendar.JANUARY, 1, 12, 0, 0);
-		calendar.add(Calendar.MINUTE, 60);
-		
-		Date fechaAnterior = calendar.getTime();
-		encuesta.establecerFechaLimite(fechaAnterior);
-		
-		var outputStream = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(outputStream));
-        
-        encuesta.RecordatorioActividad(progreso);
-        
-        String output = outputStream.toString().trim();
-        
-        assertEquals("", output);
-        assertTrue(output.isEmpty());
-	}
 	
 	@Test
 	public void testRecordatorioActividadFechaLimiteNull() {

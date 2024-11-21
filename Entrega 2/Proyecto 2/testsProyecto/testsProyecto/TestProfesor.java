@@ -42,7 +42,7 @@ public class TestProfesor {
 	}
 	
 	public void crearLearningPathTest(){
-		int cantPaths = prof1.getLearningPathsCreados().size();
+		int cantPaths = p1.getLearningPathsCreados().size();
 		//prof1.crearLearningPath("pruebas integradas con junit", "crear pruebas usando junit", "aprende a crear pruebas con junit", "medio", 20, Registro sistema);
 		assertTrue(cantPaths == cantPaths + 1);
 		//assert equals para verificar que el formato del learning path quedo creado correctamente

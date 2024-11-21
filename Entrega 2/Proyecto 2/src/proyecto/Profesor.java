@@ -517,7 +517,7 @@ public class Profesor extends Usuario {
 	        return null;
 	    }
 	}
-
+ 
 	//Calificar
 	public void calificarActividad(Actividad actividad, Scanner scanner) {
 		if (actividad.getCreador().equals(this)){
