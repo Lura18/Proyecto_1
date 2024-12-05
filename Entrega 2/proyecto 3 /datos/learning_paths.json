@@ -1,0 +1,54 @@
+{"learningPaths": [
+  {
+    "descripcion": "LP1: Descubre cómo transformar datos en decisiones inteligentes.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "madio",
+    "objetivos": "Comprender los fundamentos del análisis de datos.",
+    "titulo": "Mastering Data Analytics: From Basics to Advanced",
+    "actividades": [
+      0,
+      1,
+      2
+    ],
+    "duracionEstimada": 112
+  },
+  {
+    "descripcion": "LP2: Aprende a implementar soluciones de Machine Learning desde cero.",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "alto",
+    "objetivos": "Desarrollar un proyecto completo de Machine Learning, desde la recopilación de datos hasta el despliegue.",
+    "titulo": "Machine Learning: De la teoría a la práctica",
+    "actividades": [0],
+    "duracionEstimada": 180
+  },
+  {
+    "descripcion": "En este curso aprenderas sobre comida peruana ",
+    "creador": {
+      "correo": "olioli",
+      "nombre": "oliver"
+    },
+    "nivelDificultad": "bajo",
+    "objetivos": "aprender a cocinar paso a paso y con buen sabor ",
+    "titulo": "Curso especializado de cocina peruana",
+    "actividades": [],
+    "duracionEstimada": 20
+  },
+  {
+    "descripcion": "aprender sobre taylor swift y como hacer una marca personal",
+    "creador": {
+      "correo": "arce",
+      "nombre": "juan"
+    },
+    "nivelDificultad": "bajo",
+    "objetivos": "aprender sobre marketing  ",
+    "titulo": "Curso de taylor swift",
+    "actividades": [],
+    "duracionEstimada": 3
+  }
+]}
