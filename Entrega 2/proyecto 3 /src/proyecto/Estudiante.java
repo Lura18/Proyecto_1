@@ -231,16 +231,30 @@ public class Estudiante extends Usuario {
     }
 
     public void mostrarProgreso() {
-        System.out.println("Progreso de Learning Paths:");
+        System.out.println("Progreso de tus Learning Paths:");
+
+        // Iterar sobre los Learning Paths en los que está inscrito el estudiante
         for (LearningPath lp : learningPathsInscritos) {
             System.out.println("Learning Path: " + lp.getTitulo());
-            
+
+            // Obtener el progreso asociado al Learning Path
             ProgresoPath progresoPath = progresoPaths.get(lp);
             if (progresoPath != null) {
+                // Calcular y actualizar estadísticas de progreso
+                progresoPath.calcularProgreso();
+                progresoPath.actualizarTasas();
+
+                // Mostrar detalles del progreso
                 System.out.println("  - Porcentaje completado: " + progresoPath.getPorcentajePath() + "%");
+                System.out.println("  - Tasa de éxito: " + progresoPath.getTasaExito() + "%");
+                System.out.println("  - Tasa de fracaso: " + progresoPath.getTasaFracaso() + "%");
+                System.out.println(progresoPath.isCompletado() ? "  - Estado: COMPLETADO" : "  - Estado: EN PROGRESO");
+            } else {
+                System.out.println("  - No se ha iniciado el progreso para este Learning Path.");
             }
         }
     }
+
 
     public void pedirRecomendacionActividad(LearningPath lp) {
         System.out.println("Recomendación para el Learning Path: " + lp.getTitulo());
