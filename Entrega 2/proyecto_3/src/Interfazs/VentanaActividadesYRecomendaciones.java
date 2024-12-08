@@ -1,4 +1,4 @@
-package interfaz;
+package Interfazs;
 
 public class VentanaActividadesYRecomendaciones {
 

@@ -1,4 +1,4 @@
-package interfaz;
+package Interfazs;
 
 import javax.swing.*;
 import java.awt.*;

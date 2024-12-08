@@ -1,4 +1,4 @@
-package interfaz;
+package Interfazs;
 
 import proyecto.*;
 import javax.swing.*;
