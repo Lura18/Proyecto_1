@@ -2,9 +2,12 @@ package proyecto;
 
 import Persistencia.PersistenciaActividades;
 import Persistencia.PersistenciaLearningPaths;
+import Persistencia.PersistenciaProgreso;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,15 +18,65 @@ public class Main2 {
     private PersistenciaActividades persistenciaActividades;
     private PersistenciaLearningPaths persistenciaLearningPaths;
     private String archivoUsuarios = "usuarios.json";
+    private PersistenciaProgreso persistenciaProgreso;
+    private String archivoProgresos = "progresos.json";
+    
+
 
     public Main2() {
         learningPaths = new ArrayList<>();
         actividades = new ArrayList<>();
         persistenciaActividades = new PersistenciaActividades();
         persistenciaLearningPaths = new PersistenciaLearningPaths();
+        persistenciaProgreso = new PersistenciaProgreso();
     }
  
     public void correrAplicacion(Scanner scanner, Registro sistema) throws Exception {
+    	
+    	try {
+    	    // Cargar progresos de los estudiantes
+    	    List<Estudiante> estudiantesConProgreso = persistenciaProgreso.cargarProgresos("./datos/" + archivoProgresos, learningPaths);
+
+    	    // Sincronizar los progresos con los usuarios registrados
+    	    for (Usuario usuario : sistema.getUsuarios()) {
+    	        if (usuario instanceof Estudiante) {
+    	            Estudiante estudiante = (Estudiante) usuario;
+    	            for (Estudiante estudianteProgreso : estudiantesConProgreso) {
+    	                if (estudiante.getCorreo().equals(estudianteProgreso.getCorreo())) {
+    	                    estudiante.setProgresoPaths(estudianteProgreso.getProgresoPaths());
+    	                    estudiante.setProgresosAct(estudianteProgreso.getProgresosAct());
+    	                    estudiante.getLearningPathsInscritos().addAll(estudianteProgreso.getLearningPathsInscritos());
+    	                    break;
+    	                }
+    	            }
+    	        }
+    	    }
+    	    System.out.println("Progresos cargados correctamente.");
+    	} catch (IOException e) {
+    	    System.out.println("Error al cargar progresos: " + e.getMessage());
+    	}
+
+    	try {
+    	    // Cargar progresos de los estudiantes
+    	    List<Estudiante> estudiantesConProgreso = persistenciaProgreso.cargarProgresos("./datos/" + archivoProgresos, learningPaths);
+    	    
+    	    // Sincronizar los progresos con los usuarios registrados
+    	    for (Usuario usuario : sistema.getUsuarios()) {
+    	        if (usuario instanceof Estudiante) {
+    	            Estudiante estudiante = (Estudiante) usuario;
+    	            for (Estudiante estudianteProgreso : estudiantesConProgreso) {
+    	                if (estudiante.getCorreo().equals(estudianteProgreso.getCorreo())) {
+    	                    estudiante.setProgresoPaths(estudianteProgreso.getProgresoPaths());
+    	                    estudiante.setProgresosAct(estudianteProgreso.getProgresosAct());
+    	                }
+    	            }
+    	        }
+    	    }
+    	    System.out.println("Progresos cargados correctamente.");
+    	} catch (IOException e) {
+    	    System.out.println("Error al cargar progresos: " + e.getMessage());
+    	}
+
         try {
             // Verificar si el archivo de usuarios existe
             File archivo = new File("./datos/" + archivoUsuarios);
@@ -107,11 +160,19 @@ public class Main2 {
             String contrasena = scanner.nextLine();
 
             if (tipoRegistro.equals("1")) {
-                Estudiante nuevoEstudiante = new Estudiante(nombre, correo, contrasena);
+            	Estudiante nuevoEstudiante = new Estudiante(nombre, correo, contrasena);
+
+                // Inicializar progreso para cada Learning Path
+                for (LearningPath lp : learningPaths) {
+                    ProgresoPath progresoPath = new ProgresoPath(lp, new Date(), nuevoEstudiante);
+                    nuevoEstudiante.getProgresoPaths().put(lp, progresoPath);
+                }
+
                 sistema.registrarEstudiante(nuevoEstudiante);
                 System.out.println("Estudiante registrado exitosamente.");
-                sistema.salvarUsuarios("./datos/" + archivoUsuarios); // Guardar cambios
-                ejecutarOpcionesEstudiante(scanner, nuevoEstudiante, sistema);
+                sistema.salvarUsuarios("./datos/" + archivoUsuarios);
+                guardarCambios(sistema); // Guardar el nuevo estudiante y sus progresos
+                
             } else if (tipoRegistro.equals("2")) {
                 Profesor nuevoProfesor = new Profesor(nombre, correo, contrasena);
                 sistema.registrarProfesor(nuevoProfesor);
@@ -125,7 +186,7 @@ public class Main2 {
             System.out.println("Opción no válida.");
         }
 
-        guardarCambios();
+        guardarCambios(sistema);
     }
 
     private void ejecutarOpcionesProfesor(Scanner scanner, Registro sistema, Profesor profesor) {
@@ -162,7 +223,7 @@ public class Main2 {
                     if (nuevoLp != null) {
                         learningPaths.add(nuevoLp);
                         System.out.println("Learning Path creado y guardado exitosamente.");
-                        guardarCambios();
+                        guardarCambios(sistema);
                     } else {
                         System.out.println("Error al crear el Learning Path.");
                     }
@@ -329,7 +390,7 @@ public class Main2 {
                                     Actividad actividadSeleccionada = actividades.get(actividadIndex);
                                     profesor.añadirActividadALearningPath(lpSeleccionado, actividadSeleccionada);
                                     System.out.println("Actividad añadida al Learning Path exitosamente.");
-                                    guardarCambios();
+                                    guardarCambios(sistema);
                                 } else {
                                     System.out.println("Selección de actividad inválida.");
                                 }
@@ -368,7 +429,7 @@ public class Main2 {
                             if (actividadIndex >= 0 && actividadIndex < actividadesLP.size()) {
                                 Actividad actividadSeleccionada = actividadesLP.get(actividadIndex);
                                 profesor.eliminarActividadDeLearningPath(actividadSeleccionada);
-                                guardarCambios();
+                                guardarCambios(sistema);
                             } else {
                                 System.out.println("Selección de actividad inválida.");
                             }
@@ -401,7 +462,7 @@ public class Main2 {
                                 Actividad prerrequisito = actividades.get(prerrequisitoIndex);
                                 profesor.agregarPrerrequisitoActividad(actividadPrincipal, prerrequisito);
                                 System.out.println("Prerrequisito agregado exitosamente.");
-                                guardarCambios();
+                                guardarCambios(sistema);
                             } else {
                                 System.out.println("Selección de prerrequisito inválida.");
                             }
@@ -435,7 +496,7 @@ public class Main2 {
                                 Actividad seguimiento = actividades.get(seguimientoIndex);
                                 profesor.agregarActividadSeguimiento(actividadPrincipal, seguimiento);
                                 System.out.println("Actividad de seguimiento agregada exitosamente.");
-                                guardarCambios();
+                                guardarCambios(sistema);
                             } else {
                                 System.out.println("Selección de actividad de seguimiento inválida.");
                             }
@@ -461,7 +522,7 @@ public class Main2 {
                             if (clon != null) {
                                 actividades.add(clon);
                                 System.out.println("Actividad clonada exitosamente.");
-                                guardarCambios();
+                                guardarCambios(sistema);
                             }
                         } else {
                             System.out.println("Selección de actividad inválida.");
@@ -482,7 +543,7 @@ public class Main2 {
                         if (actividadIndex >= 0 && actividadIndex < actividades.size()) {
                             Actividad actividad = actividades.get(actividadIndex);
                             profesor.calificarActividad(actividad, scanner);
-                            guardarCambios();
+                            guardarCambios(sistema);
                         } else {
                             System.out.println("Selección de actividad inválida.");
                         }
@@ -518,7 +579,7 @@ public class Main2 {
             String opcion = scanner.nextLine();
             switch (opcion) {
             case "1": // Inscribirse en un Learning Path
-                List<LearningPath> disponibles = estudiante.getLearningPathsDisponibles(learningPaths);
+            	List<LearningPath> disponibles = estudiante.getLearningPathsDisponibles(learningPaths);
                 if (disponibles.isEmpty()) {
                     System.out.println("No hay Learning Paths disponibles para inscripción en este momento.");
                 } else {
@@ -530,6 +591,10 @@ public class Main2 {
                     if (index >= 0 && index < disponibles.size()) {
                         LearningPath lpSeleccionado = disponibles.get(index);
                         estudiante.inscribirLearningPath(lpSeleccionado);
+
+                        // Actualiza y guarda los cambios
+                        guardarCambios(sistema);
+
                         System.out.println("Inscripción exitosa al Learning Path: " + lpSeleccionado.getTitulo());
                     } else {
                         System.out.println("Selección inválida.");
@@ -569,6 +634,7 @@ public class Main2 {
                     }
                 }
                 case "4": // Completar Actividad
+               
                     System.out.println("Seleccione el Learning Path:");
                     for (int i = 0; i < learningPaths.size(); i++) {
                         System.out.println((i + 1) + ". " + learningPaths.get(i).getTitulo());
@@ -580,11 +646,16 @@ public class Main2 {
                         if (actividad != null) {
                             estudiante.realizarActividad(actividad);
                             System.out.println("Actividad " + actividad.getDescripcion() + " completada.");
+
+                            // Guardar y sincronizar cambios
+                            guardarCambios(sistema);
                         }
                     } else {
                         System.out.println("Selección de Learning Path inválida.");
                     }
                     break;
+
+   
                 case "5": // Ver mi progreso
                     estudiante.mostrarProgreso();
                     break;
@@ -641,15 +712,24 @@ public class Main2 {
     }
 
 
-    private void guardarCambios() {
+    private void guardarCambios(Registro sistema) {
         try {
+            for (Estudiante estudiante : sistema.getUsuariosEstudiantes()) {
+                for (ProgresoPath progresoPath : estudiante.getProgresoPaths().values()) {
+                    progresoPath.calcularProgreso();  // Asegura que los progresos estén actualizados
+                    progresoPath.actualizarTasas();
+                }
+            }
             persistenciaLearningPaths.salvarLearningPaths("./datos/learning_paths.json", learningPaths);
             persistenciaActividades.salvarActividades("./datos/actividades.json", actividades);
-            System.out.println("Actividades y Learning Paths guardados exitosamente.");
+            persistenciaProgreso.guardarProgresos("./datos/" + archivoProgresos, sistema.getUsuariosEstudiantes());
+            System.out.println("Datos guardados correctamente.");
         } catch (IOException e) {
-            System.out.println("Error al guardar actividades o Learning Paths: " + e.getMessage());
+            System.out.println("Error al guardar datos: " + e.getMessage());
         }
     }
+
+
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
