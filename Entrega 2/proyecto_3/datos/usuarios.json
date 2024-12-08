@@ -100,5 +100,11 @@
     "correo": "uni123",
     "tipoUsuario": "Profesor",
     "nombre": "unicornio"
+  },
+  {
+    "password": "a",
+    "correo": "a",
+    "tipoUsuario": "Estudiante",
+    "nombre": "a"
   }
 ]

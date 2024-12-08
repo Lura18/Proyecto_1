@@ -1,6 +1,10 @@
 package Interfazs;
 
 import javax.swing.*;
+
+import InterfazVentanaPrincipalEstudiante.VentanaPrincipalEstudiante;
+import InterfazVentanaPrincipalProfesor.VentanaPrincipalProfesor;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -100,13 +104,13 @@ public class VentanaAutenticacion extends JFrame {
                 Profesor profesor = registro.loginProfesor(correo, contrasena);
                 mensajeEstado.setForeground(Color.GREEN);
                 mensajeEstado.setText("Bienvenido Profesor " + profesor.getNombre());
-                abrirVentanaPrincipal();
+                abrirVentanaPrincipal(profesor);
             } catch (Exception ex1) {
                 try {
                     Estudiante estudiante = registro.loginEstudiante(correo, contrasena);
                     mensajeEstado.setForeground(Color.GREEN);
                     mensajeEstado.setText("Bienvenido Estudiante " + estudiante.getNombre());
-                    abrirVentanaPrincipal();
+                    abrirVentanaPrincipal(estudiante);
                 } catch (Exception ex2) {
                     mensajeEstado.setForeground(Color.RED);
                     mensajeEstado.setText("Correo o contraseña incorrectos.");
@@ -225,8 +229,16 @@ public class VentanaAutenticacion extends JFrame {
     }
 
     
-    private void abrirVentanaPrincipal() {
+    private void abrirVentanaPrincipal(Usuario usuario) {
         JOptionPane.showMessageDialog(this, "Acceso permitido. ¡Abriendo ventana principal!");
+        this.dispose(); // Cierra la ventana de autenticación
+        if (usuario instanceof Estudiante) {
+            // Abrir ventana principal de estudiante
+            new VentanaPrincipalEstudiante((Estudiante) usuario).setVisible(true);
+        } else if (usuario instanceof Profesor) {
+            // Abrir ventana principal de profesor
+            new VentanaPrincipalProfesor((Profesor) usuario).setVisible(true);
+        }
        
     }
 
