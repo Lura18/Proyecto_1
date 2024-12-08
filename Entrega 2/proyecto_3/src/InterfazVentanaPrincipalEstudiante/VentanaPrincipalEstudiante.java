@@ -5,16 +5,24 @@ import javax.swing.*;
 import InterfazVentanaAutenticacion.VentanaAutenticacion;
 
 import java.awt.*;
+import java.util.List;
+
+import proyecto.Actividad;
 import proyecto.Estudiante;
+import proyecto.LearningPath;
 import proyecto.Registro;
 
 public class VentanaPrincipalEstudiante extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private Estudiante estudiante;
+    private List<Actividad> actividades;
+    private List<LearningPath> paths;
 
-    public VentanaPrincipalEstudiante(Estudiante estudiante) {
+    public VentanaPrincipalEstudiante(Estudiante estudiante, List<Actividad> actividades , List<LearningPath> paths) {
         this.estudiante = estudiante;
+        this.actividades = actividades;
+        this.paths = paths;
 
         // Configuración de la ventana
         setTitle("Ventana Principal - Estudiante");
@@ -23,7 +31,7 @@ public class VentanaPrincipalEstudiante extends JFrame {
         setLayout(new BorderLayout());
 
         //Titulo bienvenida
-        PanelBienvenidaEstudiante panelBienvenida = new PanelBienvenidaEstudiante(estudiante);
+        PanelBienvenidaEstudiante panelBienvenida = new PanelBienvenidaEstudiante(estudiante, actividades, paths);
         add(panelBienvenida, BorderLayout.NORTH);
         
         // Panel de logo
@@ -35,7 +43,7 @@ public class VentanaPrincipalEstudiante extends JFrame {
         add(panelLearningPaths, BorderLayout.WEST);
 
         // Panel de botones de navegación
-        JPanel panelBotones = new PanelBotonesEstudiante(this, estudiante);
+        JPanel panelBotones = new PanelBotonesEstudiante(this, estudiante, paths);
         add(panelBotones, BorderLayout.SOUTH);
     }
 
@@ -60,11 +68,13 @@ public class VentanaPrincipalEstudiante extends JFrame {
         JOptionPane.showMessageDialog(this, "Abrir ventana para ver progreso general.");
     }
 
-    public void cerrarSesion() {
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas cerrar sesión?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            dispose(); // Cerrar la ventana actual
-            new VentanaAutenticacion(new Registro()).setVisible(true);
+    public PanelLearningPathsEstudiante getPanelLearningPaths() {
+        for (Component component : getContentPane().getComponents()) {
+            if (component instanceof PanelLearningPathsEstudiante) {
+                return (PanelLearningPathsEstudiante) component;
+            }
         }
+        return null;
     }
+    
 }

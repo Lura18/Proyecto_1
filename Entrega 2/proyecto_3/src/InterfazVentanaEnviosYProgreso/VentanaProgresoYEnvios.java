@@ -18,11 +18,6 @@ public class VentanaProgresoYEnvios extends JFrame {
         add(new PanelGraficoActividades(estudiante), BorderLayout.SOUTH);
     }
 
-    public static void abrirDesdePrincipal(Estudiante estudiante) {
-        SwingUtilities.invokeLater(() -> {
-            VentanaProgresoYEnvios ventana = new VentanaProgresoYEnvios(estudiante);
-            ventana.setVisible(true);
-        });
-    }
+
 }
 

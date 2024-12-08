@@ -2,14 +2,22 @@ package InterfazVentanaPrincipalEstudiante;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 import InterfazVentanaAutenticacion.VentanaAutenticacion;
+import proyecto.Actividad;
 import proyecto.Estudiante;
+import proyecto.LearningPath;
 
 public class PanelBienvenidaEstudiante extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    public PanelBienvenidaEstudiante(Estudiante estudiante) {
+    private List<Actividad> actividades;
+    private List<LearningPath> paths;
+    
+    public PanelBienvenidaEstudiante(Estudiante estudiante, List<Actividad> actividades , List<LearningPath> paths) {
+        this.actividades = actividades;
+        this.paths = paths;
         setLayout(new BorderLayout());
         setBackground(Color.LIGHT_GRAY); // Fondo claro
 
@@ -56,7 +64,7 @@ public class PanelBienvenidaEstudiante extends JPanel {
             if (window != null) {
                 window.dispose();
             }
-            new VentanaAutenticacion(new proyecto.Registro()).setVisible(true);
+            new VentanaAutenticacion(new proyecto.Registro(), actividades, paths).setVisible(true);
         }
     }
 }

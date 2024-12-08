@@ -14,7 +14,7 @@ public class PanelLogoEstudiante extends JPanel {
         try {
             // Cargar la imagen
             ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/imagenes/logo.jpg"));
-            Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
+            Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(335, 335, Image.SCALE_SMOOTH);
             ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 
             JLabel labLogo = new JLabel(iconoEscalado, SwingConstants.CENTER);
