@@ -94,5 +94,11 @@
     "correo": "cata",
     "tipoUsuario": "Estudiante",
     "nombre": "catalina"
+  },
+  {
+    "password": "anais",
+    "correo": "anais@gmail.com",
+    "tipoUsuario": "Profesor",
+    "nombre": "anais"
   }
 ]
