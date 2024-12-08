@@ -5,11 +5,7 @@ import javax.swing.*;
 import InterfazVentanaAutenticacion.VentanaAutenticacion;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import proyecto.Usuario;
-import proyecto.Estudiante;
-import proyecto.Profesor;
 
 public class VentanaPrincipalProfesor extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -46,7 +42,7 @@ public class VentanaPrincipalProfesor extends JFrame {
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas cerrar sesión?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
             dispose(); // Cerrar la ventana actual
-            new InterfazVentanaAutenticacion.VentanaAutenticacion(new proyecto.Registro()).setVisible(true);
+            new VentanaAutenticacion(new proyecto.Registro()).setVisible(true);
         }
     }
 }
