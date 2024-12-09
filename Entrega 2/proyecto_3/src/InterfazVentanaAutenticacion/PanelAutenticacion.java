@@ -15,14 +15,34 @@ public class PanelAutenticacion extends JPanel {
 
     public PanelAutenticacion(VentanaAutenticacion ventana, Registro registro) {
         setLayout(new BorderLayout());
+
+        // Fondo con imagen
+        JLabel fondo = new JLabel(new ImageIcon("./src/imagenes/logo.jpg"));
+        fondo.setLayout(new BorderLayout());
+        add(fondo);
+
+        // Contenedor para el formulario
+        JPanel panelCentral = new JPanel(new BorderLayout());
+        panelCentral.setOpaque(false); // Transparente para ver el fondo
+
+        JLabel titulo = new JLabel("Inicio de Sesión", SwingConstants.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 24));
+        titulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+        titulo.setForeground(Color.BLACK);
+
         JPanel formulario = new JPanel(new GridLayout(3, 2, 10, 10));
         formulario.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        formulario.setOpaque(false); // Transparente para ver el fondo
 
         JLabel etiquetaCorreo = new JLabel("Correo:");
+        etiquetaCorreo.setFont(new Font("Arial", Font.BOLD, 14));
         campoCorreo = new JTextField();
         JLabel etiquetaContrasena = new JLabel("Contraseña:");
+        etiquetaContrasena.setFont(new Font("Arial", Font.BOLD, 14));
         campoContrasena = new JPasswordField();
         JButton botonIniciarSesion = new JButton("Iniciar Sesión");
+        botonIniciarSesion.setBackground(new Color(173, 216, 230)); // Botón azul claro
+        botonIniciarSesion.setFont(new Font("Arial", Font.BOLD, 14));
 
         formulario.add(etiquetaCorreo);
         formulario.add(campoCorreo);
@@ -35,8 +55,11 @@ public class PanelAutenticacion extends JPanel {
         mensajeEstado.setForeground(Color.RED);
         mensajeEstado.setHorizontalAlignment(SwingConstants.CENTER);
 
-        add(formulario, BorderLayout.CENTER);
-        add(mensajeEstado, BorderLayout.SOUTH);
+        panelCentral.add(titulo, BorderLayout.NORTH);
+        panelCentral.add(formulario, BorderLayout.CENTER);
+        panelCentral.add(mensajeEstado, BorderLayout.SOUTH);
+
+        fondo.add(panelCentral, BorderLayout.CENTER);
 
         botonIniciarSesion.addActionListener(e -> {
             String correo = campoCorreo.getText().trim();
@@ -56,3 +79,4 @@ public class PanelAutenticacion extends JPanel {
         });
     }
 }
+

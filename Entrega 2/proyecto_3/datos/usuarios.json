@@ -112,5 +112,11 @@
     "correo": "b",
     "tipoUsuario": "Profesor",
     "nombre": "b"
+  },
+  {
+    "password": "andre",
+    "correo": "andre",
+    "tipoUsuario": "Profesor",
+    "nombre": "andrea"
   }
 ]
