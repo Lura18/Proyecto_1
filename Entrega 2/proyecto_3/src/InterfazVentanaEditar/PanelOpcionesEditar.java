@@ -2,6 +2,7 @@ package InterfazVentanaEditar;
 
 import javax.swing.*;
 
+import InterfazVentanaCrearActividad.VentanaCrearActividad;
 import InterfazVentanaEliminar.VentanaEliminarActividad;
 import proyecto.LearningPath;
 import proyecto.Profesor;
@@ -22,31 +23,32 @@ public class PanelOpcionesEditar extends JPanel {
 
         // Botones de edición
         JToggleButton btnCrearActividad = new JToggleButton("Crear actividad");
-        btnCrearActividad.setPreferredSize(new Dimension(140, 80)); // Tamaño reducido
+        btnCrearActividad.setPreferredSize(new Dimension(170, 80)); // Tamaño reducido
 
         JToggleButton btnEliminarActividad = new JToggleButton("Eliminar actividad");
-        btnEliminarActividad.setPreferredSize(new Dimension(140, 80)); // Tamaño reducido
+        btnEliminarActividad.setPreferredSize(new Dimension(170, 80)); // Tamaño reducido
 
-        JToggleButton btnEditarActividad = new JToggleButton("Editar actividad");
-        btnEditarActividad.setPreferredSize(new Dimension(140, 80)); // Tamaño reducido
 
         // Añadir funcionalidad al botón "Eliminar actividad"
         btnEliminarActividad.addActionListener(e -> {
             VentanaEliminarActividad ventanaEliminar = new VentanaEliminarActividad(profesor, learningPath);
             ventanaEliminar.setVisible(true);
         });
+        
+        btnCrearActividad.addActionListener(e -> {
+            VentanaCrearActividad ventanaCrear = new VentanaCrearActividad(profesor, learningPath);
+            ventanaCrear.setVisible(true);
+        });
 
         // Añadir funcionalidad a los botones
         ButtonGroup grupoBotones = new ButtonGroup();
         grupoBotones.add(btnCrearActividad);
         grupoBotones.add(btnEliminarActividad);
-        grupoBotones.add(btnEditarActividad);
 
         // Panel con diseño horizontal
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panelBotones.add(btnCrearActividad);
         panelBotones.add(btnEliminarActividad);
-        panelBotones.add(btnEditarActividad);
 
         add(panelBotones, BorderLayout.CENTER);
     }
