@@ -2,9 +2,7 @@ package proyecto;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,7 +16,10 @@ public class Estudiante extends Usuario {
     private Map<Actividad, ProgresoActividad> progresosAct;
     private Map<LearningPath, ProgresoPath> progresoPaths;
     private List<Actividad> realizadas;
+    // Lista de actividades realizadas
     private boolean actividadEnProgreso;
+    
+
 
     // Constructor
     public Estudiante(String nombre, String correo, String contrasena) {
@@ -26,11 +27,11 @@ public class Estudiante extends Usuario {
         this.learningPathsInscritos = new ArrayList<>();
         this.progresosAct = new HashMap<>();
         this.progresoPaths = new HashMap<>();
-        this.actividadEnProgreso = false;
         this.realizadas = new ArrayList<>();
+        this.actividadEnProgreso = false;
     }
 
-    // Getters
+    // Getters y Setters
     public List<LearningPath> getLearningPathsInscritos() {
         return learningPathsInscritos;
     }
@@ -52,9 +53,23 @@ public class Estudiante extends Usuario {
     public void setProgresosAct(Map<Actividad, ProgresoActividad> progresos) {
         this.progresosAct = progresos;
     }
-    
+
     public Map<LearningPath, ProgresoPath> getProgresoPaths() {
         return progresoPaths;
+    }
+
+    public void setProgresoPaths(Map<LearningPath, ProgresoPath> progresoPaths) {
+        this.progresoPaths = progresoPaths;
+    }
+
+    public List<Actividad> getRealizadas() {
+        return realizadas;
+    }
+
+    public void agregarActividadRealizada(Actividad actividad) {
+        if (!realizadas.contains(actividad)) {
+            realizadas.add(actividad);
+        }
     }
 
     // Métodos
@@ -89,64 +104,28 @@ public class Estudiante extends Usuario {
             learningPathsInscritos.add(learningPath);
             System.out.println("Te has inscrito exitosamente en el Learning Path: " + learningPath.getTitulo());
 
-            // Crear y asociar ProgresoPath
             ProgresoPath avance = new ProgresoPath(learningPath, new Date(), this);
             progresoPaths.put(learningPath, avance);
 
-            // Crear progreso para cada actividad del Learning Path
             for (Actividad actividad : learningPath.getActividades()) {
                 ProgresoActividad progreso = new ProgresoActividad(actividad, this);
                 progresosAct.put(actividad, progreso);
             }
-            
             return learningPath;
         } else {
             System.out.println("Ya estás inscrito en este Learning Path.");
             return null;
         }
-        
     }
 
-    public LearningPath inscribirseEnLearningPath(Scanner scanner, List<LearningPath> allLearningPaths) {
-        List<LearningPath> disponibles = getLearningPathsDisponibles(allLearningPaths);
-
-        if (disponibles.isEmpty()) {
-            System.out.println("No hay Learning Paths disponibles para inscripción en este momento.");
-            return null;
-        }
-
-        System.out.println("Learning Paths disponibles para inscripción:");
-        for (int i = 0; i < disponibles.size(); i++) {
-            System.out.println((i + 1) + ". " + disponibles.get(i).getTitulo());
-        }
-
-        while (true) {
-            try {
-                System.out.print("Seleccione el número del Learning Path para inscribirse: ");
-                int seleccion = Integer.parseInt(scanner.nextLine());
-
-                if (seleccion < 1 || seleccion > disponibles.size()) {
-                    System.out.println("Selección inválida. Por favor, intente de nuevo.");
-                } else {
-                    LearningPath seleccionado = disponibles.get(seleccion - 1);
-                    inscribirLearningPath(seleccionado);
-                    return seleccionado;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, ingrese un número.");
-            }
-        }
-    }
-        
     public Actividad seleccionarActividad(Scanner scanner, LearningPath learningPath) {
         if (!learningPathsInscritos.contains(learningPath)) {
             System.out.println("No estás inscrito en este Learning Path.");
             return null;
         }
 
-        List<Actividad> actividades = learningPath.getActividades();
         List<Actividad> pendientes = new ArrayList<>();
-        for (Actividad actividad : actividades) {
+        for (Actividad actividad : learningPath.getActividades()) {
             ProgresoActividad progreso = progresosAct.get(actividad);
             if (progreso != null && !progreso.isCompletada()) {
                 pendientes.add(actividad);
@@ -179,7 +158,7 @@ public class Estudiante extends Usuario {
             }
         }
     }
- 
+
     public void iniciarActividad(Actividad actividad) {
         if (actividadEnProgreso) {
             System.out.println("Ya tienes una actividad en progreso. Completa la actual antes de iniciar otra.");
@@ -192,124 +171,93 @@ public class Estudiante extends Usuario {
             return;
         }
 
-        if (faltanPrerrequisitos(actividad)) {
-            System.out.println("Faltan prerrequisitos para esta actividad. Completa las actividades necesarias primero.");
-            return;
-        }
-
         progreso.setFechaInicio(new Date());
         actividadEnProgreso = true;
         System.out.println("Has iniciado la actividad: " + actividad.getDescripcion());
     }
 
-    public boolean faltanPrerrequisitos(Actividad actividad) {
-        for (Actividad prerequisito : actividad.getPrerrequisitos()) {
-            ProgresoActividad progreso = progresosAct.get(prerequisito);
-            if (progreso == null || !progreso.isCompletada()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void realizarActividad(Actividad actividad) {
         if (actividad != null) {
             ProgresoActividad progreso = progresosAct.get(actividad);
-            if (!progreso.isCompletada()) {
-                actividad.realizar(progreso);
-                realizadas.add(actividad);
+            if (progreso != null && !progreso.isCompletada()) {
+                progreso.setFechaFin(new Date());
+                progreso.isCompletada();
+                agregarActividadRealizada(actividad);
 
                 ProgresoPath path = progresoPaths.get(actividad.getLearningPath());
-                path.agregarActividadRealizada(actividad);
-                path.marcarCompletado();
+                if (path != null) {
+                    path.agregarActividadRealizada(actividad);
+                }
 
-                this.actividadEnProgreso = false;
+                actividadEnProgreso = false;
+                System.out.println("Actividad completada: " + actividad.getDescripcion());
             } else {
-                System.out.println("No puedes realizar una actividad sin antes comenzarla.");
+                System.out.println("Esta actividad ya ha sido completada o no está disponible.");
             }
         } else {
-            System.out.println("No se encontró la actividad o ya ha sido completada.");
+            System.out.println("La actividad seleccionada no es válida.");
         }
     }
-
-    public void mostrarProgreso() {
-        System.out.println("Progreso de tus Learning Paths:");
-
-        // Iterar sobre los Learning Paths en los que está inscrito el estudiante
-        for (LearningPath lp : learningPathsInscritos) {
-            System.out.println("Learning Path: " + lp.getTitulo());
-
-            // Obtener el progreso asociado al Learning Path
-            ProgresoPath progresoPath = progresoPaths.get(lp);
-            if (progresoPath != null) {
-                // Calcular y actualizar estadísticas de progreso
-                progresoPath.calcularProgreso();
-                progresoPath.actualizarTasas();
-
-                // Mostrar detalles del progreso
-                System.out.println("  - Porcentaje completado: " + progresoPath.getPorcentajePath() + "%");
-                System.out.println("  - Tasa de éxito: " + progresoPath.getTasaExito() + "%");
-                System.out.println("  - Tasa de fracaso: " + progresoPath.getTasaFracaso() + "%");
-                System.out.println(progresoPath.isCompletado() ? "  - Estado: COMPLETADO" : "  - Estado: EN PROGRESO");
-            } else {
-                System.out.println("  - No se ha iniciado el progreso para este Learning Path.");
-            }
-        }
-    }
-
-
-    public void pedirRecomendacionActividad(LearningPath lp) {
-        System.out.println("Recomendación para el Learning Path: " + lp.getTitulo());
-    }
-
-    public void pedirProgresoPath(LearningPath lpSeleccionado) {
-        // Verificar si el estudiante está inscrito en el Learning Path
+    
+    public void pedirRecomendacionActividad(LearningPath lpSeleccionado) {
         if (!learningPathsInscritos.contains(lpSeleccionado)) {
             System.out.println("No estás inscrito en este Learning Path.");
             return;
         }
 
-        // Obtener el progreso del Learning Path
-        ProgresoPath progreso = progresoPaths.get(lpSeleccionado);
-        if (progreso == null) {
-            System.out.println("No se ha iniciado ningún progreso para este Learning Path.");
-            return;
-        }
-
-        // Calcular y actualizar estadísticas del progreso
-        progreso.calcularProgreso();
-        progreso.actualizarTasas();
-
-        // Mostrar información del progreso
-        System.out.println("Progreso en el Learning Path: " + lpSeleccionado.getTitulo());
-        System.out.println("- Porcentaje completado: " + progreso.getPorcentajePath() + "%");
-        System.out.println("- Tasa de éxito: " + progreso.getTasaExito() + "%");
-        System.out.println("- Tasa de fracaso: " + progreso.getTasaFracaso() + "%");
-
-        if (progreso.isCompletado()) {
-            System.out.println("- Estado: COMPLETADO");
-            System.out.println("- Fecha de finalización: " + progreso.getFechaFinPath());
-        } else {
-            System.out.println("- Estado: EN PROGRESO");
-        }
-
-        // Mostrar actividades realizadas y su estado
-        System.out.println("\nActividades realizadas:");
-        for (Actividad actividad : progreso.getActividadesRealizadas()) {
-            ProgresoActividad progresoActividad = progresosAct.get(actividad);
-            System.out.println("* " + actividad.getDescripcion());
-            System.out.println("  - Resultado: " + progresoActividad.getResultado());
-            System.out.println("  - Tiempo dedicado: " + progresoActividad.getTiempoDedicado() + " horas");
-        }
-
-        System.out.println("\nActividades restantes:");
+        List<Actividad> actividadesPendientes = new ArrayList<>();
         for (Actividad actividad : lpSeleccionado.getActividades()) {
-            if (!progreso.getActividadesRealizadas().contains(actividad)) {
-                System.out.println("* " + actividad.getDescripcion());
+            ProgresoActividad progreso = progresosAct.get(actividad);
+            if (progreso != null && !progreso.isCompletada()) {
+                actividadesPendientes.add(actividad);
             }
+        }
+
+        if (actividadesPendientes.isEmpty()) {
+            System.out.println("No hay actividades pendientes para recomendar en este Learning Path.");
+        } else {
+            Actividad recomendada = actividadesPendientes.get(0); // Simplemente se toma la primera pendiente como recomendación
+            System.out.println("Actividad recomendada: " + recomendada.getDescripcion());
         }
     }
 
+    public void pedirProgresoPath(LearningPath lpSeleccionado) {
+        if (!learningPathsInscritos.contains(lpSeleccionado)) {
+            System.out.println("No estás inscrito en este Learning Path.");
+            return;
+        }
+
+        ProgresoPath progresoPath = progresoPaths.get(lpSeleccionado);
+        if (progresoPath == null) {
+            System.out.println("No hay progreso registrado para este Learning Path.");
+            return;
+        }
+
+        progresoPath.calcularProgreso();
+        System.out.println("Progreso en el Learning Path: " + lpSeleccionado.getTitulo());
+        System.out.println("  - Porcentaje completado: " + progresoPath.getPorcentajePath() + "%");
+        System.out.println("  - Estado: " + (progresoPath.isCompletado() ? "COMPLETADO" : "EN PROGRESO"));
+    }
+    public void setActividadesRealizadas(List<Actividad> actividadesRealizadas) {
+        this.realizadas = new ArrayList<>(actividadesRealizadas);
+    }
+
+
+
+    public void mostrarProgreso() {
+        System.out.println("Progreso de tus Learning Paths:");
+        for (LearningPath lp : learningPathsInscritos) {
+            System.out.println("Learning Path: " + lp.getTitulo());
+
+            ProgresoPath progresoPath = progresoPaths.get(lp);
+            if (progresoPath != null) {
+                progresoPath.calcularProgreso();
+                System.out.println("  - Porcentaje completado: " + progresoPath.getPorcentajePath() + "%");
+            } else {
+                System.out.println("  - Sin progreso registrado.");
+            }
+        }
+    }
 }
 
 

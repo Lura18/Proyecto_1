@@ -1,0 +1,60 @@
+{"estudiantes": [
+  {
+    "learningPaths": [],
+    "correo": "luis@example.com",
+    "nombre": "Luis"
+  },
+  {
+    "learningPaths": [],
+    "correo": "l.sarmientog@uniandes.edu.co",
+    "nombre": "Laura"
+  },
+  {
+    "learningPaths": [],
+    "correo": "m.guzmann",
+    "nombre": "Masiel"
+  },
+  {
+    "learningPaths": [],
+    "correo": "sofiariaszuluaga@gmail.com",
+    "nombre": "sofia"
+  },
+  {
+    "learningPaths": [],
+    "correo": "juan@gmail.com",
+    "nombre": "juanp"
+  },
+  {
+    "learningPaths": [],
+    "correo": "s.23@gmail.com",
+    "nombre": "Sara"
+  },
+  {
+    "learningPaths": [],
+    "correo": "lina22",
+    "nombre": "lina"
+  },
+  {
+    "learningPaths": [],
+    "correo": "chanel",
+    "nombre": "coco"
+  },
+  {
+    "learningPaths": [],
+    "correo": "cata",
+    "nombre": "catalina"
+  },
+  {
+    "learningPaths": [{
+      "progresoPath": {
+        "actividadesRealizadas": [],
+        "fechaInicio": "2024-12-08",
+        "porcentaje": 0,
+        "fechaFin": null
+      },
+      "titulo": "Mastering Data Analytics: From Basics to Advanced"
+    }],
+    "correo": "a",
+    "nombre": "a"
+  }
+]}
