@@ -1,6 +1,6 @@
 {"actividades": [
   {
-    "descripcion": "Realiza un análisis exploratorio utilizando un conjunto de datos público (puedes usar uno de tu elección, como \"Iris Dataset\", \"Titanic Dataset\" o cualquier otro de Kaggle o UCI Machine Learning Repository).",
+    "descripcion": "Realiza un análisis exploratorio utilizando un conjunto de datos público.",
     "objetivo": "El objetivo es identificar patrones, tendencias y posibles valores atípicos.",
     "creador": {
       "correo": "arce",

@@ -11,6 +11,7 @@ import proyecto.Estudiante;
 import proyecto.LearningPath;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VentanaInscripcion extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -35,9 +36,14 @@ public class VentanaInscripcion extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
+        // Filtrar los Learning Paths a los que el estudiante no está inscrito
+        List<LearningPath> pathsDisponibles = paths.stream()
+                .filter(lp -> !estudiante.getLearningPathsInscritos().contains(lp))
+                .collect(Collectors.toList());
+
         // Crear modelo de lista de Learning Paths
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (LearningPath lp : paths) {
+        for (LearningPath lp : pathsDisponibles) {
             model.addElement(lp.getTitulo()); // Añadir el título de cada Learning Path
         }
 
@@ -55,15 +61,13 @@ public class VentanaInscripcion extends JFrame {
         JButton btnCerrar = new JButton("Cerrar");
 
         // Acción del botón "Inscribirse"
-        
-     // Método para inscribirse al Learning Path
         btnInscribir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedPath = listaLearningPaths.getSelectedValue();
                 if (selectedPath != null) {
                     // Inscribir al estudiante en el Learning Path
-                    for (LearningPath lp : paths) {
+                    for (LearningPath lp : pathsDisponibles) {
                         if (lp.getTitulo().equals(selectedPath)) {
                             estudiante.inscribirLearningPath(lp);
                             JOptionPane.showMessageDialog(VentanaInscripcion.this, "Te has inscrito exitosamente en: " + lp.getTitulo(), "Inscripción Exitosa", JOptionPane.INFORMATION_MESSAGE);

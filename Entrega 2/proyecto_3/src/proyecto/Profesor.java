@@ -464,18 +464,14 @@ public class Profesor extends Usuario {
 
 
         
-    public void eliminarActividadDeLearningPath(Actividad actividad) {
-    	LearningPath lp = actividad.getLearningPath();
-        if (learningPathsCreados.contains(lp)) {
+    public void eliminarActividadDeLearningPath(LearningPath lp, Actividad actividad) {
+      
             if (lp.getActividades().remove(actividad)) {
                 lp.reducirTiempoLp(actividad);
                 System.out.println("Actividad eliminada exitosamente del Learning Path.");
             } else {
                 System.out.println("La actividad no pertenece a este Learning Path.");
             }
-        } else {
-            System.out.println("Este Learning Path no fue creado por este profesor.");
-        }
     }
 	
 	//El profesor edita el learning path editando sus actividades.
