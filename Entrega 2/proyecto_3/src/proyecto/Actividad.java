@@ -1,5 +1,6 @@
 package proyecto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +25,9 @@ public abstract class Actividad implements Cloneable{
     protected List<Reseña> reseñas;
     protected Map<Estudiante, String> respuesta;
     protected String tipo;
+    private boolean completada; // Indica si la actividad está completada
+    private LocalDate fechaEnvio;
+    
 	 
 	//Constructor
 	public Actividad(LearningPath lp, String descripcion, String objetivo, String nivelDificultad,
@@ -188,4 +192,23 @@ public abstract class Actividad implements Cloneable{
 	    return total / reseñas.size();
 	}
 
+	// Método para marcar la actividad como completada
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
+    }
+
+    // Método para obtener el estado de completado
+    public boolean isCompletada() {
+        return completada;
+    }
+
+    // Método para establecer la fecha de envío
+    public void setFechaEnvio(LocalDate fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
+    }
+
+    // Método para obtener la fecha de envío
+    public LocalDate getFechaEnvio() {
+        return fechaEnvio;
+    }
 }

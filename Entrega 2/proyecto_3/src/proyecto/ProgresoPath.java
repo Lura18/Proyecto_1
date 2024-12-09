@@ -30,8 +30,8 @@ public class ProgresoPath {
     }
 
     // Getters y Setters
-    public void setPorcentajePath(float x) {
-        this.porcentajePath = x;
+    public void setPorcentajePath(double nuevoProgreso) {
+        this.porcentajePath = (float) nuevoProgreso;
     }
 
     public void setCompletado(boolean x) {
