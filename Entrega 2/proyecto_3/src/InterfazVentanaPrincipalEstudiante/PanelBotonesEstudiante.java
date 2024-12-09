@@ -22,7 +22,7 @@ public class PanelBotonesEstudiante extends JPanel {
 
         // Crear botones
 
-        JButton btnDetalles = crearBoton("Ver detalles");
+        JButton btnDetalles = crearBoton("Ver Learning Path");
         btnDetalles.addActionListener(e -> verDetalles(ventanaPrincipal, estudiante));
         add(btnDetalles);
         

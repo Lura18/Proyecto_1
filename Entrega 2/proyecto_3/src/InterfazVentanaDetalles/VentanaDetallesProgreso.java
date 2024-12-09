@@ -16,7 +16,7 @@ public class VentanaDetallesProgreso extends JFrame {
         setLayout(new BorderLayout());
 
         // Agregar paneles
-        add(new PanelTituloProgreso("Detalles del Learning Path: " + learningPath.getTitulo()), BorderLayout.NORTH);
+        add(new PanelTituloProgreso("Información Learning Path: " + learningPath.getTitulo()), BorderLayout.NORTH);
         add(new PanelDetallesProgreso(estudiante, learningPath), BorderLayout.CENTER);
         add(new PanelCerrarProgreso(this), BorderLayout.SOUTH);
     }

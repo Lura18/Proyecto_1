@@ -367,7 +367,7 @@ public class Main2 {
 
                             if (actividadIndex >= 0 && actividadIndex < actividadesLP.size()) {
                                 Actividad actividadSeleccionada = actividadesLP.get(actividadIndex);
-                                profesor.eliminarActividadDeLearningPath(actividadSeleccionada);
+                                profesor.eliminarActividadDeLearningPath(lpSeleccionado, actividadSeleccionada);
                                 guardarCambios();
                             } else {
                                 System.out.println("Selección de actividad inválida.");

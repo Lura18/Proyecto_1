@@ -106,5 +106,11 @@
     "correo": "a",
     "tipoUsuario": "Estudiante",
     "nombre": "a"
+  },
+  {
+    "password": "b",
+    "correo": "b",
+    "tipoUsuario": "Profesor",
+    "nombre": "b"
   }
 ]

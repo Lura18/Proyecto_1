@@ -16,13 +16,11 @@ public class VentanaPrincipalEstudiante extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private Estudiante estudiante;
-    private List<Actividad> actividades;
-    private List<LearningPath> paths;
+
 
     public VentanaPrincipalEstudiante(Estudiante estudiante, List<Actividad> actividades , List<LearningPath> paths) {
         this.estudiante = estudiante;
-        this.actividades = actividades;
-        this.paths = paths;
+
 
         // Configuración de la ventana
         setTitle("Ventana Principal - Estudiante");

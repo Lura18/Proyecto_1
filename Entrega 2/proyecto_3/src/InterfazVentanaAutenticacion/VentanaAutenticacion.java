@@ -51,7 +51,7 @@ public class VentanaAutenticacion extends JFrame {
     // Métodos para abrir ventanas principales
     public void abrirVentanaPrincipalProfesor(Profesor profesor) {
         dispose();
-        new VentanaPrincipalProfesor(profesor, actividades, paths).setVisible(true);
+        new VentanaPrincipalProfesor(profesor, actividades, paths, registro).setVisible(true);
     }
 
     public void abrirVentanaPrincipalEstudiante(Estudiante estudiante) {
@@ -75,11 +75,11 @@ public class VentanaAutenticacion extends JFrame {
         List<LearningPath> paths = pLP.cargarLearningPaths("./datos/learning_paths.json", actividades, registro.getUsuarios());
         
         Estudiante e = registro.getEstudiantes().getLast();
-        Profesor p = (Profesor) registro.getUsuarios().get(0);
+        Profesor p = (Profesor) registro.getUsuarios().get(6);
         LearningPath lp1 = paths.get(0);
         e.inscribirLearningPath(lp1);
-        Scanner scanner = new Scanner(System.in);
-        //p.crearActividad(scanner);
+        Actividad act = lp1.getActividades().get(1);
+
         System.out.println(e.getCorreo());
         System.out.println(e.getContrasena());
         System.out.println(p.getCorreo());
